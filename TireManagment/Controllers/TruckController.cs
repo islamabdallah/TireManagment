@@ -1,13 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TireManagment.DbModels;
+using TireManagment.Enums;
 using TireManagment.Services;
 
 namespace TireManagment.Controllers
 {
+    [Authorize(Roles =Role.Admin)]
     public class TruckController : Controller
     {
         TruckService truckService;

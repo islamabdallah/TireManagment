@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
@@ -28,22 +29,27 @@ namespace TireManagment.Controllers
         {
             return View(accountService.GetTireMen());
         }
+        [Authorize(Roles = Role.Admin)]
         public IActionResult Register()
         {
             return View("Register");
         }
+    
         public IActionResult Login()
         {
             return View();
         }
+        [Authorize(Roles = Role.Admin)]
         public async Task<IActionResult> RegisterAdmin(RegisterViewModel registerViewModel)
         {
           return await Register(registerViewModel, Role.Admin);
         }
+        [Authorize(Roles = Role.Admin)]
         public async Task<IActionResult> RegisterTireMan(RegisterViewModel registerViewModel)
         {
           return await  Register(registerViewModel, Role.TireMan);
         }
+        [Authorize(Roles = Role.Admin)]
         private async Task<IActionResult> Register(RegisterViewModel registerViewModel, string roleName)
         {
 
