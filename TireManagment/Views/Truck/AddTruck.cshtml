@@ -1,0 +1,264 @@
+﻿@model TireManagment.DbModels.Truck;
+@{
+    ViewData["Title"] = "AddTruck";
+}
+@using TireManagment.DbModels;
+@*<h1>AddTruck</h1>
+
+    <h4>Truck</h4>
+    <hr />
+    <div class="row">
+        <div class="col-md-4">
+            <form asp-action="AddTruck">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="TruckId" class="control-label"></label>
+                    <input asp-for="TruckId" class="form-control" />
+                    <span asp-validation-for="TruckId" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TruckName" class="control-label"></label>
+                    <input asp-for="TruckName" class="form-control" />
+                    <span asp-validation-for="TruckName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TruckNumber" class="control-label"></label>
+                    <input asp-for="TruckNumber" class="form-control" />
+                    <span asp-validation-for="TruckNumber" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TruckCompany" class="control-label"></label>
+                    <input asp-for="TruckCompany" class="form-control" />
+                    <span asp-validation-for="TruckCompany" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="TruckYear" class="control-label"></label>
+                    <input asp-for="TruckYear" class="form-control" />
+                    <span asp-validation-for="TruckYear" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Status" class="control-label"></label>
+                    <input asp-for="Status" class="form-control" />
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Manufacturer" class="control-label"></label>
+                    <input asp-for="Manufacturer" class="form-control" />
+                    <span asp-validation-for="Manufacturer" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Type" class="control-label"></label>
+                    <input asp-for="Type" class="form-control" />
+                    <span asp-validation-for="Type" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Size" class="control-label"></label>
+                    <input asp-for="Size" class="form-control" />
+                    <span asp-validation-for="Size" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Unit" class="control-label"></label>
+                    <input asp-for="Unit" class="form-control" />
+                    <span asp-validation-for="Unit" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="SubmitDate" class="control-label"></label>
+                    <input asp-for="SubmitDate" class="form-control" />
+                    <span asp-validation-for="SubmitDate" class="text-danger"></span>
+                </div>
+                <div class="form-group form-check">
+                    <label class="form-check-label">
+                        <input class="form-check-input" asp-for="Active" /> @Html.DisplayNameFor(model => model.Active)
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Chassis" class="control-label"></label>
+                    <input asp-for="Chassis" class="form-control" />
+                    <span asp-validation-for="Chassis" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Engine" class="control-label"></label>
+                    <input asp-for="Engine" class="form-control" />
+                    <span asp-validation-for="Engine" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Registeration" class="control-label"></label>
+                    <input asp-for="Registeration" class="form-control" />
+                    <span asp-validation-for="Registeration" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="AxleCount" class="control-label"></label>
+                    <input asp-for="AxleCount" class="form-control" />
+                    <span asp-validation-for="AxleCount" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="VehichleModelNo" class="control-label"></label>
+                    <input asp-for="VehichleModelNo" class="form-control" />
+                    <span asp-validation-for="VehichleModelNo" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <a asp-action="Index">Back to List</a>
+    </div>*@
+<main id="main" class="main">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Add Truck Info</h5>
+
+            <!-- Floating Labels Form -->
+            <form class="row g-3" asp-action="AddTruck">
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        <input asp-for="@Model.TruckName" type="text" class="form-control" id="floatingName" placeholder="Your Name">
+                        <label for="floatingName">Truck Name</label>
+                    </div>
+                </div>
+                @*<div class="col-md-6">
+            <div class="form-floating">
+                <input type="email" class="form-control" id="floatingEmail" placeholder="Status">
+                <label for="floatingEmail">Your Email</label>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-floating">
+                <input type="password" class="form-control" id="floatingPassword" placeholder="Password">
+                <label for="floatingPassword">Password</label>
+            </div>
+        </div>*@
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <input asp-for="@Model.TruckNumber" type="number" class="form-control" id="floatingCity" placeholder="City">
+                            <label for="floatingCity">Truck Number</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        <input asp-for="@Model.Company" type="text" class="form-control" id="floatingZip" placeholder="Zip">
+                        <label for="floatingZip">Company</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <input asp-for="@Model.VehichleModelNo" type="text" class="form-control" id="floatingCity" placeholder="City">
+                            <label for="floatingCity">Vehichle Model</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-floating">
+                        <input asp-for="@Model.Manufacturer" class="form-control" placeholder="Address" id="floatingTextarea" style="" />
+                        <label for="floatingTextarea">Manufacturer</label>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="form-floating">
+                        <input asp-for="@Model.Engine" class="form-control" placeholder="Address" id="floatingTextarea" style="" />
+                        <label for="floatingTextarea">Engine</label>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <select asp-for="@Model.CategoryId" asp-items="@(new SelectList(ViewBag.categories, nameof(TruckCategory.Id), nameof(TruckCategory.Category)))" class="form-control"></select>
+                            <label for="floatingCity">Truck Categories</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <input asp-for="@Model.Registeration" type="text" class="form-control" id="floatingCity" placeholder="City">
+                            <label for="floatingCity">Registeration</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-floating">
+                        <input asp-for="@Model.Unit" type="text" class="form-control" id="floatingZip" placeholder="Zip">
+                        <label for="floatingZip">Unit</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-floating">
+                        <input asp-for="@Model.Type" type="text" class="form-control" id="floatingZip" placeholder="Zip">
+                        <label for="floatingZip">Type</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-floating">
+                        <input asp-for="@Model.Year" type="number" class="form-control" id="floatingZip" placeholder="Zip">
+                        <label for="floatingZip">Year</label>
+                    </div>
+                </div>
+
+
+
+                @*<div class="col-md-6">
+            <div class="form-floating">
+                <input asp-for="@Model.Type" type="text" class="form-control" id="floatingZip" placeholder="Zip">
+                <label for="floatingZip">Truck Type</label>
+            </div>
+        </div>*@
+                <div class="col-md-4">
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <input asp-for="@Model.Size" type="text" class="form-control" id="floatingCity" placeholder="City">
+                            <label for="floatingCity">Truck Size</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-floating">
+                        <input asp-for="@Model.AxleCount" type="number" class="form-control" id="floatingZip" placeholder="Zip">
+                        <label for="floatingZip">Axle Count</label>
+                    </div>
+                </div>
+
+
+                <div class="col-md-4">
+                    <div class="form-floating">
+                        <input asp-for="@Model.Chassis" type="text" class="form-control" id="floatingZip" placeholder="Zip">
+                        <label for="floatingZip">Chassis</label>
+                    </div>
+                </div>
+
+
+
+                @*<div class="col-md-4">
+            <div class="form-floating mb-3">
+                <select class="form-select" id="floatingSelect" aria-label="State">
+                    <option selected>New York</option>
+                    <option value="1">Oregon</option>
+                    <option value="2">DC</option>
+                </select>
+                <label for="floatingSelect">State</label>
+            </div>
+        </div>*@
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="reset" class="btn btn-secondary">Reset</button>
+
+                </div>
+            </form><!-- End floating Labels Form -->
+
+        </div>
+    </div>
+</main>
+<!-- Modal -->
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

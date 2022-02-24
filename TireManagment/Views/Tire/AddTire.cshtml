@@ -1,0 +1,105 @@
+﻿@model TireManagment.DbModels.Tire
+@using TireManagment.DbModels;
+
+@{
+    ViewData["Title"] = "AddTire";
+}
+
+<div class="modal " id="AlertModal" role="dialog">
+    <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content" style="background-color:cornsilk">
+            <div class="modal-header">
+
+                <h3 class="modal-title">Success</h3>
+                <a href="#" id="modalclose" class="close" style="color:black;font-size:18px" data-dismiss="modal">&times;</a>
+            </div>
+            <div class="modal-body">
+                <h6>Tire  Added</h6>
+            </div>
+            <div class="modal-footer">
+                <button id="alertclose" type="button" class="btn btn-success" data-dismiss="modal">Close</button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<main id="main" class="main">
+    <div class="pagetitle">
+        <h1>Data Tables</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
+                <li class="breadcrumb-item">Forms</li>
+                <li class="breadcrumb-item active">Tires</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Add Tire Info</h5>
+
+
+            <!-- Floating Labels Form -->
+            <form id="tireform" class="row g-3" asp-action="AddTire">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                @*<div class="col-md-6">
+            <div class="col-md-12">
+                <div class="form-floating">
+                    <input asp-for="@Model.Brand" value="@Model.Brand" type="text" class="form-control" id="floatingZip" placeholder="Zip">
+                    <label for="floatingZip">Tire Brand</label>
+
+                </div>
+            </div>
+        </div>*@
+
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        <input asp-for="@Model.Serial" value="@Model.Serial" type="text" class="form-control" id="floatingZip" placeholder="Zip">
+                        <label for="floatingZip">Serial</label>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="form-floating">
+                        <input asp-for="@Model.Size" value="@Model.Size" type="text" class="form-control" id="floatingZip" placeholder="Zip">
+                        <label for="floatingZip">Tire Size</label>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <select asp-for="@Model.ID" asp-items="@(new SelectList(ViewBag.brands, nameof(TireBrand.Id), nameof(TireBrand.Name)))" class="form-control"></select>
+                            <label for="floatingCity">Tire Brand</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <button type="reset" class="btn btn-secondary">Reset</button>
+                </div>
+            </form><!-- End floating Labels Form -->
+
+        </div>
+    </div>
+
+</main>
+@section Scripts {
+
+    <script>
+        var success = '@ViewBag.success';
+            if (success) {
+                // alert('success');
+                $('#AlertModal').modal('show');
+
+
+        }
+        $("#AlertModal  #alertclose").click(function () { $(this).parent().parent().parent().parent().modal('hide'); });
+        $("#AlertModal  #modalclose").click(function () { $(this).parent().parent().parent().parent().modal('hide'); });
+
+    </script>
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
