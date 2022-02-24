@@ -18,12 +18,13 @@ namespace TireManagment.DbModels
         [Required]
         public string TruckName { get; set; }
         [Required]
-        [Remote(action: "ValidateTruckNumber", controller: "Truck")]//Remote Validation
+        [Remote(action: "ValidateTruckNumber", controller: "Truck",HttpMethod ="Post")]//Remote Validation
      
         public string TruckNumber { get; set; }
         [Required]
         public string Company { get; set; }
         [Required]
+
         public int Year { get; set; }
     
 

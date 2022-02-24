@@ -1,5 +1,4 @@
-﻿@*@model IEnumerable<TireManagment.DbModels.Truck>*@
-@model TireManagment.DbModels.Truck
+﻿@model TireManagment.DbModels.Truck
 @using TireManagment.DbModels;
 @{
     ViewData["Title"] = "Index";
@@ -317,7 +316,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form class="row g-3" asp-action="AddTruck">
+                    <form class="row g-3" asp-action="AddTruck" id="truckform">
                         <div class="col-md-6">
                             <div class="form-floating">
                                 <input asp-for="@Model.TruckName" value="@Model.TruckName" type="text" class="form-control" id="floating" placeholder="Your Name">
@@ -326,15 +325,24 @@
                             </div>
                         </div>
 
+                       
+
+
                         <div class="col-md-6">
                             <div class="col-md-12">
                                 <div class="form-floating">
-                                    <input asp-for="@Model.TruckNumber" value="@Model.TruckNumber" type="text" class="form-control" id="floatingName">
-                                    <label for="floatingCity">Truck Number</label>
-                                    <span asp-validation-for="TruckNumber" class="text-danger"></span>
+
+                                    <input asp-for="@Model.TruckNumber" value="@Model.TruckNumber" type="text" class="form-control" id="floatingZip" placeholder="Zip">
+                                    <label for="floatingZip">Truck Number</label>
+                                    <span asp-validation-for="@Model.TruckNumber" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
+
+
+
+
+
 
 
 
@@ -436,7 +444,7 @@
                                 <span asp-validation-for="Chassis" class="text-danger"></span>
                             </div>
                         </div>
-                        
+
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Add</button>

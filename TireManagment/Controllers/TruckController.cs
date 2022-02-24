@@ -49,9 +49,9 @@ namespace TireManagment.Controllers
         {
             return View();
         }
-      public IActionResult  ValidateTruckNumber(string numberr)
+      public JsonResult  ValidateTruckNumber(string TruckNumber)
        {
-            bool truck = truckService.checknumberExists(numberr);
+            bool truck = truckService.checknumberExists(TruckNumber);
             if (!truck)
                 return Json(true);
             return Json($"Truck Number Already Exists");
