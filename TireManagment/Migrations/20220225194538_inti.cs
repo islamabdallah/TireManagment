@@ -188,6 +188,29 @@ namespace TireManagment.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TireMovement",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TireManId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    TruckNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SubmitDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    MovementType = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IsRead = table.Column<bool>(type: "bit", nullable: false,defaultValue:false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TireMovement", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_TireMovement_AspNetUsers_TireManId",
+                        column: x => x.TireManId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Tire",
                 columns: table => new
                 {
@@ -270,6 +293,35 @@ namespace TireManagment.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MovementDetails",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Position = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    CurrentTireDepth = table.Column<int>(type: "int", nullable: false),
+                    STDthreadDepth = table.Column<int>(type: "int", nullable: false),
+                    TireId = table.Column<int>(type: "int", nullable: false),
+                    TireMovementId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MovementDetails", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MovementDetails_Tire_TireId",
+                        column: x => x.TireId,
+                        principalTable: "Tire",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MovementDetails_TireMovement_TireMovementId",
+                        column: x => x.TireMovementId,
+                        principalTable: "TireMovement",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "TruckTire",
                 columns: table => new
                 {
@@ -331,6 +383,16 @@ namespace TireManagment.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_MovementDetails_TireId",
+                table: "MovementDetails",
+                column: "TireId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MovementDetails_TireMovementId",
+                table: "MovementDetails",
+                column: "TireMovementId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Tire_BrandId",
                 table: "Tire",
                 column: "BrandId");
@@ -345,6 +407,11 @@ namespace TireManagment.Migrations
                 name: "IX_TireDistribution_CategoryId",
                 table: "TireDistribution",
                 column: "CategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TireMovement_TireManId",
+                table: "TireMovement",
+                column: "TireManId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Truck_CategoryId",
@@ -375,6 +442,9 @@ namespace TireManagment.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "MovementDetails");
+
+            migrationBuilder.DropTable(
                 name: "TireDistribution");
 
             migrationBuilder.DropTable(
@@ -387,13 +457,16 @@ namespace TireManagment.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "AspNetUsers");
+                name: "TireMovement");
 
             migrationBuilder.DropTable(
                 name: "TruckCategory");
 
             migrationBuilder.DropTable(
                 name: "Tire");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "TireBrand");

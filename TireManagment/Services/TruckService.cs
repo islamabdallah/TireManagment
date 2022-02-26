@@ -42,7 +42,7 @@ namespace TireManagment.Services
             {
                 context.trucks.Add(entity);
             }
-        
+            Commit();
             return true;
         }
 

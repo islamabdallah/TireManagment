@@ -35,6 +35,7 @@ namespace TireManagment.Controllers
         public IActionResult AddTruck()
         {
             var categories = categoryService.GetAll();
+            
             ViewBag.categories = categories;
             return View();
         }

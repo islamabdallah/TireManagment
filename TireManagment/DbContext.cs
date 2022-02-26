@@ -43,5 +43,7 @@ namespace TireManagment
         public  DbSet<TireBrand>brands { get; set; }
         public DbSet<TireDistribution> tiredsitributions { get; set; }
         public DbSet<TruckTire> TruckTire { get; set; }
+        public DbSet<TireMovement> TireMovement { get; set; }
+        public DbSet<MovementDetails>  MovementDetails { get; set; }
     }
 }

@@ -10,7 +10,7 @@ using TireManagment;
 namespace TireManagment.Migrations
 {
     [DbContext(typeof(DbContext))]
-    [Migration("20220223195250_inti")]
+    [Migration("20220225194538_inti")]
     partial class inti
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -220,6 +220,37 @@ namespace TireManagment.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("TireManagment.DbModels.MovementDetails", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<int>("CurrentTireDepth")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Position")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("STDthreadDepth")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TireId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TireMovementId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TireId");
+
+                    b.HasIndex("TireMovementId");
+
+                    b.ToTable("MovementDetails");
+                });
+
             modelBuilder.Entity("TireManagment.DbModels.Tire", b =>
                 {
                     b.Property<int>("ID")
@@ -297,6 +328,35 @@ namespace TireManagment.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("TireDistribution");
+                });
+
+            modelBuilder.Entity("TireManagment.DbModels.TireMovement", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .UseIdentityColumn();
+
+                    b.Property<bool>("IsRead")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MovementType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("SubmitDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TireManId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("TruckNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TireManId");
+
+                    b.ToTable("TireMovement");
                 });
 
             modelBuilder.Entity("TireManagment.DbModels.Truck", b =>
@@ -502,6 +562,25 @@ namespace TireManagment.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("TireManagment.DbModels.MovementDetails", b =>
+                {
+                    b.HasOne("TireManagment.DbModels.Tire", "tire")
+                        .WithMany()
+                        .HasForeignKey("TireId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("TireManagment.DbModels.TireMovement", "TireMovement")
+                        .WithMany("MovementDetails")
+                        .HasForeignKey("TireMovementId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("tire");
+
+                    b.Navigation("TireMovement");
+                });
+
             modelBuilder.Entity("TireManagment.DbModels.Tire", b =>
                 {
                     b.HasOne("TireManagment.DbModels.TireBrand", "Brand")
@@ -520,6 +599,15 @@ namespace TireManagment.Migrations
                         .HasForeignKey("CategoryId");
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("TireManagment.DbModels.TireMovement", b =>
+                {
+                    b.HasOne("TireManagment.DbModels.AppUser", "Tireman")
+                        .WithMany()
+                        .HasForeignKey("TireManId");
+
+                    b.Navigation("Tireman");
                 });
 
             modelBuilder.Entity("TireManagment.DbModels.Truck", b =>
@@ -545,6 +633,11 @@ namespace TireManagment.Migrations
             modelBuilder.Entity("TireManagment.DbModels.TireBrand", b =>
                 {
                     b.Navigation("Tires");
+                });
+
+            modelBuilder.Entity("TireManagment.DbModels.TireMovement", b =>
+                {
+                    b.Navigation("MovementDetails");
                 });
 
             modelBuilder.Entity("TireManagment.DbModels.TruckCategory", b =>

@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 
 using TireManagment.DbModels;
 using TireManagment.Enums;
+using TireManagment.Hubs;
 using TireManagment.Services;
 
 namespace TireManagment
@@ -43,6 +44,8 @@ namespace TireManagment
             services.AddScoped<TruckService>();
             services.AddScoped<CategoryService>();
             services.AddScoped<BrandService>();
+            services.AddScoped<TruckTireService>();
+            services.AddSignalR();
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequiredLength = 4;
@@ -86,13 +89,14 @@ namespace TireManagment
 
             app.UseRouting();
 
-            app.UseAuthorization();
+          
 
             app.UseAuthentication();
 
-
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<notifyHub>("/questionHub");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

@@ -29,7 +29,7 @@ namespace TireManagment.Controllers
         {
             return View(accountService.GetTireMen());
         }
-        [Authorize(Roles = Role.Admin)]
+        //[Authorize(Roles = Role.Admin)]
         public IActionResult Register()
         {
             return View("Register");
@@ -39,7 +39,7 @@ namespace TireManagment.Controllers
         {
             return View();
         }
-        [Authorize(Roles = Role.Admin)]
+        //[Authorize(Roles = Role.Admin)]
         public async Task<IActionResult> RegisterAdmin(RegisterViewModel registerViewModel)
         {
           return await Register(registerViewModel, Role.Admin);
