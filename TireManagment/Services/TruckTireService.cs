@@ -31,14 +31,14 @@ namespace TireManagment.Services
                 {
 
                     //1= add new recored to movement table (truck number,date,operationtype,etc)
-                    TireMovement tireMovment = new TireMovement() { TruckNumber = truckMovement.TruckNumber, SubmitDate = DateTime.Now, MovementType = truckMovement.MovementType };
+                    TireMovement tireMovment = new TireMovement() { TruckNumber = truckMovement.TruckNumber, SubmitDate = DateTime.Now, MovementType = truckMovement.MovementType,TireManId=truckMovement.UserId };
                     
                     
                     context.TireMovement.Add(tireMovment);
                     //2=add movement details to table movement detail 2 record each, which add changed positions with updated tires.
                     List<MovementDetails> movementDetails = new List<MovementDetails>() {
-                new MovementDetails() { CurrentTireDepth=truckMovement.CurrentTireDepth, Position=truckMovement.tireWithPoitionViewModels[0].Position,TireId=truckMovement.tireWithPoitionViewModels[0].TireId, TireMovement=tireMovment, STDthreadDepth=truckMovement.STDthreadDepth  },
-                new MovementDetails(){ CurrentTireDepth=truckMovement.CurrentTireDepth, Position=truckMovement.tireWithPoitionViewModels[1].Position,TireId=truckMovement.tireWithPoitionViewModels[1].TireId, TireMovement=tireMovment, STDthreadDepth=truckMovement.STDthreadDepth  }
+                new MovementDetails() { CurrentTireDepth=truckMovement.tireWithPoitionViewModels[0].CurrentTireDepth, Position=truckMovement.tireWithPoitionViewModels[0].Position,TireId=truckMovement.tireWithPoitionViewModels[0].TireId, TireMovement=tireMovment, STDthreadDepth=truckMovement.tireWithPoitionViewModels[0].STDThreadDepth , KMWhileChange=truckMovement.tireWithPoitionViewModels[0].KMWhileChange },
+                new MovementDetails(){ CurrentTireDepth=truckMovement.tireWithPoitionViewModels[1].CurrentTireDepth, Position=truckMovement.tireWithPoitionViewModels[1].Position,TireId=truckMovement.tireWithPoitionViewModels[1].TireId, TireMovement=tireMovment, STDthreadDepth=truckMovement.tireWithPoitionViewModels[1].STDThreadDepth, KMWhileChange=truckMovement.tireWithPoitionViewModels[1].KMWhileChange  }
                 };
                     context.AddRange(movementDetails);
                     context.SaveChanges();
@@ -145,6 +145,9 @@ namespace TireManagment.Services
         {
             return context.TireMovement.Where(tm => tm.Id == id).Include(tm=>tm.MovementDetails).FirstOrDefault();
         }
- 
+        public IEnumerable<TireMovement> GetAllMovements()
+        {
+            return context.TireMovement.Where(tm => tm.IsRead == false).Include(tm=>tm.Tireman).ToList();
+        }
     }
 }

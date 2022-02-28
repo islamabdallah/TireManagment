@@ -10,7 +10,7 @@ using TireManagment;
 namespace TireManagment.Migrations
 {
     [DbContext(typeof(DbContext))]
-    [Migration("20220225194538_inti")]
+    [Migration("20220227215400_inti")]
     partial class inti
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -229,6 +229,9 @@ namespace TireManagment.Migrations
 
                     b.Property<int>("CurrentTireDepth")
                         .HasColumnType("int");
+
+                    b.Property<string>("KMWhileChange")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Position")
                         .HasColumnType("nvarchar(max)");

@@ -38,7 +38,7 @@ namespace TireManagment.Services
                 var user = await userManger.FindByEmailAsync(registerViewModel.Email);
 
                 await userManger.AddToRoleAsync(user, roleNmae);
-                await signInManager.SignInAsync(User, true);
+                //await signInManager.SignInAsync(User, true);
 
 
             }

@@ -21,5 +21,11 @@ namespace TireManagment.Controllers
             trucktireservice.UpdateMovement(movement);
             return View("MovementDetail",movement);
         }
+        public IActionResult GetAll()
+        {
+            var movements = trucktireservice.GetAllMovements();
+            
+            return View("AllMovements", movements);
+        }
     }
 }

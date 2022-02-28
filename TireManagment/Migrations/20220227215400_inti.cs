@@ -197,7 +197,7 @@ namespace TireManagment.Migrations
                     TruckNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SubmitDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     MovementType = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    IsRead = table.Column<bool>(type: "bit", nullable: false,defaultValue:false)
+                    IsRead = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -301,6 +301,7 @@ namespace TireManagment.Migrations
                     Position = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CurrentTireDepth = table.Column<int>(type: "int", nullable: false),
                     STDthreadDepth = table.Column<int>(type: "int", nullable: false),
+                    KMWhileChange = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TireId = table.Column<int>(type: "int", nullable: false),
                     TireMovementId = table.Column<int>(type: "int", nullable: false)
                 },

@@ -13,6 +13,8 @@ namespace TireManagment.DbModels
         public string Position { get; set; }
         public int CurrentTireDepth { get; set; }
         public int STDthreadDepth  { get; set; }
+      
+        public string KMWhileChange { get; set; }
         [ForeignKey("tire")]
         public int TireId { get; set; }
         [ForeignKey("TireMovement")]

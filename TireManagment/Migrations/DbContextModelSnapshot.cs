@@ -228,6 +228,9 @@ namespace TireManagment.Migrations
                     b.Property<int>("CurrentTireDepth")
                         .HasColumnType("int");
 
+                    b.Property<string>("KMWhileChange")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Position")
                         .HasColumnType("nvarchar(max)");
 

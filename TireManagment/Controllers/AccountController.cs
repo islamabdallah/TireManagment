@@ -35,6 +35,11 @@ namespace TireManagment.Controllers
             return View("Register");
         }
     
+        [HttpGet]
+        public IActionResult RegisterTireman()
+        {
+            return View("RegisterTierman");
+        }
         public IActionResult Login()
         {
             return View();

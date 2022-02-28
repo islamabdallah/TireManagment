@@ -23,7 +23,8 @@ namespace TireManagment.Controllers
 
         public IActionResult Index()
         {
-            if(signInManger.IsSignedIn(User))
+           // var ser=User;
+            if(User.Identity.IsAuthenticated)
             {
                 return View();
             }

@@ -52,8 +52,8 @@ namespace TireManagment.Api
                 {
 
 
-
-                    return Ok(result);
+                    
+                    return Ok(user);
                 }
                 return BadRequest("Password Not Correct");
             }

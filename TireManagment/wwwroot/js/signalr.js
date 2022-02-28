@@ -25,7 +25,7 @@ connection.on("ReciveNewTransaction", function (message) {
     header.innerHTML = count + 1;
    // header.innerHTML = count + 1;
             console.log(new Date(message.movmentdate));
-    var d = new Date(message.movmentdate).toLocaleString();
+    var d= new Date(message.movmentdate).toLocaleString();
     var notificationpanel = document.getElementById('notificationspanel');
     var notificationsDetail = "/TireMovement/GetMovementDetail/" + message.Id;
     var notificationItem ='<hr class="dropdown-divider">'+
@@ -35,7 +35,7 @@ connection.on("ReciveNewTransaction", function (message) {
         '<h4>' + message.operation + '</h4>' +
         ' <p>' + message.trucknumber + '</p>' +
         '<p>' + d+ '</p>' +
-        '</div>' +
+        '</div>'+
         +'</li ></a> <li>'+
         '<hr class="dropdown-divider" >'+
                             '</li >';

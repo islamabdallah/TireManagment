@@ -145,7 +145,7 @@
             <hr class="dropdown-divider">
         </li>*@
                         <li class="dropdown-footer">
-                            <a href="#">Show all notifications</a>
+                            <a asp-action="GetAll" asp-controller="TireMovement">Show all notifications</a>
                         </li>
 
                     </ul><!-- End Notification Dropdown Items -->
@@ -417,9 +417,15 @@
                 </li><!-- End Contact Page Nav -->
 
                 <li class="nav-item">
-                    <a class="nav-link collapsed" href="pages-register.html">
+                    <a class="nav-link collapsed" asp-action="Register" asp-controller="Account">
                         <i class="bi bi-card-list"></i>
-                        <span>Register</span>
+                        <span>Add Admin</span>
+                    </a>
+                </li><!-- End Register Page Nav -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" asp-action="RegisterTireman" asp-controller="Account">
+                        <i class="bi bi-card-list"></i>
+                        <span>Add TireMan</span>
                     </a>
                 </li><!-- End Register Page Nav -->
 
