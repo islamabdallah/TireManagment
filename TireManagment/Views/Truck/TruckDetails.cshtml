@@ -1,0 +1,172 @@
+﻿@*@model IEnumerable<TireManagment.DbModels.Truck>*@
+@model TireManagment.DbModels.Truck
+@using TireManagment.DbModels;
+@{
+    ViewData["Title"] = "Index";
+}
+<link  href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"/>
+
+
+<form class="form-horizontal" asp-action="GetTruckData" asp-controller="Truck" method="get">
+    <div class="input-group mb-3">
+        <label class="text-justify " style="margin-top:8px;font-size:16px;font-family:'Times New Roman', Times, serif">Choose Truck</label>&nbsp;
+        @if (Model != null)
+        {
+            <select name="truckid" style="width:100px" asp-items="@(new SelectList(ViewBag.trucknumbers, nameof(trucwithknumber.Id), nameof(trucwithknumber.TruckNumber), Model.ID))" class="col-4 form-control"></select>
+        }
+        else
+        {
+            <select name="truckid" style="width:100px" asp-items="@(new SelectList(ViewBag.trucknumbers, nameof(trucwithknumber.Id), nameof(trucwithknumber.TruckNumber)))" class="form-control"></select>
+        }
+        <div class="input-group-append">
+            <button class="btn btn-info" type="submit">Get Details</button>
+        </div>
+    </div>
+</form>
+<div class="row">
+
+</div>
+@if (Model != null)
+{
+    <table class="table table-dark">
+        <tr>
+            <th>Truck Name</th>
+            <th>Truck Number</th>
+            <th>Truck Model</th>
+            <th>Truck Chassis</th>
+            <th>Truck Category</th>
+            <th>Truck Engine</th>
+            <th>Truck Company</th>
+        </tr>
+        <tr>
+            <td>@Model.TruckName</td>
+            <td>@Model.TruckNumber</td>
+            <td>@Model.VehichleModelNo</td>
+            <td>@Model.Chassis</td>
+            <td>@Model.Category.Category</td>
+            <td>@Model.Engine</td>
+            <td>@Model.Company</td>
+
+        </tr>
+    </table>
+    <h4>Current Tires Positions</h4>
+    <table class="table table-info">
+        <tr>
+            <th> Tire Position</th>
+            <th>Tire Serial</th>
+            <th>Tire Brand</th>
+            <th>Last UpdatDate</th>
+
+        </tr>
+        @foreach (TruckTireViewModel x in ViewBag.trucktires)
+                {
+    <tr>
+        <td>@x.Position</td>
+        <td>@x.TireSerial</td>
+        <td>@x.Tirebrand</td>
+        <td>@x.LastUpdateTime</td>
+    </tr>
+                }
+        </table>
+        <h4>Truck Movements</h4>
+        <table   id="example" class="table" style="width:100%">
+         <thead>
+            <tr>
+                <th>Tire Man</th>
+                <th>Movement Type</th>
+                <th>Movement Date</th>
+             
+            </tr>
+             </thead>
+
+            @foreach(TireMovement move in ViewBag.truckmovements)
+                {
+                  <tr>
+                      <td>@move.Tireman.Name</td>
+                      <td>@move.MovementType</td>
+                      <td>@move.SubmitDate</td>
+
+                 
+                  </tr>
+                  <tr style="">
+                      <td>
+                          <table class="table">
+                              <thead>
+                                  <tr>
+                                      <td>CurrentTireDepth</td>
+                                      <td>KMWhileChange</td>
+                                      <td>KMWhileChange</td>
+                                      <td>STDthreadDepth</td>
+                                      <td>TireId</td>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                              @foreach (MovementDetails d in move.MovementDetails)
+                              {
+
+                                  <tr>
+                                      <td>@d.CurrentTireDepth</td>
+                                      <td>@d.KMWhileChange</td>
+                                      <td>@d.Position</td>
+                                      <td>@d.STDthreadDepth</td>
+                                      <td> @d.tire</td>
+                                      @*@d.CurrentTireDepth @d.KMWhileChange  @d.STDthreadDepth @d.Position @d.TireId*@
+                                  </tr>
+                              }
+                                  </tbody>
+                          </table>
+                      </td>
+                      </tr>
+                }
+        
+        </table>
+        }
+
+        @section Scripts {
+
+                  @*<script>
+ 
+                      $(document).ready(function () {
+                   
+                      });
+
+
+
+                      $('#example tbody').on('click', 'td', function () {
+                          var dt = $('#example').DataTable({});
+                    alert('fff');
+                    var tr = $(this).closest('tr');
+                          var row = dt.row(tr);
+                          console.log(row);
+                    if (row.child.isShown()) {
+                        // This row is already open - close it
+                        row.child.hide();
+                        tr.removeClass('shown');
+                    }
+                    else {
+                        // Open this row
+                        //row.child(format(row.data())).show();
+                        //tr.addClass('shown');
+                    }
+                });
+                function format(d) {
+                    // `d` is the original data object for the row
+                    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+                        '<tr>' +
+                        '<td>Full name:</td>' +
+                        '<td>' + d.name + '</td>' +
+                        '</tr>' +
+                        '<tr>' +
+                        '<td>Extension number:</td>' +
+                        '<td>' + d.extn + '</td>' +
+                        '</tr>' +
+                        '<tr>' +
+                        '<td>Extra info:</td>' +
+                        '<td>And any further details here (images etc)...</td>' +
+                        '</tr>' +
+                        '</table>';
+                }
+            </script>*@
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }
+

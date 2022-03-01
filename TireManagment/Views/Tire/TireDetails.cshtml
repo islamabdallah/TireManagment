@@ -1,0 +1,74 @@
+﻿@model TireManagment.DbModels.Tire;
+@using TireManagment.DbModels;
+<form class="form-horizontal" asp-action="TireDetials" asp-controller="Tire" method="get">
+    <div class="input-group mb-3">
+        <label class="text-justify " style="margin-top:8px;font-size:16px;font-family:'Times New Roman', Times, serif">Choose Tire</label>&nbsp;
+        @if (Model != null)
+        {
+            <select name="tireid" style="width:100px" asp-items="@(new SelectList(ViewBag.tireserials, nameof(tirewithserial.tierid), nameof(tirewithserial.serial), Model.ID))" class="col-4 form-control"></select>
+        }
+        else
+        {
+            <select name="tireid" style="width:100px" asp-items="@(new SelectList(ViewBag.tireserials, nameof(tirewithserial.tierid), nameof(tirewithserial.serial)))" class="form-control"></select>
+        }
+        <div class="input-group-append">
+            <button class="btn btn-info" type="submit">Get Details</button>
+        </div>
+    </div>
+</form>
+@if (Model != null)
+{
+    <table class="table table-dark">
+        <tr>
+            <th> Tire Serial</th>
+            <th>Tire Size</th>
+            <th>Tire Status</th>
+            <th>Tire Submit Date</th>
+            <th>Tire Brand</th>
+            <th>Tire Truck Number</th>
+        </tr>
+        <tr>
+            <td>@Model.Serial</td>
+            <td>@Model.Size</td>
+            <td>@Model.TireStatus</td>
+            <td>@Model.SubmitDate</td>
+            <td>@Model.Brand.Name</td>
+            @if (ViewBag.TruckNumber != null) { 
+            <td>@ViewBag.TruckNumber</td>
+            }
+            else
+                {
+                    <td>Not Applicable</td>
+                }
+
+        </tr>
+    </table>
+    <table class="table datatable" >
+        <tr>
+            <th>Position</th>
+            <th>STDthreadDepth</th>
+            <th>KMWhileChange</th>
+            <th>CurrentTireDepth</th>
+            <th>Operation Date</th>
+            <th>Tire Man</th>
+            <th>TruckNumber</th>
+            <th>Movement Type</th>
+        </tr>
+        @foreach(MovementDetails movement in ViewBag.TireHistory)
+                {
+    <tr>
+        <td>@movement.Position</td>
+        <td>@movement.STDthreadDepth</td>
+        <td>@movement.KMWhileChange</td>
+        <td>@movement.CurrentTireDepth</td>
+        <td>@movement.TireMovement.SubmitDate</td>
+        <td>@movement.TireMovement.Tireman.Name</td>
+        <td>@movement.TireMovement.TruckNumber</td>
+        <td>@movement.TireMovement.MovementType</td>
+    
+    </tr>
+                }
+    </table>
+ 
+
+}

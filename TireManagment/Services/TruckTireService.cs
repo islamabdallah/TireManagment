@@ -55,8 +55,10 @@ namespace TireManagment.Services
                         var changedtire2 = trucktires.Where(tr => tr.TirePosition == tire1.Position).FirstOrDefault();
                         //compare position with position and update the attached tire id;
                         changedtire2.TireId = tire1.TireId;
+                        changedtire2.LastUdateDate = DateTime.Now;
                         var changedtire1 = trucktires.Where(tr => tr.TirePosition == tir2.Position).FirstOrDefault();
                         changedtire1.TireId = tir2.TireId;
+                        changedtire1.LastUdateDate = DateTime.Now;
                         Update(changedtire1);
                         Update(changedtire2);
                     }
@@ -68,11 +70,14 @@ namespace TireManagment.Services
                         var tirewithposition = trucktires.Where(tr => tr.TirePosition == truckMovement.tireWithPoitionViewModels[0].Position).FirstOrDefault();
                         //gets the newtireid  
                         var newtierid = truckMovement.tireWithPoitionViewModels[0].TireId;
+                        
                         //try to update postion with the new tireid
                         tirewithposition.TireId = newtierid;
+                        tirewithposition.LastUdateDate = DateTime.Now;
                         //set newtire status with running status
                         var newtire = context.tires.Where(t => t.ID == newtierid).FirstOrDefault();
                         newtire.TireStatus = TireStatus.Running;
+
                         context.tires.Update(newtire);
                         var oldtireId = truckMovement.tireWithPoitionViewModels[1].TireId;
                       //gets old tire in this position and try tochange its status /damgaed/retread
@@ -148,6 +153,11 @@ namespace TireManagment.Services
         public IEnumerable<TireMovement> GetAllMovements()
         {
             return context.TireMovement.Where(tm => tm.IsRead == false).Include(tm=>tm.Tireman).ToList();
+        }
+        public IQueryable GetTruckMovements(string trucknumber)
+
+        {
+         return context.TireMovement.Include(tm=>tm.Tireman).Include(tm => tm.MovementDetails).Where(tm => tm.TruckNumber == trucknumber);
         }
     }
 }

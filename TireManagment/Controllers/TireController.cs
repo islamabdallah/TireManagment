@@ -52,5 +52,19 @@ namespace TireManagment.Controllers
                 return Json(true);
             return Json($"Serial Number Already Exists");
         }
+        public IActionResult Tiresserials()
+        {
+
+            ViewBag.tireserials = tireService.gettireserials();
+            return View("TireDetails");
+        }
+        public IActionResult TireDetials(int tireid)
+        {
+            ViewBag.tireserials = tireService.gettireserials();
+            ViewBag.TruckNumber = tireService.GetTruckNumber(tireid);
+            ViewBag.TireHistory = tireService.GetTireHistory(tireid);
+            var tire = tireService.GetTireDetails(tireid);
+            return View("TireDetails", tire);
+        }
     }
 }

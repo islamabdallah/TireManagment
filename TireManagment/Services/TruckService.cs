@@ -82,6 +82,14 @@ namespace TireManagment.Services
           var res= context.trucks.Any(t => t.TruckNumber == number);
             return res;
         }
+        public IEnumerable<trucwithknumber> GetAllTruckNumbers()
+        {
+            return context.trucks.Select(t => new trucwithknumber { Id = t.ID, TruckNumber = t.TruckNumber });
+        }
+        public Truck GetTruckDetails(int id)
+        {
+            return context.trucks.Include(t=>t.Category).Where(t => t.ID == id).FirstOrDefault();
+        }
     }
 }
 

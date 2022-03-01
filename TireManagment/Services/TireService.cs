@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TireManagment.DbModels;
+using TireManagment.Models;
 
 namespace TireManagment.Services
 {
@@ -81,6 +82,24 @@ namespace TireManagment.Services
         public void InsertList(List<TruckCategory> entityList)
         {
             throw new NotImplementedException();
+        }
+        public IEnumerable<tirewithserial> gettireserials()
+        {
+            return context.tires.Select(t => new tirewithserial() { serial = t.Serial, tierid = t.ID });
+        }
+        public Tire GetTireDetails(int id)
+        {
+            
+            return context.tires.Include(t => t.Brand).Where(t => t.ID == id).FirstOrDefault();
+        }
+        public string GetTruckNumber(int id)
+        {
+            var trucknumber = context.TruckTire.Where(tr => tr.TireId == id).Select(tr => tr.TruckNumber).FirstOrDefault();
+            return trucknumber;
+        }
+        public IEnumerable<MovementDetails> GetTireHistory(int tireid)
+        {
+            return context.MovementDetails.Include(m=>m.TireMovement).Include(t=>t.TireMovement.Tireman).Where(m => m.TireId == tireid);
         }
     }
 }

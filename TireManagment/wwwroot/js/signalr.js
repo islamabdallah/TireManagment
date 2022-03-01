@@ -18,31 +18,6 @@ connection.start().then(() => { //alert("connected")
 //main.prepend(div);
 connection.on("ReciveNewTransaction", function (message) {
   //  alert('ok');
-    console.log(message);
-    var count = parseInt(document.getElementById("count").innerHTML);
-    var header = document.getElementById('head');
-    document.getElementById("count").innerHTML = count + 1;
-    header.innerHTML = count + 1;
-   // header.innerHTML = count + 1;
-            console.log(new Date(message.movmentdate));
-    var d= new Date(message.movmentdate).toLocaleString();
-    var notificationpanel = document.getElementById('notificationspanel');
-    var notificationsDetail = "/TireMovement/GetMovementDetail/" + message.Id;
-    var notificationItem ='<hr class="dropdown-divider">'+
-        '<a href=/TireMovement/GetMovementDetail/' + message.id + '><li class="notification-item">' +
-        '<i class="bi bi-info-circle text-primary" ></i >' +
-        ' <div>' +
-        '<h4>' + message.operation + '</h4>' +
-        ' <p>' + message.trucknumber + '</p>' +
-        '<p>' + d+ '</p>' +
-        '</div>'+
-        +'</li ></a> <li>'+
-        '<hr class="dropdown-divider" >'+
-                            '</li >';
-    
-    notificationpanel.insertAdjacentHTML('afterbegin', notificationItem);
-  
-    
     var options = {
         autoClose: false,
         progressBar: true,
@@ -64,16 +39,34 @@ connection.on("ReciveNewTransaction", function (message) {
     toast.configure(options);
 
 
-    toast.success("New Question Posted ");
-   
-   
+    toast.success("New  Operation");
+    console.log(message);
+    var count = parseInt(document.getElementById("count").innerHTML);
+    var header = document.getElementById('head');
+    document.getElementById("count").innerHTML = count + 1;
+    header.innerHTML = count + 1;
+   // header.innerHTML = count + 1;
+            console.log(new Date(message.movmentdate));
+    var d= new Date(message.movmentdate).toLocaleString();
+    var notificationpanel = document.getElementById('notificationspanel');
+    var notificationsDetail = "/TireMovement/GetMovementDetail/" + message.Id;
 
-   
+    var notificationItem ='<hr class="dropdown-divider">'+
+        '<a href=/TireMovement/GetMovementDetail/' + message.id +'><li class="notification-item">' +
+        '<i class="bi bi-info-circle text-primary" ></i >' +
+        ' <div>'+
+        '<h4>' + message.operation + '</h4>' +
+        '<p>' + message.trucknumber + '</p>' +
+        '<p>' +d+'</p>' +
+        '</div>'+
+        '</li ></a> <li>'+
+        '<hr class="dropdown-divider" >'+
+                            '</li >';
 
 
-    //alert(notificationsCount);
-  //  document.getElementById("notificationCount").innerHTML = notificationsCount;
-    //document.getElementById('counter').innerHTML = notificationsCount;
-    //alert(notificationsCount);
+    notificationpanel.insertAdjacentHTML('afterbegin', notificationItem);
+  
+    
+
    
 });
