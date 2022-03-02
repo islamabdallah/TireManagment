@@ -90,7 +90,11 @@ namespace TireManagment.Services
 
                     context.SaveChanges();
                     transaction.Commit();
-                    hubContext.Clients.All.SendAsync("ReciveNewTransaction", new { id = tireMovment.Id, operation = tireMovment.MovementType, trucknumber = truckMovement.TruckNumber, movmentdate = tireMovment.SubmitDate });
+                    var Newtires = context.tires.Where(t => t.TireStatus == TireStatus.New).Count();
+                    var Runningtires = context.tires.Where(t => t.TireStatus == TireStatus.Running).Count();
+                    var Damagedtires = context.tires.Where(t => t.TireStatus == TireStatus.Damaged).Count();
+                    var Retreadtires = context.tires.Where(t => t.TireStatus == TireStatus.ReTread).Count();
+                    hubContext.Clients.All.SendAsync("ReciveNewTransaction", new {newtires=Newtires,runningtires=Runningtires,damagedtires=Damagedtires,retreadtires=Retreadtires, id = tireMovment.Id, operation = tireMovment.MovementType, trucknumber = truckMovement.TruckNumber, movmentdate = tireMovment.SubmitDate });
                     return true;
                 }
                 catch (Exception e)
@@ -154,10 +158,10 @@ namespace TireManagment.Services
         {
             return context.TireMovement.Where(tm => tm.IsRead == false).Include(tm=>tm.Tireman).ToList();
         }
-        public IQueryable GetTruckMovements(string trucknumber)
+        public IEnumerable<TireMovement> GetTruckMovements(string trucknumber)
 
         {
-         return context.TireMovement.Include(tm=>tm.Tireman).Include(tm => tm.MovementDetails).Where(tm => tm.TruckNumber == trucknumber);
+         return context.TireMovement.Include(tm=>tm.Tireman).Include(tm => tm.MovementDetails).Where(tm => tm.TruckNumber == trucknumber).ToList();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿
+﻿@inject TireManagment.Services.CategoryService service;
     <div class="pagetitle">
         <h1>Dashboard</h1>
         <nav>
@@ -372,54 +372,57 @@
                         <h5 class="card-title">Recent Activity <span>| Today</span></h5>
 
                         <div class="activity">
-
+                            @{ 
+                              List<CategoryWithTruckCount> categosries=service.GetAllWithTruckCount().ToList();
+                             
+                            }
                             <div class="activity-item d-flex">
-                                <div class="activite-label">32 min</div>
+                                <div class="activite-label">@categosries[0].count</div>
                                 <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
                                 <div class="activity-content">
-                                    Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
+                                  @categosries[0].category <a href="#" class="fw-bold text-dark"></a> 
                                 </div>
                             </div><!-- End activity item-->
 
                             <div class="activity-item d-flex">
-                                <div class="activite-label">56 min</div>
+                                <div class="activite-label">@categosries[1].count</div>
                                 <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
                                 <div class="activity-content">
-                                    Voluptatem blanditiis blanditiis eveniet
+                                    @categosries[1].category
                                 </div>
                             </div><!-- End activity item-->
 
                             <div class="activity-item d-flex">
-                                <div class="activite-label">2 hrs</div>
+                                <div class="activite-label">   @categosries[2].count</div>
                                 <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
                                 <div class="activity-content">
-                                    Voluptates corrupti molestias voluptatem
+                                    @categosries[2].category
                                 </div>
                             </div><!-- End activity item-->
 
                             <div class="activity-item d-flex">
-                                <div class="activite-label">1 day</div>
+                                <div class="activite-label">   @categosries[3].count</div>
                                 <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
                                 <div class="activity-content">
-                                    Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati voluptatem</a> tempore
+                                    @categosries[3].category <a href="#" class="fw-bold text-dark"></a> 
                                 </div>
                             </div><!-- End activity item-->
 
                             <div class="activity-item d-flex">
-                                <div class="activite-label">2 days</div>
+                                <div class="activite-label">   @categosries[4].count</div>
                                 <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
                                 <div class="activity-content">
-                                    Est sit eum reiciendis exercitationem
+                                    @categosries[4].category
                                 </div>
                             </div><!-- End activity item-->
 
-                            <div class="activity-item d-flex">
-                                <div class="activite-label">4 weeks</div>
+                            <!--<div class="activity-item d-flex">
+                                <div class="activite-label"> 2 days</div>
                                 <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
                                 <div class="activity-content">
-                                    Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
+                                category 45
                                 </div>
-                            </div><!-- End activity item-->
+                            </div>--><!-- End activity item-->
 
                         </div>
 

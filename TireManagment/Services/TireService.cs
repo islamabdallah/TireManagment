@@ -92,6 +92,11 @@ namespace TireManagment.Services
             
             return context.tires.Include(t => t.Brand).Where(t => t.ID == id).FirstOrDefault();
         }
+        public string GetTireSerial(int id)
+        {
+
+            return context.tires.Where(t => t.ID == id).Select(t=>t.Serial).FirstOrDefault();
+        }
         public string GetTruckNumber(int id)
         {
             var trucknumber = context.TruckTire.Where(tr => tr.TireId == id).Select(tr => tr.TruckNumber).FirstOrDefault();
