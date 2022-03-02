@@ -15,12 +15,14 @@ namespace TireManagment.Api
         AccountService AccountService;
         SignInManager<AppUser> SignInManger;
         UserManager<AppUser> UserManger;
+        TruckService TruckService;
 
-        public AccountApiController(AccountService _accountService, SignInManager<AppUser> _signInManger, UserManager<AppUser> _UserManager)
+        public AccountApiController(AccountService _accountService, SignInManager<AppUser> _signInManger, UserManager<AppUser> _UserManager , TruckService truck)
         {
             AccountService = _accountService;
             SignInManger = _signInManger;
             UserManger = _UserManager;
+            TruckService = truck;
         }
 
         [HttpPost("Register")]
@@ -44,9 +46,29 @@ namespace TireManagment.Api
 
                 if (_result.Succeeded)
                 {
-                    return Ok(new { Flag = true, Message = "Done", Data = _result });
+                    var _account = UserManger.GetUserAsync(User).Result;
+                    return Ok(new { Flag = true, Message = "Done", Data = _account });
                 }
                 return BadRequest(new { Flag = false, Message = "Error , Password Not Correct", Data = 0 }); 
+            }
+            return BadRequest(new { Flag = false, Message = "Error , Email Not Exist", Data = 0 });
+        }
+
+        [HttpPost("Trucks")]
+        public async Task<IActionResult> Trucks(LoginViewModel loginViewModel)
+        {
+            var _user = await UserManger.FindByEmailAsync(loginViewModel.email);
+            if (_user != null)
+            {
+                var _result = await SignInManger.PasswordSignInAsync(_user.UserName, loginViewModel.password, loginViewModel.RememberMe, true);
+
+                if (_result.Succeeded)
+                {
+                    var _account = UserManger.GetUserAsync(User).Result;
+                    var _trucks = TruckService.GetAll();
+                    return Ok(new { Flag = true, Message = "Done", Data = _account  , Trucks = _trucks });
+                }
+                return BadRequest(new { Flag = false, Message = "Error , Password Not Correct", Data = 0 });
             }
             return BadRequest(new { Flag = false, Message = "Error , Email Not Exist", Data = 0 });
         }
