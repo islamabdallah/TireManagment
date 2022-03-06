@@ -18,8 +18,8 @@
     <meta content="" name="keywords">
 
     <!-- Favicons -->
-    <link href="~/assets/img/favicon.png" rel="icon">
-    <link href="~/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+    <link href="~/assets/img/tire.png" rel="icon">
+    <link href="~/assets/img/tire.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -64,6 +64,18 @@
                 <button type="submit" title="Search"><i class="bi bi-search"></i></button>
             </form>
         </div><!-- End Search Bar -->
+
+@*        <button type="button" class="btn btn-primary">
+  Trucks with missing Tires <span class="badge bg-warning-light">4</span>
+</button>*@
+
+<button type="button" class="btn btn-primary position-relative">
+  Trucks with missing Tires
+  <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+    0
+    <span class="visually-hidden"> Trucks with missing Tires</span>
+  </span>
+</button>
 
         <nav class="header-nav ms-auto">
             <ul class="d-flex align-items-center">
