@@ -11,11 +11,6 @@ namespace TireManagment.Models
         public string TruckNumber { get; set; }
         public string UserId { get; set; }
         public string MovementType  { get; set; }
-        public int CurrentTireDepth { get; set; }
-        public int STDthreadDepth { get; set; }
-        public List <TireWithPoitionViewModel> tireWithPoitionViewModels { get; set; }
-
-
-
+        public List <TirePositionViewModel> TirePositionViewModel { get; set; }
     }
 }

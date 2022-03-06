@@ -15,16 +15,18 @@ namespace TireManagment.Api
     public class TireApiController : ControllerBase
     {
         TruckService TruckService;
-        CategoryService CategoryService;
+        //CategoryService CategoryService;
         TruckTireService TruckTireService;
-        IHubContext<notifyHub> HubContext;
+        // IHubContext<notifyHub> HubContext;
+        TireService TireService;
 
-        public TireApiController(IHubContext<notifyHub> _hubContext,TruckTireService _truckTireService, TruckService truck, CategoryService _categoryService)
+        public TireApiController(IHubContext<notifyHub> hubContext,TruckTireService truckTireService, TruckService truck, CategoryService categoryService , TireService tireService)
         {
-            TruckTireService = _truckTireService;
+            TruckTireService = truckTireService;
             TruckService = truck;
-            CategoryService = _categoryService;
-            HubContext = _hubContext;
+          //  CategoryService = categoryService;
+           // HubContext = hubContext;
+            TireService =  tireService;
         }
 
         [HttpGet("TiresByTruck")]
@@ -33,16 +35,17 @@ namespace TireManagment.Api
             if(!string.IsNullOrEmpty(truckNumber))
             {
                 var _result = TruckService.GetTruckTires(truckNumber);
-                if(_result != null)
+                var _newTires = TireService.GetNewTires();
+                if (_result != null)
                 {
-                    return Ok(new { Flag = true, Message = "Done", Data = _result });
+                    return Ok(new { Flag = true, Message = "Done", TruckTire = _result , NewTires = _newTires });
                 }
                 return BadRequest(new { Flag = false, Message = "Error", Data = 0 });
             }
             return BadRequest(new { Flag = false, Message = "Error", Data = 0 });
         }
 
-        [HttpPost]
+        [HttpPost("TireMovement")]
         public IActionResult AddNewMovement(Models.TruckMovementViewModel tireMovement)
         {
             if(tireMovement != null)

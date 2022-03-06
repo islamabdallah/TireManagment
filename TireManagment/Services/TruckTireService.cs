@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using TireManagment.DbModels;
 using TireManagment.Enums;
 using TireManagment.Hubs;
@@ -22,80 +21,94 @@ namespace TireManagment.Services
             context = _context;
             
         }
-
         public bool AddNewMovement(TruckMovementViewModel truckMovement)
         {
             using (var transaction = context.Database.BeginTransaction())
             {
                 try
                 {
-
-                    //1= add new recored to movement table (truck number,date,operationtype,etc)
-                    TireMovement tireMovment = new TireMovement() { TruckNumber = truckMovement.TruckNumber, SubmitDate = DateTime.Now, MovementType = truckMovement.MovementType,TireManId=truckMovement.UserId };
-                    
-                    
-                    context.TireMovement.Add(tireMovment);
-                    //2=add movement details to table movement detail 2 record each, which add changed positions with updated tires.
-                    List<MovementDetails> movementDetails = new List<MovementDetails>() {
-                new MovementDetails() { CurrentTireDepth=truckMovement.tireWithPoitionViewModels[0].CurrentTireDepth, Position=truckMovement.tireWithPoitionViewModels[0].Position,TireId=truckMovement.tireWithPoitionViewModels[0].TireId, TireMovement=tireMovment, STDthreadDepth=truckMovement.tireWithPoitionViewModels[0].STDThreadDepth , KMWhileChange=truckMovement.tireWithPoitionViewModels[0].KMWhileChange },
-                new MovementDetails(){ CurrentTireDepth=truckMovement.tireWithPoitionViewModels[1].CurrentTireDepth, Position=truckMovement.tireWithPoitionViewModels[1].Position,TireId=truckMovement.tireWithPoitionViewModels[1].TireId, TireMovement=tireMovment, STDthreadDepth=truckMovement.tireWithPoitionViewModels[1].STDThreadDepth, KMWhileChange=truckMovement.tireWithPoitionViewModels[1].KMWhileChange  }
-                };
-                    context.AddRange(movementDetails);
-                    context.SaveChanges();
-                    //  throw new Exception();
-                    //   context.SaveChanges();
-                    //1-get changed tires with their new positions(rotation or replacement);
-                    var tire1 = truckMovement.tireWithPoitionViewModels[0];
-                    var tir2 = truckMovement.tireWithPoitionViewModels[1];
-                    //2-get these positions from trucktire table and try to update the tireid  found in these positions with new tireids
-                    var trucktires = context.TruckTire.Where(tr =>( tr.TruckNumber == truckMovement.TruckNumber));
-                    if (truckMovement.MovementType == MovmentType.Rotation)
+                    if (truckMovement != null && truckMovement.TirePositionViewModel.Count == 2)
                     {
-                        //
-                        var changedtire2 = trucktires.Where(tr => tr.TirePosition == tire1.Position).FirstOrDefault();
-                        //compare position with position and update the attached tire id;
-                        changedtire2.TireId = tire1.TireId;
-                        changedtire2.LastUdateDate = DateTime.Now;
-                        var changedtire1 = trucktires.Where(tr => tr.TirePosition == tir2.Position).FirstOrDefault();
-                        changedtire1.TireId = tir2.TireId;
-                        changedtire1.LastUdateDate = DateTime.Now;
-                        Update(changedtire1);
-                        Update(changedtire2);
-                    }
-                    //in case of replacement
-                    //the new  tireid with its position are in the first object of list;
-                    else if (truckMovement.MovementType == MovmentType.Replacement)
-                    {
-                        //get changed position from the trucktire table;
-                        var tirewithposition = trucktires.Where(tr => tr.TirePosition == truckMovement.tireWithPoitionViewModels[0].Position).FirstOrDefault();
-                        //gets the newtireid  
-                        var newtierid = truckMovement.tireWithPoitionViewModels[0].TireId;
+                        //Step#1 : [Table : Movement] : Add
                         
-                        //try to update postion with the new tireid
-                        tirewithposition.TireId = newtierid;
-                        tirewithposition.LastUdateDate = DateTime.Now;
-                        //set newtire status with running status
-                        var newtire = context.tires.Where(t => t.ID == newtierid).FirstOrDefault();
-                        newtire.TireStatus = TireStatus.Running;
+                        TireMovement tireMovment = new()
+                        {
+                            TruckNumber = truckMovement.TruckNumber,
+                            MovementType = truckMovement.MovementType,
+                            TireManId = truckMovement.UserId,
+                            SubmitDate = DateTime.Now
+                        };
+                        context.TireMovement.Add(tireMovment);
 
-                        context.tires.Update(newtire);
-                        var oldtireId = truckMovement.tireWithPoitionViewModels[1].TireId;
-                      //gets old tire in this position and try tochange its status /damgaed/retread
-                        var oldtire = context.tires.Where(t => t.ID == oldtireId).FirstOrDefault();
-                        oldtire.TireStatus = truckMovement.tireWithPoitionViewModels[1].Position;
 
-                        context.tires.Update(oldtire);
+                        //Step#2 : [Table : MovementDetails] : Add Details
+
+                        List<MovementDetails> movementDetails = new();
+                        foreach (var item in truckMovement.TirePositionViewModel)
+                        {
+                            var _tireMovement = new MovementDetails()
+                            {
+                                TireId = item.TireId,
+                                CurrentTireDepth = item.CurrentTireDepth,
+                                STDthreadDepth = item.STDThreadDepth,
+                                KMWhileChange = item.KMWhileChange,
+                                Position = item.Position,
+                                TireMovement = tireMovment
+                            };
+                            movementDetails.Add(_tireMovement);
+                        }
+                        context.AddRange(movementDetails);
+                        context.SaveChanges();
+
+
+                        //Step#3 : [Table : TruckTire] : Update truck with the new tires
+
+                        var _tire1 = truckMovement.TirePositionViewModel[0];
+                        var _tire2 = truckMovement.TirePositionViewModel[1];
+                        var _trucktires = context.TruckTire.Where(tr => (tr.TruckNumber == truckMovement.TruckNumber));
+
+                        //Rotation
+                        if (truckMovement.MovementType == MovmentType.Rotation)
+                        {
+                            //Position#1
+                            var _updatePosition1 = _trucktires.Where(tr => tr.TirePosition == _tire1.Position).FirstOrDefault();
+                            _updatePosition1.TireId = _tire1.TireId;
+                            _updatePosition1.LastUdateDate = DateTime.Now;
+
+                            //Position#2
+                            var _updatePosition2 = _trucktires.Where(tr => tr.TirePosition == _tire2.Position).FirstOrDefault();
+                            _updatePosition2.TireId = _tire2.TireId;
+                            _updatePosition2.LastUdateDate = DateTime.Now;
+                            Update(_updatePosition1);
+                            Update(_updatePosition2);
+                        }
+                        //Replacement
+                        else if (truckMovement.MovementType == MovmentType.Replacement)
+                        {
+                            var _tirePosition = _trucktires.Where(tr => tr.TirePosition == truckMovement.TirePositionViewModel[0].Position).FirstOrDefault();
+                            _tirePosition.TireId = truckMovement.TirePositionViewModel[0].TireId;
+                            _tirePosition.LastUdateDate = DateTime.Now;
+
+                            //set newtire status with running status
+                            var updateTireStatus = context.tires.Where(t => t.ID == _tirePosition.TireId).FirstOrDefault();
+                            updateTireStatus.TireStatus = TireStatus.Running;
+                            context.tires.Update(updateTireStatus);
+
+                            //gets old tire in this position and try tochange its status /damgaed/retread
+                            var _oldTire = context.tires.Where(t => t.ID == truckMovement.TirePositionViewModel[1].TireId).FirstOrDefault();
+                            _oldTire.TireStatus = truckMovement.TirePositionViewModel[1].Position;
+                            context.tires.Update(_oldTire);
+                        }
+
+                        context.SaveChanges();
+                        transaction.Commit();
+                        hubContext.Clients.All.SendAsync("ReciveNewTransaction", new { id = tireMovment.Id, operation = tireMovment.MovementType, trucknumber = truckMovement.TruckNumber, movmentdate = tireMovment.SubmitDate });
+                        return true;
                     }
-
-
-                    context.SaveChanges();
-                    transaction.Commit();
-                    hubContext.Clients.All.SendAsync("ReciveNewTransaction", new { id = tireMovment.Id, operation = tireMovment.MovementType, trucknumber = truckMovement.TruckNumber, movmentdate = tireMovment.SubmitDate });
-                    return true;
+                    return false;
                 }
                 catch (Exception e)
                 {
-                   
                     return false;
                 }
             }
