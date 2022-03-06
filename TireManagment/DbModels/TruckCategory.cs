@@ -18,8 +18,8 @@ namespace TireManagment.DbModels
         public int FrontTires { get; set; }
         public int RareTires { get; set; }
         public int SpareTires { get; set; }
-    
-     
+
+        public string Image { get; set; }
         public bool Active { get; set; }
       
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]

@@ -106,6 +106,10 @@ namespace TireManagment.Services
         {
             return context.MovementDetails.Include(m=>m.TireMovement).Include(t=>t.TireMovement.Tireman).Where(m => m.TireId == tireid);
         }
+        public IEnumerable<Tire> Tires()
+        {
+            return context.tires.ToList();
+        }
     }
 }
 

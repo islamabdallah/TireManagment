@@ -62,6 +62,22 @@ namespace TireManagment.Services
           //  return context.users.Where(u=>u.ro)
                 
         }
+        
+             public IList<AppUser> GetAdmins()
+        {
+            var res = userManger.GetUsersInRoleAsync(Role.Admin).Result;
+            return res;
+            //  return context.users.Where(u=>u.ro)
+
+        }
+        public int GetTiremens()
+        {
+            return userManger.GetUsersInRoleAsync(Role.TireMan).Result.Count();
+        }
+        public int GetAdministrators()
+        {
+            return userManger.GetUsersInRoleAsync(Role.Admin).Result.Count();
+        }
         public void createfirstadmin()
         {
 

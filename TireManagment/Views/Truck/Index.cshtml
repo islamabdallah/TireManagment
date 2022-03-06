@@ -20,11 +20,27 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="imgmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="staticBackdropLabel">  Add Administrator</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img id="img" src="" width="450" height="220" />
+            </div>
+            <div class="modal-footer">
 
+                <button onclick="hide()" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <div class="pagetitle">
-       <h3>MasterData</h3>
+    <h3>MasterData</h3>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
@@ -437,20 +453,20 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Trucks</h5>
-            
+
                     <p>Add new truck to the system  , <code>Please make sure after adding a new truck to assign the related tires </code></p>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addmodal">
                         Add Truck
                     </button>
 
                     <br />
-                     <br />
+                    <br />
 
                     <table class="table datatable">
                         <thead>
                             <tr>
                                 <th scope="col">Id</th>
-                                 <th scope="col">Truck#</th>
+                                <th scope="col">Truck#</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Company</th>
                                 <th scope="col">Year</th>
@@ -460,7 +476,7 @@
                                 <th scope="col">Chassis</th>
                                 <th scope="col">Engine</th>
                                 <th scope="col">Model#</th>
-                                 <th scope="col">Image</th>
+                                <th scope="col">Image</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -479,7 +495,7 @@
                                     <td>@truck.Chassis</td>
                                     <td>@truck.Engine</td>
                                     <td>@truck.VehichleModelNo</td>
-                                      <td><i class="bi bi-images"></i></td>
+                                    <td onclick="showimage('@truck.Image','@truck.TruckName')"><a data-bs-toggle="modal" data-bs-target="#imgmodal"> <i class="bi bi-images"></i></a>@truck.Image</td>
                                 </tr>
                             }
                         </tbody>
@@ -495,6 +511,19 @@
 @section Scripts {
 
     <script>
+        function showimage(url, category) {
+            alert(url);
+            var title = document.getElementById("staticBackdropLabel");
+            title.innerHTML = category;
+            var src = document.location.origin + '/Img/' + url;
+            // alert(src);
+            var img = document.getElementById("img");
+
+            img.src = src;
+        }
+        function hide() {
+            $('#imgmodal').modal('hide');
+        }
         var success = '@ViewBag.success';
         if (success) {
 

@@ -5,146 +5,182 @@
 }
 
 
-    <div class="pagetitle">
-        <h3>MasterData</h3>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
-                <li class="breadcrumb-item">MasterData</li>
-                <li class="breadcrumb-item active">Truck Categories</li>
-            </ol>
-        </nav>
-    </div><!-- End Page Title -->
+<div class="pagetitle">
+    <h3>MasterData</h3>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
+            <li class="breadcrumb-item">MasterData</li>
+            <li class="breadcrumb-item active">Truck Categories</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
 
-    <section class="section">
-        <div class="row">
-            <div class="col-lg-12">
-
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Truck Categories</h5>
-                       @* <p>Add lightweight datatables to your project with using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to conver to a datatable</p>*@
-
-                        <!-- Table with stripped rows -->
-                        <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-                         
-                                <table class="table datatable">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col" >#ID</></th>
-                                            <th  scope="col" >Name</a></th>
-                                            <th scope="col" >Tire Count</a></th>
-                                               <th scope="col">Front Tire</></th>
-                                            <th scope="col">Rare Tires</a></th>
-                                            <th scope="col">Spare Tire</></th>
-                                             <th scope="col">Image</></th>
-                              @*              <th scope="col">Status</></th>
-                                            <th scope="col">Date</></th>*@
-
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                    @foreach(var category in Model)
-            {
-                <tr>
-                    <th scope="row">@category.Id</th>
-                    <td>@category.Category</td>
-                    <td>@category.TireCount</td>
-                   <td>@category.FrontTires</td>
-                    <td>@category.RareTires</td>
-                    <td>@category.SpareTires</td>
-                    <td><i class="bi bi-images"></i></td>
-       @*             <td>@category.Active</td>
-                    <td>@category.SubmitDate</td>*@
-                </tr>
-            }
-                                   
-                                       
-                                           </tbody>
-                                </table>
-                            </div>
-                       
-                        </div>
-                        <!-- End Table with stripped rows -->
-
-                    </div>
+<section class="section">
+    <div class="modal fade" id="addmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="staticBackdropLabel">  Add Administrator</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
+                <div class="modal-body">
+                    <img id="img" src="" width="450" height="220" />
+                </div>
+                <div class="modal-footer">
+
+                    <button onclick="hide()" type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Truck Categories</h5>
+                    @* <p>Add lightweight datatables to your project with using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to conver to a datatable</p>*@
+
+                    <!-- Table with stripped rows -->
+                    <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+
+                        <table class="table datatable">
+
+                            <thead>
+                                <tr>
+                                    <th scope="col">#ID</></th>
+                                    <th scope="col">Name</a></th>
+                                    <th scope="col">Tire Count</a></th>
+                                    <th scope="col">Front Tire</th>
+                                    <th scope="col">Rare Tires</a></th>
+                                    <th scope="col">Spare Tire</th>
+                                    <th scope="col">Image</th>
+                                    @*              <th scope="col">Status</></th>
+                                        <th scope="col">Date</></th>*@
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var category in Model)
+                                {
+                                    // var FullPath = "~/Img/"+category.Image;
+
+                                    <tr>
+                                        <th scope="row">@category.Id</th>
+                                        <td>@category.Category</td>
+                                        <td>@category.TireCount</td>
+                                        <td>@category.FrontTires</td>
+                                        <td>@category.RareTires</td>
+                                        <td>@category.SpareTires</td>
+                                        <td onclick="showimage('@category.Image', '@category.Category')"><a data-bs-toggle="modal" data-bs-target="#addmodal"> <i class="bi bi-images"></i></a></td>
+                                        @*             <td>@category.Active</td>
+                                            <td>@category.SubmitDate</td>*@
+                                    </tr>
+                                }
+
+
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+                <!-- End Table with stripped rows -->
 
             </div>
-       
-    </section>
+        </div>
+
+    </div>
+
+</section>
 
 
 @*<main id="main" class="main">
-<h1>Index</h1>
+    <h1>Index</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.CategoryId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.category)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TireCount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SpareTires)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.RareTires)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.FrontTire)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Active)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.date)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.CategoryId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.category)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TireCount)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SpareTires)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.RareTires)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FrontTire)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Active)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.date)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
-            </td>
-        </tr>
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.CategoryId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.category)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TireCount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SpareTires)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.RareTires)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FrontTire)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Active)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.date)
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.category)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TireCount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SpareTires)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RareTires)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FrontTire)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Active)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.date)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
+                </td>
+            </tr>
+    }
+        </tbody>
+    </table>
+        </main>*@
+@section Scripts{
+    <script>
+        function showimage(url, category) {
+            var title = document.getElementById("staticBackdropLabel");
+            title.innerHTML= category;
+            var src = document.location.origin + '/Img/' + url;
+            // alert(src);
+            var img = document.getElementById("img");
+
+            img.src = src;
+        }
+        function hide() {
+            $('#addmodal').modal('hide');
+        }
+    </script>
 }
-    </tbody>
-</table>
-    </main>*@

@@ -94,7 +94,8 @@ namespace TireManagment.Services
                     var Runningtires = context.tires.Where(t => t.TireStatus == TireStatus.Running).Count();
                     var Damagedtires = context.tires.Where(t => t.TireStatus == TireStatus.Damaged).Count();
                     var Retreadtires = context.tires.Where(t => t.TireStatus == TireStatus.ReTread).Count();
-                    hubContext.Clients.All.SendAsync("ReciveNewTransaction", new {newtires=Newtires,runningtires=Runningtires,damagedtires=Damagedtires,retreadtires=Retreadtires, id = tireMovment.Id, operation = tireMovment.MovementType, trucknumber = truckMovement.TruckNumber, movmentdate = tireMovment.SubmitDate });
+                    var alltires = Runningtires + Damagedtires + Retreadtires;
+                    hubContext.Clients.All.SendAsync("ReciveNewTransaction", new {alltires=alltires, newtires=Newtires,runningtires=Runningtires,damagedtires=Damagedtires,retreadtires=Retreadtires, id = tireMovment.Id, operation = tireMovment.MovementType, trucknumber = truckMovement.TruckNumber, movmentdate = tireMovment.SubmitDate });
                     return true;
                 }
                 catch (Exception e)
@@ -144,6 +145,11 @@ namespace TireManagment.Services
         public IEnumerable<TireMovement> GetMovments()
         {
            var res= context.TireMovement.Where(m=>m.IsRead==false).OrderByDescending(m=>m.SubmitDate).Take(5).ToList();
+            return res;
+        }
+        public IEnumerable<TireMovement> GetTopMovments()
+        {
+            var res = context.TireMovement.OrderByDescending(m => m.SubmitDate).Take(5).ToList();
             return res;
         }
         public int GetMovmentsCount()

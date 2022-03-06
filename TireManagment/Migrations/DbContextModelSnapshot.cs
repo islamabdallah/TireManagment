@@ -467,6 +467,9 @@ namespace TireManagment.Migrations
                     b.Property<int>("FrontTires")
                         .HasColumnType("int");
 
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("RareTires")
                         .HasColumnType("int");
 
