@@ -8,17 +8,15 @@
         <div class="modal-content" style="background-color:white">
             <div class="modal-header">
 
-                <h3 class="modal-title">Success</h3>
+                <h4 class="modal-title"> <i class="bi bi-check2-all"></i> |  Success</h4>
                 <a href="#" id="modalclose" class="close" style="color:black;font-size:18px" data-dismiss="modal">&times;</a>
             </div>
             <div class="modal-body">
-                <h6>Truck  Added</h6>
+                <h4>Truck Added Successfully</h4>
             </div>
             <div class="modal-footer">
                 <button id="alertclose" type="button" class="btn btn-success" data-dismiss="modal">Close</button>
-
             </div>
-
         </div>
     </div>
 </div>
@@ -26,11 +24,11 @@
 
 
 <div class="pagetitle">
-    <h1>Data Tables</h1>
+       <h3>MasterData</h3>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
-            <li class="breadcrumb-item">Forms</li>
+            <li class="breadcrumb-item">MasterData</li>
             <li class="breadcrumb-item active">Trucks</li>
         </ol>
     </nav>
@@ -299,56 +297,37 @@
 
 
 
-
-
-
-
-
-
-
 <section class="section">
 
     <div class="modal fade" id="addmodal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title" id="staticBackdropLabel">Add Truck</h4>
+                    <h4 class="modal-title" id="staticBackdropLabel"><i class="bi bi-truck"></i> |  Add Truck</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form class="row g-3" asp-action="AddTruck" id="truckform">
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input asp-for="@Model.TruckName" value="@Model.TruckName" type="text" class="form-control" id="floating" placeholder="Your Name">
+                                <input asp-for="@Model.TruckName" value="@Model.TruckName" type="text" class="form-control" id="floating" placeholder="Truck Name">
                                 <label for="floatingName">Truck Name</label>
                                 <span asp-validation-for="TruckName" class="text-danger"></span>
                             </div>
                         </div>
-
-                       
-
-
                         <div class="col-md-6">
                             <div class="col-md-12">
                                 <div class="form-floating">
 
-                                    <input asp-for="@Model.TruckNumber" value="@Model.TruckNumber" type="text" class="form-control" id="floatingZip" placeholder="Zip">
+                                    <input asp-for="@Model.TruckNumber" value="@Model.TruckNumber" type="text" class="form-control" id="floatingZip" placeholder="Truck Number">
                                     <label for="floatingZip">Truck Number</label>
                                     <span asp-validation-for="@Model.TruckNumber" class="text-danger"></span>
                                 </div>
                             </div>
                         </div>
-
-
-
-
-
-
-
-
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input asp-for="@Model.Company" type="text" class="form-control" id="floatingZip" placeholder="Zip">
+                                <input asp-for="@Model.Company" type="text" class="form-control" id="floatingZip" placeholder="Company">
                                 <label for="floatingZip">Company</label>
                                 <span asp-validation-for="Company" class="text-danger"></span>
                             </div>
@@ -356,8 +335,8 @@
                         <div class="col-md-6">
                             <div class="col-md-12">
                                 <div class="form-floating">
-                                    <input asp-for="@Model.VehichleModelNo" type="text" class="form-control" id="floatingCity" placeholder="City">
-                                    <label for="floatingCity">Vehichle Model</label>
+                                    <input asp-for="@Model.VehichleModelNo" type="text" class="form-control" id="floatingCity" placeholder="Vehicle Model">
+                                    <label for="floatingCity">Vehicle Model</label>
                                     <span asp-validation-for="VehichleModelNo" class="text-danger"></span>
                                 </div>
                             </div>
@@ -389,7 +368,7 @@
                         <div class="col-md-6">
                             <div class="col-md-12">
                                 <div class="form-floating">
-                                    <input asp-for="@Model.Registeration" type="text" class="form-control" id="floatingCity" placeholder="City">
+                                    <input asp-for="@Model.Registeration" type="text" class="form-control" id="floatingCity" placeholder="Registeration">
                                     <label for="floatingCity">Registeration</label>
                                     <span asp-validation-for="Registeration" class="text-danger"></span>
                                 </div>
@@ -397,31 +376,29 @@
                         </div>
                         <div class="col-md-4">
                             <div class="form-floating">
-                                <input asp-for="@Model.Unit" type="text" class="form-control" id="floatingZip" placeholder="Zip">
+                                <input asp-for="@Model.Unit" type="text" class="form-control" id="floatingZip" placeholder="Unit">
                                 <label for="floatingZip">Unit</label>
                                 <span asp-validation-for="Unit" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-floating">
-                                <input asp-for="@Model.Type" type="text" class="form-control" id="floatingZip" placeholder="Zip">
+                                <input asp-for="@Model.Type" type="text" class="form-control" id="floatingZip" placeholder="Type">
                                 <label for="floatingZip">Type</label>
                                 <span asp-validation-for="Type" class="text-danger"></span>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-floating">
-                                <input asp-for="@Model.Year" type="number" class="form-control" id="floatingZip" placeholder="Zip">
+                                <input asp-for="@Model.Year" type="number" class="form-control" id="floatingZip" placeholder="Year">
                                 <label for="floatingZip">Year</label>
                                 <span asp-validation-for="Year" class="text-danger"></span>
                             </div>
                         </div>
-
-
                         <div class="col-md-4">
                             <div class="col-md-12">
                                 <div class="form-floating">
-                                    <input asp-for="@Model.Size" type="text" class="form-control" id="floatingCity" placeholder="City">
+                                    <input asp-for="@Model.Size" type="text" class="form-control" id="floatingCity" placeholder="TruckSize">
                                     <label for="floatingCity">Truck Size</label>
                                     <span asp-validation-for="Size" class="text-danger"></span>
                                 </div>
@@ -430,24 +407,22 @@
 
                         <div class="col-md-4">
                             <div class="form-floating">
-                                <input asp-for="@Model.AxleCount" type="text" class="form-control" id="floatingZip" placeholder="Zip">
+                                <input asp-for="@Model.AxleCount" type="text" class="form-control" id="floatingZip" placeholder="AxleCount">
                                 <label for="floatingZip">Axle Count</label>
                                 <span asp-validation-for="AxleCount" class="text-danger"></span>
                             </div>
                         </div>
-
-
                         <div class="col-md-4">
                             <div class="form-floating">
-                                <input asp-for="@Model.Chassis" type="text" class="form-control" id="floatingZip" placeholder="Zip">
+                                <input asp-for="@Model.Chassis" type="text" class="form-control" id="floatingZip" placeholder="Chassis">
                                 <label for="floatingZip">Chassis</label>
                                 <span asp-validation-for="Chassis" class="text-danger"></span>
                             </div>
                         </div>
 
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                             <button type="submit" class="btn btn-primary">Add</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                         </div>
                     </form>
                 </div>
@@ -461,34 +436,31 @@
 
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Datatables</h5>
-                    <p>Add lightweight datatables to your project with using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to conver to a datatable</p>
-
-                    Table with stripped rows
+                    <h5 class="card-title">Trucks</h5>
+            
+                    <p>Add new truck to the system  , <code>Please make sure after adding a new truck to assign the related tires </code></p>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addmodal">
                         Add Truck
                     </button>
-                    <table class="table datatable">
 
+                    <br />
+                     <br />
+
+                    <table class="table datatable">
                         <thead>
                             <tr>
                                 <th scope="col">Id</th>
+                                 <th scope="col">Truck#</th>
                                 <th scope="col">Name</th>
-                                <th scope="col">Number</th>
-
                                 <th scope="col">Company</th>
                                 <th scope="col">Year</th>
                                 <th scope="col">AxleCount</th>
-                                
                                 <th scope="col">Type</th>
-
-                                <th scope="col">Category</th>
+                                <th scope="col">Truck Category</th>
                                 <th scope="col">Chassis</th>
                                 <th scope="col">Engine</th>
-
-                             
-                                <th scope="col">ModelNo</th>
-
+                                <th scope="col">Model#</th>
+                                 <th scope="col">Image</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -497,32 +469,23 @@
                             {
                                 <tr>
                                     <th scope="row">@truck.TruckId</th>
-                                    <td>@truck.TruckName</td>
                                     <td>@truck.TruckNumber</td>
+                                    <td>@truck.TruckName</td>
                                     <td>@truck.TruckCompany</td>
                                     <td>@truck.TruckYear</td>
                                     <td>@truck.AxleCount</td>
-
-                                
                                     <td>@truck.Type</td>
                                     <td>@truck.Category</td>
                                     <td>@truck.Chassis</td>
-
-
                                     <td>@truck.Engine</td>
-                               
                                     <td>@truck.VehichleModelNo</td>
-
+                                      <td><i class="bi bi-images"></i></td>
                                 </tr>
                             }
-
                         </tbody>
                     </table>
-                    End Table with stripped rows
-
                 </div>
             </div>
-
         </div>
     </div>
 </section>

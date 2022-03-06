@@ -9,11 +9,11 @@
         <div class="modal-content" style="background-color:white">
             <div class="modal-header">
 
-                <h3 class="modal-title">Success</h3>
+              <h4 class="modal-title"> <i class="bi bi-check2-all"></i> |  Success</h4>
                 <a href="#" id="modalclose" class="close" style="color:black;font-size:18px" data-dismiss="modal">&times;</a>
             </div>
             <div class="modal-body">
-                <h6>Tire  Added</h6>
+                <h4>Tire Added Successfully</h4>
             </div>
             <div class="modal-footer">
                 <button id="alertclose" type="button" class="btn btn-success" data-dismiss="modal">Close</button>
@@ -26,11 +26,11 @@
 
 
     <div class="pagetitle">
-        <h1>Master Data</h1>
+               <h3>MasterData</h3>
         <nav>
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
-                <li class="breadcrumb-item">Master Data</li>
+                <li class="breadcrumb-item">MasterData</li>
                 <li class="breadcrumb-item active">Tires</li>
             </ol>
         </nav>
@@ -42,8 +42,8 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Datatables</h5>
-                        <p>Add lightweight datatables to your project with using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to conver to a datatable</p>
+                        <h5 class="card-title">Tires</h5>
+                        <p>Add new tire to the system  , <code>Tire Status : New</code></p>
 
                         <!-- Table with stripped rows -->
                         <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
@@ -56,7 +56,8 @@
                                         Add Tire
                                     </button>
                                 
-
+                                               <br />
+                     <br />
                             </div>
                             <div class="dataTable-container">
 
@@ -64,11 +65,11 @@
                                     <thead>
                                         <tr>
                                             <th scope="col" data-sortable="" style="width: 5.63549%;"><a href="#" class="dataTable-sorter">#ID</a></th>
+                                             <th scope="col" data-sortable="" style="width: 37.7698%;"><a href="#" class="dataTable-sorter">Serial</a></th>
                                             <th scope="col" data-sortable="" style="width: 28.0576%;"><a href="#" class="dataTable-sorter">Brand</a></th>
-                                            <th scope="col" data-sortable="" style="width: 37.7698%;"><a href="#" class="dataTable-sorter">Serial</a></th>
                                             <th scope="col" data-sortable="" style="width: 9.23261%;"><a href="#" class="dataTable-sorter">Size</a></th>
                                             <th scope="col" data-sortable="" style="width: 19.3046%;"><a href="#" class="dataTable-sorter">Status</a></th>
-                                            <th scope="col" data-sortable="" style="width: 19.3046%;"><a href="#" class="dataTable-sorter">Submit Date</a></th>
+                                            <th scope="col" data-sortable="" style="width: 19.3046%;"><a href="#" class="dataTable-sorter">Register Date</a></th>
 
 
 
@@ -81,8 +82,8 @@
                                         {
                                             <tr>
                                                 <th scope="row">@tire.ID</th>
+                                                 <td>@tire.Serial</td>
                                                 <td>@tire.Brand.Name</td>
-                                                <td>@tire.Serial</td>
                                                 <td>@tire.Size</td>
                                                 <td>@tire.TireStatus</td>
                                                 <td>@tire.SubmitDate</td>
@@ -100,7 +101,7 @@
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
-                                                <h4 class="modal-title" id="staticBackdropLabel">Add Tire</h4>
+                                                <h4 class="modal-title" id="staticBackdropLabel"><i class="bi bi-fan"></i> |  Add Tire</h4>
                                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
@@ -143,8 +144,9 @@
 
         </div>*@
                                                     <div class="modal-footer">
+                                                               <button type="submit" class="btn btn-primary">Add</button>
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-primary">Add</button>
+                                                 
                                                     </div>
                                                 </form>
                                             </div>
