@@ -29,16 +29,15 @@ namespace TireManagment.Api
             TireService =  tireService;
         }
 
-        [HttpGet("TiresByTruck")]
-        public IActionResult GetTruckTires(string truckNumber)
+        [HttpPost("TiresByTruck")]
+        public IActionResult GetTruckTires(Models.TruckViewModel _truck)
         {
-            if(!string.IsNullOrEmpty(truckNumber))
+            if (_truck != null)
             {
-                var _result = TruckService.GetTruckTires(truckNumber);
-                var _newTires = TireService.GetNewTires();
+                var _result = TruckService.GetTruckTires(_truck.TruckNumber);
                 if (_result != null)
                 {
-                    return Ok(new { Flag = true, Message = "Done", TruckTire = _result , NewTires = _newTires });
+                    return Ok(new { Flag = true, Message = "Done", Data = _result });
                 }
                 return BadRequest(new { Flag = false, Message = "Error", Data = 0 });
             }
