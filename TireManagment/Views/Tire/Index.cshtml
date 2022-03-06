@@ -44,20 +44,21 @@
                     <div class="card-body">
                         <h5 class="card-title">Tires</h5>
                         <p>Add new tire to the system  , <code>Tire Status : New</code></p>
-
-                        <!-- Table with stripped rows -->
-                        <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-                            <div class="dataTable-top">
-                         
-                              
-                                 
-                                    @*<a class="btn btn-success" asp-action="AddTruck" asp-controller="Truck">Add Truck</a>*@
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addmodal">
-                                        Add Tire
-                                    </button>
+                                                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addmodal">
+                         <span class="badge badge-light"> <i class="bi bi-plus-circle"></i> </span>Add Tire
+                         </button>
+                         |
+                          <button type="button" class="btn btn-success"><span class="badge badge-light">
+                              <i class="bi bi-file-earmark-spreadsheet"></i></span>Export to Excel 
+                           </button>
                                 
                                                <br />
                      <br />
+                        <!-- Table with stripped rows -->
+                        <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                            <div class="dataTable-top">
+
+  
                             </div>
                             <div class="dataTable-container">
 

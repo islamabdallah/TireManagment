@@ -11,7 +11,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
                 <li class="breadcrumb-item">MasterData</li>
-                <li class="breadcrumb-item active">Truck Categories</li>
+                <li class="breadcrumb-item active">TruckCategories</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -23,8 +23,15 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">Truck Categories</h5>
+                          <p>Main truck categories , <code>Each truck on the system will be related to a specific category </code></p>
                        @* <p>Add lightweight datatables to your project with using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to conver to a datatable</p>*@
 
+                         <button type="button" class="btn btn-success">
+                                <span class="badge badge-light"><i class="bi bi-file-earmark-spreadsheet"></i></span> Export to Excel 
+                    </button>
+
+                    <br />
+                    <br />
                         <!-- Table with stripped rows -->
                         <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
                          
