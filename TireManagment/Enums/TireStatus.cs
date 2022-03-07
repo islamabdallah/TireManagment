@@ -10,7 +10,7 @@ namespace TireManagment.Enums
 
         public const string New = "New"; 
         public const string Running = "Running";
-        public const string ReTread = "ReTread";
+        public const string Retread = "Retread";
         public const string Damaged = "Damaged";
       
 

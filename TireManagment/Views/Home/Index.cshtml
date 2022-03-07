@@ -44,7 +44,7 @@
                             var NewTires = tservice.Tires().Where(t => t.TireStatus == TireStatus.New).Count();
                             var RunningTires = tservice.Tires().Where(t => t.TireStatus == TireStatus.Running).Count();
                             var DamagedTires = tservice.Tires().Where(t => t.TireStatus == TireStatus.Damaged).Count();
-                            var RetreadTires = tservice.Tires().Where(t => t.TireStatus == TireStatus.ReTread).Count();
+                            var RetreadTires = tservice.Tires().Where(t => t.TireStatus == TireStatus.Retread).Count();
                             var Newandrunning = NewTires + RunningTires;
                             var DamagedandandRetrieved = RetreadTires + DamagedTires;
                         }

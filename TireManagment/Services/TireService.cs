@@ -1,17 +1,16 @@
-﻿using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using TireManagment.DbModels;
 using TireManagment.Models;
+using TireManagment.Enums;
 
 namespace TireManagment.Services
 {
     public class TireService
     {
-        public DbContext  context;
+        public DbContext context;
 
         public TireService(DbContext _context)
         {
@@ -20,7 +19,13 @@ namespace TireManagment.Services
 
         public IQueryable<Tire> GetAll()
         {
-            var tires = context.tires.Include(t=>t.Brand);
+            var tires = context.tires.Include(t => t.Brand);
+            return tires;
+        }
+
+        public IQueryable<Tire> GetNewTires()
+        {
+            var tires = context.tires.Include(t => t.Brand).Where(r => r.TireStatus == TireStatus.New || r.TireStatus == TireStatus.Retread);
             return tires;
         }
 
@@ -54,8 +59,6 @@ namespace TireManagment.Services
           
         }
 
-
-
         public void Update(Tire entity)
         {
             var dbEntityEntry = context.Entry(entity);
@@ -66,27 +69,28 @@ namespace TireManagment.Services
             }
             dbEntityEntry.State = EntityState.Modified;
             Commit();
-            
         }
-      public bool checkserialExists(string serial)
+
+        public bool checkserialExists(string serial)
         {
-          return context.tires.Any(t => t.Serial == serial);
+            return context.tires.Any(t => t.Serial == serial);
         }
+
         public void Commit()
         {
-           
-                context.SaveChanges();
-          
+            context.SaveChanges();
         }
     
         public void InsertList(List<TruckCategory> entityList)
         {
             throw new NotImplementedException();
         }
+
         public IEnumerable<tirewithserial> gettireserials()
         {
             return context.tires.Select(t => new tirewithserial() { serial = t.Serial, tierid = t.ID });
         }
+
         public Tire GetTireDetails(int id)
         {
             
@@ -102,6 +106,7 @@ namespace TireManagment.Services
             var trucknumber = context.TruckTire.Where(tr => tr.TireId == id).Select(tr => tr.TruckNumber).FirstOrDefault();
             return trucknumber;
         }
+
         public IEnumerable<MovementDetails> GetTireHistory(int tireid)
         {
             return context.MovementDetails.Include(m=>m.TireMovement).Include(t=>t.TireMovement.Tireman).Where(m => m.TireId == tireid);
