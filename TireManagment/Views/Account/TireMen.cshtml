@@ -66,7 +66,7 @@
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
                 <li class="breadcrumb-item">Master Data</li>
-                <li class="breadcrumb-item active">Tire Men</li>
+                <li class="breadcrumb-item active">TireMen</li>
             </ol>
         </nav>
     </div><!-- End Page Title -->
@@ -77,16 +77,29 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">Datatables</h5>
-                        <p>Add lightweight datatables to your project with using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to conver to a datatable</p>
+                        <h5 class="card-title">TireMen</h5>
+                      
+                                          <div class="row">
+                            <div class="col-md-6">
+                                <p class="alert alert-secondary" role="alert"> <b>Note : </b> List of available tire men on the system   , <code> theses users access mobile app only </code></p>
+                            </div>
+                        </div>
 
                         <!-- Table with stripped rows -->
                         <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
                             <div class="dataTable-top">
                                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addmodal">
-                                    Add TireMan
+                                    <span class="badge badge-light"> <i class="bi bi-plus-circle"></i> </span>Add Tire Man
                                 </button>
+                                   |
+                          <button type="button" class="btn btn-success"><span class="badge badge-light">
+                              <i class="bi bi-file-earmark-spreadsheet"></i></span>Export to Excel 
+                           </button>
+
+
                                 </div>
+                                       <br />
+                     <br />
                                 <table class="table datatable">
                                     <thead>
                                         <tr>
