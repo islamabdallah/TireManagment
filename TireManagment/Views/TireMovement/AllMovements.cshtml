@@ -1,11 +1,11 @@
 ﻿@model List<TireManagment.DbModels.TireMovement>;
 <div class="pagetitle">
-    <h1>All Movements</h1>
+    <h1>Notification [Tire Movements]</h1>
     <nav>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
           
-            <li class="breadcrumb-item active">Tier Movements</li>
+            <li class="breadcrumb-item active">Tire Movements</li>
         </ol>
     </nav>
 </div><!-- End Page Title -->
@@ -16,33 +16,62 @@
 
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Datatables</h5>
-                    <p>Add lightweight datatables to your project with using the <a href="https://github.com/fiduswriter/Simple-DataTables" target="_blank">Simple DataTables</a> library. Just add <code>.datatable</code> class name to any table you wish to conver to a datatable</p>
+                    <h5 class="card-title">Notification :  <code>[Pending]</code></h5>
+@*
+                                <div class="row">
+                            <div class="col-md-6">
+                                <p class="alert alert-secondary" role="alert"> <b>Notification : </b> <code>[Pending]</code></p>
+                            </div>
+                        </div>*@
 
+
+                
                     <!-- Table with stripped rows -->
                     <table class="table datatable">
                         <thead>
                             <tr>
                                 <th scope="col">Id</th>
                                 <th scope="col">Movement Type</th>
-                                <th scope="col">Movement Date</th>
-                                <th scope="col">Truck Number</th>
+                                 <th scope="col">Truck Number</th>
                                 <th scope="col">TireMan Name</th>
+                                <th scope="col">Submit Date</th>
+                                 <th scope="col"></th>
                             </tr>
                         </thead>
                         <tbody>
                           
                             @foreach(var movement in Model)
-            {
-                        <tr>
-                            <td scope="row">@movement.Id</td>
-                            <td>@movement.MovementType</td>
-                            <td>@movement.SubmitDate</td>
-                            <td>@movement.TruckNumber</td>
-                            <td>@movement.Tireman.Name</td>
-                            <td><a asp-controller="TireMovement" asp-action="GetMovementDetail" asp-route-id="@movement.Id">Movement Details</a></td>
-                        </tr>
-            }
+                        {
+                                    <tr>
+                                        <td scope="row">@movement.Id</td>
+
+                                        @if(movement.MovementType=="Rotation"){
+
+                                            <td>
+                                                <div class="alert alert-success" role="alert">
+                                                            @movement.MovementType
+                                                    </div>
+                                         
+                                                </td>
+                                        }
+                                        else
+                                        {
+                                              <td>
+                                                <div class="alert alert-danger" role="alert">
+                                                            @movement.MovementType
+                                                    </div>
+                                         
+                                                </td>
+                                        }
+                                          
+                                          <td>@movement.TruckNumber</td>
+                                          <td>@movement.Tireman.Name</td>
+                                          <td>@movement.SubmitDate</td>
+                          
+                            
+                                        <td><a asp-controller="TireMovement" asp-action="GetMovementDetail" asp-route-id="@movement.Id" class="btn btn-primary">Details</a></td>
+                                    </tr>
+                                  }
                         </tbody>
                     </table>
                     <!-- End Table with stripped rows -->

@@ -496,8 +496,10 @@ namespace TireManagment.Migrations
                         .HasColumnType("int")
                         .UseIdentityColumn();
 
-                    b.Property<DateTime>("LastUdateDate")
-                        .HasColumnType("datetime2");
+                    b.Property<DateTime?>("LastUdateDate")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("datetime2")
+                        .HasDefaultValueSql("getdate()");
 
                     b.Property<int?>("TireId")
                         .HasColumnType("int");
