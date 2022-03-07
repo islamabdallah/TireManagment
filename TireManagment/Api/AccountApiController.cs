@@ -64,9 +64,9 @@ namespace TireManagment.Api
 
                 if (_result.Succeeded)
                 {
-                    var _account = UserManger.GetUserAsync(User).Result;
+                  //  var _account = UserManger.GetUserAsync(User).Result;
                     var _trucks = TruckService.GetAll();
-                    return Ok(new { Flag = true, Message = "Done", Data = _account  , Trucks = _trucks });
+                    return Ok(new { Flag = true, Message = "Done", Data = _user, Trucks = _trucks });
                 }
                 return BadRequest(new { Flag = false, Message = "Error , Password Not Correct", Data = 0 });
             }
