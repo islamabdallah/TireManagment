@@ -102,12 +102,8 @@ namespace TireManagment.Services
 
                         context.SaveChanges();
                         transaction.Commit();
-                        var Newtires = context.tires.Where(t => t.TireStatus == TireStatus.New).Count();
-                        var Runningtires = context.tires.Where(t => t.TireStatus == TireStatus.Running).Count();
-                        var Damagedtires = context.tires.Where(t => t.TireStatus == TireStatus.Damaged).Count();
-                        var Retreadtires = context.tires.Where(t => t.TireStatus == TireStatus.Retread).Count();
-                        var alltires = Runningtires + Damagedtires + Retreadtires;
-                        hubContext.Clients.All.SendAsync("ReciveNewTransaction", new { alltires = alltires, newtires = Newtires, runningtires = Runningtires, damagedtires = Damagedtires, retreadtires = Retreadtires, id = tireMovment.Id, operation = tireMovment.MovementType, t hubContext.Clients.All.SendAsync("ReciveNewTransaction", new { id = tireMovment.Id, operation = tireMovment.MovementType, trucknumber = truckMovement.TruckNumber, movmentdate = tireMovment.SubmitDate });
+
+                        hubContext.Clients.All.SendAsync("ReciveNewTransaction", new { id = tireMovment.Id, operation = tireMovment.MovementType, trucknumber = truckMovement.TruckNumber, movmentdate = tireMovment.SubmitDate });
                         return true;
                     }
                     return false;

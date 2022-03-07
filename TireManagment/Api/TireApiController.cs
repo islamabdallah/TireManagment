@@ -15,25 +15,27 @@ namespace TireManagment.Api
     public class TireApiController : ControllerBase
     {
         TruckService TruckService;
-        CategoryService CategoryService;
+        //CategoryService CategoryService;
         TruckTireService TruckTireService;
-        IHubContext<notifyHub> HubContext;
+        // IHubContext<notifyHub> HubContext;
+        TireService TireService;
 
-        public TireApiController(IHubContext<notifyHub> _hubContext,TruckTireService _truckTireService, TruckService truck, CategoryService _categoryService)
+        public TireApiController(IHubContext<notifyHub> hubContext,TruckTireService truckTireService, TruckService truck, CategoryService categoryService , TireService tireService)
         {
-            TruckTireService = _truckTireService;
+            TruckTireService = truckTireService;
             TruckService = truck;
-            CategoryService = _categoryService;
-            HubContext = _hubContext;
+          //  CategoryService = categoryService;
+           // HubContext = hubContext;
+            TireService =  tireService;
         }
 
-        [HttpGet("TiresByTruck")]
-        public IActionResult GetTruckTires(string truckNumber)
+        [HttpPost("TiresByTruck")]
+        public IActionResult GetTruckTires(Models.TruckViewModel _truck)
         {
-            if(!string.IsNullOrEmpty(truckNumber))
+            if (_truck != null)
             {
-                var _result = TruckService.GetTruckTires(truckNumber);
-                if(_result != null)
+                var _result = TruckService.GetTruckTires(_truck.TruckNumber);
+                if (_result != null)
                 {
                     return Ok(new { Flag = true, Message = "Done", Data = _result });
                 }
@@ -42,7 +44,7 @@ namespace TireManagment.Api
             return BadRequest(new { Flag = false, Message = "Error", Data = 0 });
         }
 
-        [HttpPost]
+        [HttpPost("TireMovement")]
         public IActionResult AddNewMovement(Models.TruckMovementViewModel tireMovement)
         {
             if(tireMovement != null)
