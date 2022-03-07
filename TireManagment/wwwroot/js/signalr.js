@@ -19,26 +19,10 @@ connection.start().then(() => { //alert("connected")
 /*alltires, newtires, runningtires, damagedtires, retreadtires,*/
 connection.on("ReciveNewTransaction", function ( message) {
   //  alert('ok');
+   
+
+   
     applyNotificationSound();
-
-    console.log(message);
-    var alltries = document.getElementById("alltires");
-    var newandrunning = document.getElementById("newandrunning");
-    var newonly = document.getElementById("new");
-    var runningonly = document.getElementById("running");
-    var retreadanddamaged = document.getElementById("retreadanddamaged");
-    var retreadonly = document.getElementById("retread");
-    var damagedonly = document.getElementById("damaged");
-
-    alltires.innerHTML = message.alltires;
-    newandrunning.innerHTML = message.newtires + message.runningtires;
-    retreadanddamaged.innerHTML = message.damagedtires + message.retreadtires;
-    newonly.innerHTML = message.newtires;
-    runningonly.innerHTML = message.runningtires;
-    retreadonly.innerHTML = message.retreadtires;
-    alert(message.damagedtires);
-    damagedonly.innerHTML = message.damagedtires;
-
     var count = parseInt(document.getElementById("count").innerHTML);
     var header = document.getElementById('head');
     document.getElementById("count").innerHTML = count + 1;
@@ -60,8 +44,24 @@ connection.on("ReciveNewTransaction", function ( message) {
         '</li ></a> <li>'+
         '<hr class="dropdown-divider" >'+
                             '</li >';
+    console.log(message);
+    var alltires = document.getElementById("alltires");
+    var newandrunning = document.getElementById("newandrunning");
+    var newonly = document.getElementById("new");
+    var runningonly = document.getElementById("running");
+    var retreadanddamaged = document.getElementById("retreadanddamaged");
+    var retreadonly = document.getElementById("retread");
+    var damagedonly = document.getElementById("damaged");
 
-
+    alltires.innerHTML = message.alltires;
+    newandrunning.innerHTML = message.newtires + message.runningtires;
+    retreadanddamaged.innerHTML = message.damagedtires + message.retreadtires;
+    newonly.innerHTML = message.newtires;
+    runningonly.innerHTML = message.runningtires;
+    retreadonly.innerHTML = message.retreadtires;
+    //alert(message.damagedtires);
+    damagedonly.innerHTML = message.damagedtires;
+  
     notificationpanel.insertAdjacentHTML('afterbegin', notificationItem);
   
     
