@@ -96,6 +96,11 @@ namespace TireManagment.Services
             
             return context.tires.Include(t => t.Brand).Where(t => t.ID == id).FirstOrDefault();
         }
+        public string GetTireSerial(int id)
+        {
+
+            return context.tires.Where(t => t.ID == id).Select(t=>t.Serial).FirstOrDefault();
+        }
         public string GetTruckNumber(int id)
         {
             var trucknumber = context.TruckTire.Where(tr => tr.TireId == id).Select(tr => tr.TruckNumber).FirstOrDefault();
@@ -105,6 +110,10 @@ namespace TireManagment.Services
         public IEnumerable<MovementDetails> GetTireHistory(int tireid)
         {
             return context.MovementDetails.Include(m=>m.TireMovement).Include(t=>t.TireMovement.Tireman).Where(m => m.TireId == tireid);
+        }
+        public IEnumerable<Tire> Tires()
+        {
+            return context.tires.ToList();
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TireManagment.DbModels;
+using TireManagment.Models;
 
 namespace TireManagment.Services
 {
@@ -20,6 +21,11 @@ namespace TireManagment.Services
         public IQueryable<TruckCategory> GetAll()
         {
             var categories = context.categories;
+            return categories;
+        }
+        public IQueryable<CategoryWithTruckCount> GetAllWithTruckCount()
+        {
+            var categories = context.categories.Include(t=>t.trucks).Select(t=>new CategoryWithTruckCount {count= t.trucks.Count,category =t.Category});
             return categories;
         }
 

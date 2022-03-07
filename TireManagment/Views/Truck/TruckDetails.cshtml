@@ -1,11 +1,15 @@
 ﻿@*@model IEnumerable<TireManagment.DbModels.Truck>*@
 @model TireManagment.DbModels.Truck
+@inject TireManagment.Services.TireService tireservice;
 @using TireManagment.DbModels;
+
 @{
     ViewData["Title"] = "Index";
 }
-<link  href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css"/>
-
+@section Styles{
+    <link href="~/css/datatable.css" rel="stylesheet" />
+    <link href="~/css/datatable1.css" rel="stylesheet" />
+}
 
 <form class="form-horizontal" asp-action="GetTruckData" asp-controller="Truck" method="get">
     <div class="input-group mb-3">
@@ -59,114 +63,130 @@
 
         </tr>
         @foreach (TruckTireViewModel x in ViewBag.trucktires)
-                {
-    <tr>
-        <td>@x.Position</td>
-        <td>@x.TireSerial</td>
-        <td>@x.Tirebrand</td>
-        <td>@x.LastUpdateTime</td>
-    </tr>
-                }
-        </table>
-        <h4>Truck Movements</h4>
-        <table   id="example" class="table" style="width:100%">
-         <thead>
+        {
             <tr>
-                <th>Tire Man</th>
-                <th>Movement Type</th>
-                <th>Movement Date</th>
-             
+                <td>@x.Position</td>
+                <td>@x.TireSerial</td>
+                <td>@x.Tirebrand</td>
+                <td>@x.LastUpdateTime</td>
+
             </tr>
-             </thead>
+        }
+    </table>
+    <h4>Truck Movements</h4>
+    <table id="example" class="display nowrap" style="width:100%">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th style="">Tire Man Name</th>
+                <th style="">Movement Type</th>
+                <th style="">Movement Date</th>
+                <th>Truck Number</th>
+                <th style="width:0px">details</th>
+                <th>details</th>
+            </tr>
+        </thead>
 
-            @foreach(TireMovement move in ViewBag.truckmovements)
+        @foreach (TireMovement move in ViewBag.truckmovements)
+        {
+            <tr>
+                <td>@move.Id</td>
+                <td style="">@move.Tireman.Name</td>
+                <td style="">@move.MovementType</td>
+                <td style="">@move.SubmitDate</td>
+                <td>@move.TruckNumber</td>
+                @foreach (MovementDetails d in move.MovementDetails)
                 {
-                  <tr>
-                      <td>@move.Tireman.Name</td>
-                      <td>@move.MovementType</td>
-                      <td>@move.SubmitDate</td>
 
-                 
-                  </tr>
-                  <tr style="">
-                      <td>
-                          <table class="table">
-                              <thead>
-                                  <tr>
-                                      <td>CurrentTireDepth</td>
-                                      <td>KMWhileChange</td>
-                                      <td>KMWhileChange</td>
-                                      <td>STDthreadDepth</td>
-                                      <td>TireId</td>
-                                  </tr>
-                              </thead>
-                              <tbody>
-                              @foreach (MovementDetails d in move.MovementDetails)
-                              {
 
-                                  <tr>
-                                      <td>@d.CurrentTireDepth</td>
-                                      <td>@d.KMWhileChange</td>
-                                      <td>@d.Position</td>
-                                      <td>@d.STDthreadDepth</td>
-                                      <td> @d.tire</td>
-                                      @*@d.CurrentTireDepth @d.KMWhileChange  @d.STDthreadDepth @d.Position @d.TireId*@
-                                  </tr>
-                              }
-                                  </tbody>
-                          </table>
-                      </td>
-                      </tr>
+
+                    <td>CurrentTireDepth:   @d.CurrentTireDepth &nbsp; KMWhileChange: @d.KMWhileChange &nbsp;&nbsp; STDthreadDepth: @d.STDthreadDepth &nbsp;&nbsp; Position: @d.Position &nbsp;&nbsp;TireSerial:@tireservice.GetTireSerial(@d.TireId)</td>
+
                 }
-        
-        </table>
+
+
+            </tr>
+
+
         }
 
-        @section Scripts {
+    </table>
+}
 
-                  @*<script>
- 
-                      $(document).ready(function () {
-                   
-                      });
+@section Scripts {
+
+    <script crossorigin="anonymous" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script crossorigin="anonymous" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable({
+                responsive: true
+            });
+        });
+    </script>
+    <script>
+                    //var table = $('#example').DataTable({
+                    //    responsive: true
+                    //});
+
+                    ////table.rows().every(function () {
+                    ////    this.child('Row details for row: ' + this.index());
+                    ////});
+
+                    //$('#example tbody').on('click', 'tr', function () {
+                    //    var child = table.row(this).child;
+
+                    //    if (child.isShown()) {
+                    //        child.hide();
+                    //    }
+                    //    else {
+                    //        child.show();
+                    //    }
+                    //});
+    </script>
+    @*<script>
+
+                  $(document).ready(function () {
+
+                  });
 
 
 
-                      $('#example tbody').on('click', 'td', function () {
-                          var dt = $('#example').DataTable({});
-                    alert('fff');
-                    var tr = $(this).closest('tr');
-                          var row = dt.row(tr);
-                          console.log(row);
-                    if (row.child.isShown()) {
-                        // This row is already open - close it
-                        row.child.hide();
-                        tr.removeClass('shown');
-                    }
-                    else {
-                        // Open this row
-                        //row.child(format(row.data())).show();
-                        //tr.addClass('shown');
-                    }
-                });
-                function format(d) {
-                    // `d` is the original data object for the row
-                    return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
-                        '<tr>' +
-                        '<td>Full name:</td>' +
-                        '<td>' + d.name + '</td>' +
-                        '</tr>' +
-                        '<tr>' +
-                        '<td>Extension number:</td>' +
-                        '<td>' + d.extn + '</td>' +
-                        '</tr>' +
-                        '<tr>' +
-                        '<td>Extra info:</td>' +
-                        '<td>And any further details here (images etc)...</td>' +
-                        '</tr>' +
-                        '</table>';
+                  $('#example tbody').on('click', 'td', function () {
+                      var dt = $('#example').DataTable({});
+                alert('fff');
+                var tr = $(this).closest('tr');
+                      var row = dt.row(tr);
+                      console.log(row);
+                if (row.child.isShown()) {
+                    // This row is already open - close it
+                    row.child.hide();
+                    tr.removeClass('shown');
                 }
-            </script>*@
-            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-        }
+                else {
+                    // Open this row
+                    //row.child(format(row.data())).show();
+                    //tr.addClass('shown');
+                }
+            });
+            function format(d) {
+                // `d` is the original data object for the row
+                return '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;">' +
+                    '<tr>' +
+                    '<td>Full name:</td>' +
+                    '<td>' + d.name + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>Extension number:</td>' +
+                    '<td>' + d.extn + '</td>' +
+                    '</tr>' +
+                    '<tr>' +
+                    '<td>Extra info:</td>' +
+                    '<td>And any further details here (images etc)...</td>' +
+                    '</tr>' +
+                    '</table>';
+            }
+        </script>*@
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
 

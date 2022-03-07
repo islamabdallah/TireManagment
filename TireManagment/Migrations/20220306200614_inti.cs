@@ -73,6 +73,7 @@ namespace TireManagment.Migrations
                     FrontTires = table.Column<int>(type: "int", nullable: false),
                     RareTires = table.Column<int>(type: "int", nullable: false),
                     SpareTires = table.Column<int>(type: "int", nullable: false),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Active = table.Column<bool>(type: "bit", nullable: false),
                     SubmitDate = table.Column<DateTime>(type: "datetime2", nullable: true, defaultValueSql: "getdate()")
                 },

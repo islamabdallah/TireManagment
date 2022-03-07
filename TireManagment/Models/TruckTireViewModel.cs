@@ -10,7 +10,7 @@ namespace TireManagment.Models
         public int Id { get; set; }
         public string Tirebrand { get; set; }
         public string TireSerial { get; set; }
-        public DateTime  LastUpdateTime { get; set; }
+        public DateTime?  LastUpdateTime { get; set; }
         public string Position { get; set; }
         public string TruckNumber { get; set; }
         public string TireStatus { get; set; }

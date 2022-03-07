@@ -10,8 +10,8 @@ using TireManagment;
 namespace TireManagment.Migrations
 {
     [DbContext(typeof(DbContext))]
-    [Migration("20220301135308_all")]
-    partial class all
+    [Migration("20220306200614_inti")]
+    partial class inti
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -468,6 +468,9 @@ namespace TireManagment.Migrations
 
                     b.Property<int>("FrontTires")
                         .HasColumnType("int");
+
+                    b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RareTires")
                         .HasColumnType("int");

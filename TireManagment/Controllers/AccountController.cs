@@ -27,7 +27,15 @@ namespace TireManagment.Controllers
         [HttpGet]
         public IActionResult Tiremen()
         {
-            return View(accountService.GetTireMen());
+            ViewBag.tiremen = accountService.GetTireMen();
+            return View();
+        }
+       
+        [HttpGet]
+        public IActionResult Admins()
+        {
+            ViewBag.admins = accountService.GetAdmins();
+            return View();
         }
         //[Authorize(Roles = Role.Admin)]
         public IActionResult Register()
@@ -63,6 +71,7 @@ namespace TireManagment.Controllers
             if (result.Succeeded)
             {
 
+                //   return RedirectToAction("Index", "Home");
                 return RedirectToAction("Index", "Home");
             }
             ModelState.AddModelError(string.Empty,result.ToString());

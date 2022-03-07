@@ -1,439 +1,438 @@
-﻿
-    <div class="pagetitle">
-        <h1>Dashboard</h1>
-        <nav>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
-                <li class="breadcrumb-item active">Dashboard</li>
-            </ol>
-        </nav>
-    </div><!-- End Page Title -->
+﻿@inject TireManagment.Services.CategoryService service;
+@inject TireManagment.Services.TireService tservice;
+@inject TireManagment.Services.TruckService truckservice;
+@inject TireManagment.Services.AccountService accountservice;
+@inject TireManagment.Services.TruckTireService trucktireservice;
 
-    <section class="section dashboard">
-        <div class="row">
+@using TireManagment.Enums;
 
-            <!-- Left side columns -->
-            <div class="col-lg-8">
-                <div class="row">
+<div class="pagetitle">
+    <h1>Dashboard</h1>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
+            <li class="breadcrumb-item active">Dashboard</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
 
-                    <!-- Sales Card -->
-                    <div class="col-xxl-4 col-md-6">
-                        <div class="card info-card sales-card">
+<section class="section dashboard">
+    <div class="row">
 
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
+        <!-- Left side columns -->
+        <div class="col-lg-8">
+            <div class="row">
 
-                                    <li><a class="dropdown-item" href="#">Today</a></li>
-                                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                                </ul>
+                <!-- Sales Card -->
+                <div class="col-xxl-4 col-md-6">
+                    <div class="card info-card sales-card">
+
+                        <div class="filter">
+                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                <li class="dropdown-header text-start">
+                                    <h6>Filter</h6>
+                                </li>
+
+                                <li><a class="dropdown-item" href="#">Today</a></li>
+                                <li><a class="dropdown-item" href="#">This Month</a></li>
+                                <li><a class="dropdown-item" href="#">This Year</a></li>
+                            </ul>
+                        </div>
+                        @{
+                            var alltires = tservice.Tires().Count();
+                            var NewTires = tservice.Tires().Where(t => t.TireStatus == TireStatus.New).Count();
+                            var RunningTires = tservice.Tires().Where(t => t.TireStatus == TireStatus.Running).Count();
+                            var DamagedTires = tservice.Tires().Where(t => t.TireStatus == TireStatus.Damaged).Count();
+                            var RetreadTires = tservice.Tires().Where(t => t.TireStatus == TireStatus.Retread).Count();
+                            var Newandrunning = NewTires + RunningTires;
+                            var DamagedandandRetrieved = RetreadTires + DamagedTires;
+                        }
+                        <div class="card-body">
+                            <h5 class="card-title">Total Tires <span>| Available on the system </span></h5>
+
+                            <div class="d-flex align-items-center">
+                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-cart"></i>
+                                </div>
+                                <div class="ps-3">
+                                    <h6 id="alltires">@alltires</h6>
+                                    <span class="text-success small pt-1 fw-bold">100%</span> <span class="text-muted small pt-2 ps-1">include all the tires status</span>
+
+                                </div>
                             </div>
+                        </div>
 
-                            <div class="card-body">
-                                <h5 class="card-title">Total Tires <span>| Available on the system </span></h5>
+                    </div>
+                </div><!-- End Sales Card -->
+                <!-- Revenue Card -->
+                <div class="col-xxl-4 col-md-6">
+                    <div class="card info-card revenue-card">
 
-                                <div class="d-flex align-items-center">
-                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-cart"></i>
-                                    </div>
-                                    <div class="ps-3">
-                                        <h6>145</h6>
-                                        <span class="text-success small pt-1 fw-bold">100%</span> <span class="text-muted small pt-2 ps-1">include all the tires status</span>
+                        <div class="filter">
+                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                <li class="dropdown-header text-start">
+                                    <h6>Filter</h6>
+                                </li>
 
-                                    </div>
+                                <li><a class="dropdown-item" href="#">Today</a></li>
+                                <li><a class="dropdown-item" href="#">This Month</a></li>
+                                <li><a class="dropdown-item" href="#">This Year</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="card-body">
+                            <h5 class="card-title">New & Running <span>| Tires</span></h5>
+
+                            <div class="d-flex align-items-center">
+                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-currency-dollar"></i>
+                                </div>
+                                <div class="ps-3">
+                                    <h6 id="newandrunning">@Newandrunning</h6>
+                                    <span id="new" class="text-success small pt-1 fw-bold">@NewTires</span> <span class="text-muted small pt-2 ps-1">New</span>
+                                    <span id="running" class="text-success small pt-1 fw-bold">@RunningTires</span> <span class="text-muted small pt-2 ps-1">Running</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div><!-- End Revenue Card -->
+                <!-- Customers Card -->
+                <div class="col-xxl-4 col-xl-12">
+
+                    <div class="card info-card customers-card">
+
+                        <div class="filter">
+                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                <li class="dropdown-header text-start">
+                                    <h6>Filter</h6>
+                                </li>
+
+                                <li><a class="dropdown-item" href="#">Today</a></li>
+                                <li><a class="dropdown-item" href="#">This Month</a></li>
+                                <li><a class="dropdown-item" href="#">This Year</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="card-body">
+                            <h5 class="card-title">Retread & Damaged <span>| Tires</span></h5>
+
+                            <div class="d-flex align-items-center">
+                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-people"></i>
+                                </div>
+                                <div class="ps-3">
+                                    <h6 id="retreadanddamaged">@DamagedandandRetrieved</h6>
+                                    <span id="retread" class="text-danger small pt-1 fw-bold">@RetreadTires</span> <span class="text-muted small pt-2 ps-1">Retread</span>
+                                    <span id="damaged" class="text-danger small pt-1 fw-bold">@DamagedTires</span> <span class="text-muted small pt-2 ps-1">Damaged</span>
                                 </div>
                             </div>
 
                         </div>
-                    </div><!-- End Sales Card -->
-                    <!-- Revenue Card -->
-                    <div class="col-xxl-4 col-md-6">
-                        <div class="card info-card revenue-card">
+                    </div>
 
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
+                </div><!-- End Customers Card -->
+                <!-- Sales Card -->
+                <div class="col-xxl-4 col-md-6">
+                    <div class="card info-card sales-card">
 
-                                    <li><a class="dropdown-item" href="#">Today</a></li>
-                                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                                </ul>
+                        <div class="filter">
+                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                <li class="dropdown-header text-start">
+                                    <h6>Filter</h6>
+                                </li>
+
+                                <li><a class="dropdown-item" href="#">Today</a></li>
+                                <li><a class="dropdown-item" href="#">This Month</a></li>
+                                <li><a class="dropdown-item" href="#">This Year</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="card-body">
+                            <h5 class="card-title">Total Trucks <span>| Available on the system</span></h5>
+
+                            <div class="d-flex align-items-center">
+                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-cart"></i>
+                                </div>
+                                <div class="ps-3">
+                                    <h6>@truckservice.GetTruckCount()</h6>
+                                    <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">Trucks</span>
+
+                                </div>
                             </div>
+                        </div>
 
-                            <div class="card-body">
-                                <h5 class="card-title">New & Running <span>| Tires</span></h5>
+                    </div>
+                </div><!-- End Sales Card -->
+                <!-- Revenue Card -->
+                <div class="col-xxl-4 col-md-6">
+                    <div class="card info-card revenue-card">
 
-                                <div class="d-flex align-items-center">
-                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-currency-dollar"></i>
-                                    </div>
-                                    <div class="ps-3">
-                                        <h6>$3,264</h6>
-                                        <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">New</span>
-                                         <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">Running</span>
-                                    </div>
+                        <div class="filter">
+                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                <li class="dropdown-header text-start">
+                                    <h6>Filter</h6>
+                                </li>
+
+                                <li><a class="dropdown-item" href="#">Today</a></li>
+                                <li><a class="dropdown-item" href="#">This Month</a></li>
+                                <li><a class="dropdown-item" href="#">This Year</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="card-body">
+                            <h5 class="card-title">Administrators <span>| Available on the system </span></h5>
+
+                            <div class="d-flex align-items-center">
+                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-currency-dollar"></i>
+                                </div>
+                                <div class="ps-3">
+                                    <h6>@*$3,264*@ @accountservice.GetAdministrators()</h6>
+                                    <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div><!-- End Revenue Card -->
+                <!-- Customers Card -->
+                <div class="col-xxl-4 col-xl-12">
+
+                    <div class="card info-card customers-card">
+
+                        <div class="filter">
+                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                <li class="dropdown-header text-start">
+                                    <h6>Filter</h6>
+                                </li>
+
+                                <li><a class="dropdown-item" href="#">Today</a></li>
+                                <li><a class="dropdown-item" href="#">This Month</a></li>
+                                <li><a class="dropdown-item" href="#">This Year</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="card-body">
+                            <h5 class="card-title">TireMen <span>| Available on the system </span></h5>
+
+                            <div class="d-flex align-items-center">
+                                <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                                    <i class="bi bi-people"></i>
+                                </div>
+                                <div class="ps-3">
+                                    <h6>@accountservice.GetTiremens()</h6>
+                                    <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
+
                                 </div>
                             </div>
 
                         </div>
-                    </div><!-- End Revenue Card -->
-                    <!-- Customers Card -->
-                    <div class="col-xxl-4 col-xl-12">
+                    </div>
 
-                        <div class="card info-card customers-card">
+                </div><!-- End Customers Card -->
+                <!-- Recent Sales -->
+                <div class="col-12">
+                    <div class="card recent-sales overflow-auto">
 
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
+                        <div class="filter">
+                            <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                            <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                <li class="dropdown-header text-start">
+                                    <h6>Filter</h6>
+                                </li>
 
-                                    <li><a class="dropdown-item" href="#">Today</a></li>
-                                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                                </ul>
-                            </div>
-
-                            <div class="card-body">
-                                <h5 class="card-title">Retread & Damaged <span>| Tires</span></h5>
-
-                                <div class="d-flex align-items-center">
-                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-people"></i>
-                                    </div>
-                                    <div class="ps-3">
-                                        <h6>1244</h6>
-                                        <span class="text-danger small pt-1 fw-bold">100%</span> <span class="text-muted small pt-2 ps-1">Retread</span>
-                                        <span class="text-danger small pt-1 fw-bold">100%</span> <span class="text-muted small pt-2 ps-1">Damaged</span>
-                                    </div>
-                                </div>
-
-                            </div>
+                                <li><a class="dropdown-item" href="#">Today</a></li>
+                                <li><a class="dropdown-item" href="#">This Month</a></li>
+                                <li><a class="dropdown-item" href="#">This Year</a></li>
+                            </ul>
                         </div>
 
-                    </div><!-- End Customers Card -->
+                        <div class="card-body">
+                            <h5 class="card-title">Tire Movement<span>| Last <b>5</b> Movement available on the system </span></h5>
 
-                                        <!-- Sales Card -->
-                    <div class="col-xxl-4 col-md-6">
-                        <div class="card info-card sales-card">
+                            <table class="table table-borderless datatable">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Id</th>
+                                        <th scope="col">TireMan</th>
+                                        <th scope="col">Movement Date</th>
+                                        <th scope="col">Truck Number</th>
+                                        <th scope="col">Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var movement in trucktireservice.GetTopMovments())
+                                    {
+                                    <tr>
+                                        <th scope="row"><a href="#">@movement.Id</a></th>
+                                        <td>@movement.Tireman.Name</td>
+                                        <td class="">@movement.SubmitDate</td>
 
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
+                                        <td>@movement.TruckNumber</td>
+                                        @if (movement.MovementType == MovmentType.Rotation)
+                                        {
+                                            <td><span class="badge bg-danger">@movement.MovementType</span></td>
+                                        }
+                                        else
+                                        {
+                                            <td><span class="badge bg-success">@movement.MovementType</span></td>
+                                        }
+                                    </tr>
+                                    }
 
-                                    <li><a class="dropdown-item" href="#">Today</a></li>
-                                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                                </ul>
-                            </div>
-
-                            <div class="card-body">
-                                <h5 class="card-title">Total Trucks <span>| Available on the system</span></h5>
-
-                                <div class="d-flex align-items-center">
-                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-cart"></i>
-                                    </div>
-                                    <div class="ps-3">
-                                        <h6>145</h6>
-                                        <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">Trucks</span>
-
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div><!-- End Sales Card -->
-                    <!-- Revenue Card -->
-                    <div class="col-xxl-4 col-md-6">
-                        <div class="card info-card revenue-card">
-
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
-
-                                    <li><a class="dropdown-item" href="#">Today</a></li>
-                                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                                </ul>
-                            </div>
-
-                            <div class="card-body">
-                                <h5 class="card-title">Administrators <span>| Available on the system </span></h5>
-
-                                <div class="d-flex align-items-center">
-                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-currency-dollar"></i>
-                                    </div>
-                                    <div class="ps-3">
-                                        <h6>$3,264</h6>
-                                        <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
-
-                                    </div>
-                                </div>
-                            </div>
+                                 
+                                </tbody>
+                            </table>
 
                         </div>
-                    </div><!-- End Revenue Card -->
-                    <!-- Customers Card -->
-                    <div class="col-xxl-4 col-xl-12">
 
-                        <div class="card info-card customers-card">
+                    </div>
+                </div><!-- End Recent Sales -->
 
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
+            </div>
+        </div><!-- End Left side columns -->
+        <!-- Right side columns -->
+        <div class="col-lg-4">
 
-                                    <li><a class="dropdown-item" href="#">Today</a></li>
-                                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                                </ul>
+            <!-- Recent Activity -->
+            <div class="card">
+                <div class="filter">
+                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                        <li class="dropdown-header text-start">
+                            <h6>Filter</h6>
+                        </li>
+
+                        <li><a class="dropdown-item" href="#">Today</a></li>
+                        <li><a class="dropdown-item" href="#">This Month</a></li>
+                        <li><a class="dropdown-item" href="#">This Year</a></li>
+                    </ul>
+                </div>
+
+                <div class="card-body">
+                    <h5 class="card-title">Truck Categories <span>| Truck Count per Category</span></h5>
+
+                    <div class="activity">
+                        @{
+                            List<CategoryWithTruckCount> categosries = service.GetAllWithTruckCount().ToList();
+
+                        }
+                        <div class="activity-item d-flex">
+                            <div class="activite-label">@categosries[0].count</div>
+                            <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+                            <div class="activity-content">
+                                @categosries[0].category <a href="#" class="fw-bold text-dark"></a>
                             </div>
+                        </div><!-- End activity item-->
 
-                            <div class="card-body">
-                                <h5 class="card-title">TireMen <span>| Available on the system </span></h5>
-
-                                <div class="d-flex align-items-center">
-                                    <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                        <i class="bi bi-people"></i>
-                                    </div>
-                                    <div class="ps-3">
-                                        <h6>1244</h6>
-                                        <span class="text-danger small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
-
-                                    </div>
-                                </div>
-
+                        <div class="activity-item d-flex">
+                            <div class="activite-label">@categosries[1].count</div>
+                            <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
+                            <div class="activity-content">
+                                @categosries[1].category
                             </div>
-                        </div>
+                        </div><!-- End activity item-->
 
-                    </div><!-- End Customers Card -->
-
-
-                    <!-- Recent Sales -->
-                    <div class="col-12">
-                        <div class="card recent-sales overflow-auto">
-
-                            <div class="filter">
-                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                    <li class="dropdown-header text-start">
-                                        <h6>Filter</h6>
-                                    </li>
-
-                                    <li><a class="dropdown-item" href="#">Today</a></li>
-                                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                                </ul>
+                        <div class="activity-item d-flex">
+                            <div class="activite-label">   @categosries[2].count</div>
+                            <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
+                            <div class="activity-content">
+                                @categosries[2].category
                             </div>
+                        </div><!-- End activity item-->
 
-                            <div class="card-body">
-                                <h5 class="card-title">Tire Movement<span>| Last <b>5</b> Movement available on the system </span></h5>
-
-                                <table class="table table-borderless datatable">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">#</th>
-                                            <th scope="col">Customer</th>
-                                            <th scope="col">Product</th>
-                                            <th scope="col">Price</th>
-                                            <th scope="col">Status</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <th scope="row"><a href="#">#2457</a></th>
-                                            <td>Brandon Jacob</td>
-                                            <td><a href="#" class="text-primary">At praesentium minu</a></td>
-                                            <td>$64</td>
-                                            <td><span class="badge bg-success">Approved</span></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row"><a href="#">#2147</a></th>
-                                            <td>Bridie Kessler</td>
-                                            <td><a href="#" class="text-primary">Blanditiis dolor omnis similique</a></td>
-                                            <td>$47</td>
-                                            <td><span class="badge bg-warning">Pending</span></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row"><a href="#">#2049</a></th>
-                                            <td>Ashleigh Langosh</td>
-                                            <td><a href="#" class="text-primary">At recusandae consectetur</a></td>
-                                            <td>$147</td>
-                                            <td><span class="badge bg-success">Approved</span></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row"><a href="#">#2644</a></th>
-                                            <td>Angus Grady</td>
-                                            <td><a href="#" class="text-primar">Ut voluptatem id earum et</a></td>
-                                            <td>$67</td>
-                                            <td><span class="badge bg-danger">Rejected</span></td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row"><a href="#">#2644</a></th>
-                                            <td>Raheem Lehner</td>
-                                            <td><a href="#" class="text-primary">Sunt similique distinctio</a></td>
-                                            <td>$165</td>
-                                            <td><span class="badge bg-success">Approved</span></td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
+                        <div class="activity-item d-flex">
+                            <div class="activite-label">   @categosries[3].count</div>
+                            <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
+                            <div class="activity-content">
+                                @categosries[3].category <a href="#" class="fw-bold text-dark"></a>
                             </div>
+                        </div><!-- End activity item-->
 
-                        </div>
-                    </div><!-- End Recent Sales -->
+                        <div class="activity-item d-flex">
+                            <div class="activite-label">   @categosries[4].count</div>
+                            <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
+                            <div class="activity-content">
+                                @categosries[4].category
+                            </div>
+                        </div><!-- End activity item-->
+                        <!--<div class="activity-item d-flex">
+                            <div class="activite-label"> 2 days</div>
+                            <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
+                            <div class="activity-content">
+                            category 45
+                            </div>
+                        </div>-->
+                        <!-- End activity item-->
+
+                    </div>
 
                 </div>
-            </div><!-- End Left side columns -->
-            <!-- Right side columns -->
-            <div class="col-lg-4">
+            </div><!-- End Recent Activity -->
+            <!-- News & Updates Traffic -->
+            <div class="card">
+                <div class="filter">
+                    <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                        <li class="dropdown-header text-start">
+                            <h6>Filter</h6>
+                        </li>
 
-                <!-- Recent Activity -->
-                <div class="card">
-                    <div class="filter">
-                        <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                            <li class="dropdown-header text-start">
-                                <h6>Filter</h6>
-                            </li>
+                        <li><a class="dropdown-item" href="#">Today</a></li>
+                        <li><a class="dropdown-item" href="#">This Month</a></li>
+                        <li><a class="dropdown-item" href="#">This Year</a></li>
+                    </ul>
+                </div>
 
-                            <li><a class="dropdown-item" href="#">Today</a></li>
-                            <li><a class="dropdown-item" href="#">This Month</a></li>
-                            <li><a class="dropdown-item" href="#">This Year</a></li>
-                        </ul>
-                    </div>
+                <div class="card-body pb-0">
+                    <h5 class="card-title">News &amp; Updates <span>| Today</span></h5>
 
-                    <div class="card-body">
-                        <h5 class="card-title">Truck Categories <span>| Truck Count per Category</span></h5>
-
-                        <div class="activity">
-
-                            <div class="activity-item d-flex">
-                                <div class="activite-label">32 min</div>
-                                <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-                                <div class="activity-content">
-                                    Quia quae rerum <a href="#" class="fw-bold text-dark">explicabo officiis</a> beatae
-                                </div>
-                            </div><!-- End activity item-->
-
-                            <div class="activity-item d-flex">
-                                <div class="activite-label">56 min</div>
-                                <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
-                                <div class="activity-content">
-                                    Voluptatem blanditiis blanditiis eveniet
-                                </div>
-                            </div><!-- End activity item-->
-
-                            <div class="activity-item d-flex">
-                                <div class="activite-label">2 hrs</div>
-                                <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
-                                <div class="activity-content">
-                                    Voluptates corrupti molestias voluptatem
-                                </div>
-                            </div><!-- End activity item-->
-
-                            <div class="activity-item d-flex">
-                                <div class="activite-label">1 day</div>
-                                <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
-                                <div class="activity-content">
-                                    Tempore autem saepe <a href="#" class="fw-bold text-dark">occaecati voluptatem</a> tempore
-                                </div>
-                            </div><!-- End activity item-->
-
-                            <div class="activity-item d-flex">
-                                <div class="activite-label">2 days</div>
-                                <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
-                                <div class="activity-content">
-                                    Est sit eum reiciendis exercitationem
-                                </div>
-                            </div><!-- End activity item-->
-
-                            <div class="activity-item d-flex">
-                                <div class="activite-label">4 weeks</div>
-                                <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
-                                <div class="activity-content">
-                                    Dicta dolorem harum nulla eius. Ut quidem quidem sit quas
-                                </div>
-                            </div><!-- End activity item-->
-
+                    <div class="news">
+                        <div class="post-item clearfix">
+                            <img src="assets/img/news-1.jpg" alt="">
+                            <h4><a href="#">Nihil blanditiis at in nihil autem</a></h4>
+                            <p>Sit recusandae non aspernatur laboriosam. Quia enim eligendi sed ut harum...</p>
                         </div>
 
-                    </div>
-                </div><!-- End Recent Activity -->
+                        <div class="post-item clearfix">
+                            <img src="assets/img/news-2.jpg" alt="">
+                            <h4><a href="#">Quidem autem et impedit</a></h4>
+                            <p>Illo nemo neque maiores vitae officiis cum eum turos elan dries werona nande...</p>
+                        </div>
 
-                <!-- News & Updates Traffic -->
-                <div class="card">
-                    <div class="filter">
-                        <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                            <li class="dropdown-header text-start">
-                                <h6>Filter</h6>
-                            </li>
+                        <div class="post-item clearfix">
+                            <img src="assets/img/news-3.jpg" alt="">
+                            <h4><a href="#">Id quia et et ut maxime similique occaecati ut</a></h4>
+                            <p>Fugiat voluptas vero eaque accusantium eos. Consequuntur sed ipsam et totam...</p>
+                        </div>
 
-                            <li><a class="dropdown-item" href="#">Today</a></li>
-                            <li><a class="dropdown-item" href="#">This Month</a></li>
-                            <li><a class="dropdown-item" href="#">This Year</a></li>
-                        </ul>
-                    </div>
+                        <div class="post-item clearfix">
+                            <img src="assets/img/news-4.jpg" alt="">
+                            <h4><a href="#">Laborum corporis quo dara net para</a></h4>
+                            <p>Qui enim quia optio. Eligendi aut asperiores enim repellendusvel rerum cuder...</p>
+                        </div>
 
-                    <div class="card-body pb-0">
-                        <h5 class="card-title">News &amp; Updates <span>| Today</span></h5>
+                        <div class="post-item clearfix">
+                            <img src="assets/img/news-5.jpg" alt="">
+                            <h4><a href="#">Et dolores corrupti quae illo quod dolor</a></h4>
+                            <p>Odit ut eveniet modi reiciendis. Atque cupiditate libero beatae dignissimos eius...</p>
+                        </div>
 
-                        <div class="news">
-                            <div class="post-item clearfix">
-                                <img src="assets/img/news-1.jpg" alt="">
-                                <h4><a href="#">Nihil blanditiis at in nihil autem</a></h4>
-                                <p>Sit recusandae non aspernatur laboriosam. Quia enim eligendi sed ut harum...</p>
-                            </div>
+                    </div><!-- End sidebar recent posts-->
 
-                            <div class="post-item clearfix">
-                                <img src="assets/img/news-2.jpg" alt="">
-                                <h4><a href="#">Quidem autem et impedit</a></h4>
-                                <p>Illo nemo neque maiores vitae officiis cum eum turos elan dries werona nande...</p>
-                            </div>
+                </div>
+            </div><!-- End News & Updates -->
 
-                            <div class="post-item clearfix">
-                                <img src="assets/img/news-3.jpg" alt="">
-                                <h4><a href="#">Id quia et et ut maxime similique occaecati ut</a></h4>
-                                <p>Fugiat voluptas vero eaque accusantium eos. Consequuntur sed ipsam et totam...</p>
-                            </div>
+        </div><!-- End Right side columns -->
 
-                            <div class="post-item clearfix">
-                                <img src="assets/img/news-4.jpg" alt="">
-                                <h4><a href="#">Laborum corporis quo dara net para</a></h4>
-                                <p>Qui enim quia optio. Eligendi aut asperiores enim repellendusvel rerum cuder...</p>
-                            </div>
-
-                            <div class="post-item clearfix">
-                                <img src="assets/img/news-5.jpg" alt="">
-                                <h4><a href="#">Et dolores corrupti quae illo quod dolor</a></h4>
-                                <p>Odit ut eveniet modi reiciendis. Atque cupiditate libero beatae dignissimos eius...</p>
-                            </div>
-
-                        </div><!-- End sidebar recent posts-->
-
-                    </div>
-                </div><!-- End News & Updates -->
-
-            </div><!-- End Right side columns -->
-
-        </div>
-    </section>
+    </div>
+</section>

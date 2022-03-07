@@ -1,4 +1,9 @@
-﻿@model TireManagment.DbModels.Tire;
+﻿@section Styles{
+    <link href="~/css/datatable.css" rel="stylesheet" />
+    <link href="~/css/datatable1.css" rel="stylesheet" />
+}
+
+@model TireManagment.DbModels.Tire;
 @using TireManagment.DbModels;
 <form class="form-horizontal" asp-action="TireDetials" asp-controller="Tire" method="get">
     <div class="input-group mb-3">
@@ -33,42 +38,60 @@
             <td>@Model.TireStatus</td>
             <td>@Model.SubmitDate</td>
             <td>@Model.Brand.Name</td>
-            @if (ViewBag.TruckNumber != null) { 
-            <td>@ViewBag.TruckNumber</td>
+            @if (ViewBag.TruckNumber != null)
+            {
+                <td>@ViewBag.TruckNumber</td>
             }
             else
-                {
-                    <td>Not Applicable</td>
-                }
+            {
+                <td>Not Applicable</td>
+            }
 
         </tr>
     </table>
-    <table class="table datatable" >
+    <table id="example" class="display nowrap" style="width:100%">
+        <thead>
         <tr>
             <th>Position</th>
             <th>STDthreadDepth</th>
             <th>KMWhileChange</th>
             <th>CurrentTireDepth</th>
-            <th>Operation Date</th>
-            <th>Tire Man</th>
-            <th>TruckNumber</th>
-            <th>Movement Type</th>
-        </tr>
-        @foreach(MovementDetails movement in ViewBag.TireHistory)
-                {
-    <tr>
-        <td>@movement.Position</td>
-        <td>@movement.STDthreadDepth</td>
-        <td>@movement.KMWhileChange</td>
-        <td>@movement.CurrentTireDepth</td>
-        <td>@movement.TireMovement.SubmitDate</td>
-        <td>@movement.TireMovement.Tireman.Name</td>
-        <td>@movement.TireMovement.TruckNumber</td>
-        <td>@movement.TireMovement.MovementType</td>
-    
-    </tr>
-                }
-    </table>
- 
+            <th>details</th>
+            @*<th>Operation Date</th>
+                <th>Tire Man</th>
+                <th>TruckNumber</th>
+                <th>Movement Type</th>*@
 
+        </tr>
+            </thead>
+        @foreach (MovementDetails movement in ViewBag.TireHistory)
+        {
+            <tr>
+                <td>@movement.Position</td>
+                <td>@movement.STDthreadDepth</td>
+                <td>@movement.KMWhileChange</td>
+                <td>@movement.CurrentTireDepth</td>
+                @*<td>@movement.TireMovement.SubmitDate</td>
+                    <td>@movement.TireMovement.Tireman.Name</td>
+                    <td>@movement.TireMovement.TruckNumber</td>
+                    <td>@movement.TireMovement.MovementType </td>*@
+            <td> Movement Date:&nbsp; @movement.TireMovement.SubmitDate  &nbsp;&nbsp; STDthreadDepth : @movement.STDthreadDepth  &nbsp;&nbsp; KMWhileChange:  @movement.KMWhileChange</td>
+
+            </tr>
+        }
+    </table>
+
+
+}
+@section Scripts{
+
+    <script crossorigin="anonymous" src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script crossorigin="anonymous" src="https://cdn.datatables.net/responsive/2.2.9/js/dataTables.responsive.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#example').DataTable({
+                responsive: true
+            });
+        });
+    </script>
 }

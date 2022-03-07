@@ -15,16 +15,20 @@ namespace TireManagment.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         SignInManager<AppUser> signInManger;
-        public HomeController(ILogger<HomeController> logger,SignInManager<AppUser>_signInManger)
+        UserManager<AppUser> userManager;
+        public HomeController(UserManager<AppUser> _userManager, ILogger<HomeController> logger,SignInManager<AppUser>_signInManger)
         {
             _logger = logger;
             signInManger = _signInManger;
+            userManager = _userManager;
         }
 
         public IActionResult Index()
         {
-           // var ser=User;
-            if(User.Identity.IsAuthenticated)
+            //var ser=User;
+            var user = userManager.GetUserAsync(User).Result;
+           
+            if (user!=null)
             {
                 return View();
             }

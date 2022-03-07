@@ -10,7 +10,8 @@ namespace TireManagment.DbModels
     {
         public int Id { get; set; }
         public string TruckNumber { get; set; }
-        public DateTime LastUdateDate { get; set; }
+
+        public DateTime? LastUdateDate { get; set; }
         [ForeignKey("tire")]
         public int? TireId { get; set; }
         public Tire tire  { get; set; }

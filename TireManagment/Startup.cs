@@ -116,11 +116,11 @@ namespace TireManagment
             if (CategoryService.GetAll().ToList().Count == 0)
             {
                 List<TruckCategory> categories = new List<TruckCategory> {
-            new TruckCategory(){ Category="truck 22 tire", TireCount=23, RareTires=12,FrontTires=10,SpareTires=1},
-             new TruckCategory(){Category="truck 14 tire", TireCount=15, RareTires=10,FrontTires=4,SpareTires=1},
-              new TruckCategory(){Category="truck 12 tire", TireCount=13, RareTires=8,FrontTires=4,SpareTires=1},
-               new TruckCategory(){Category="truck 10 tire", TireCount=11, RareTires=8,FrontTires=2,SpareTires=1},
-                new TruckCategory(){Category="truck 4 tire", TireCount=5, RareTires=2,FrontTires=2,SpareTires=1}
+            new TruckCategory(){ Category="truck 22 tire", TireCount=23, RareTires=12,FrontTires=10,SpareTires=1, Image="im1.jpg"},
+             new TruckCategory(){Category="truck 14 tire", TireCount=15, RareTires=10,FrontTires=4,SpareTires=1,Image="im2.jpg"},
+              new TruckCategory(){Category="truck 12 tire", TireCount=13, RareTires=8,FrontTires=4,SpareTires=1,Image="R.jpg"},
+               new TruckCategory(){Category="truck 10 tire", TireCount=11, RareTires=8,FrontTires=2,SpareTires=1,Image="im2.jpg"},
+                new TruckCategory(){Category="truck 4 tire", TireCount=5, RareTires=2,FrontTires=2,SpareTires=1,Image="im1.jpg"}
 
                 };
                 CategoryService.InsertList(categories);

@@ -16,8 +16,60 @@ connection.start().then(() => { //alert("connected")
 //div.textContent = m.CustomerQuestion;
 //var main = document.getElementById("main");
 //main.prepend(div);
-connection.on("ReciveNewTransaction", function (message) {
+/*alltires, newtires, runningtires, damagedtires, retreadtires,*/
+connection.on("ReciveNewTransaction", function ( message) {
   //  alert('ok');
+   
+
+   
+    applyNotificationSound();
+    var count = parseInt(document.getElementById("count").innerHTML);
+    var header = document.getElementById('head');
+    document.getElementById("count").innerHTML = count + 1;
+    header.innerHTML = count + 1;
+   // header.innerHTML = count + 1;
+            console.log(new Date(message.movmentdate));
+    var d= new Date(message.movmentdate).toLocaleString();
+    var notificationpanel = document.getElementById('notificationspanel');
+    var notificationsDetail = "/TireMovement/GetMovementDetail/" + message.Id;
+
+    var notificationItem ='<hr class="dropdown-divider">'+
+        '<a href=/TireMovement/GetMovementDetail/' + message.id +'><li class="notification-item">' +
+        '<i class="bi bi-info-circle text-primary" ></i >' +
+        ' <div>'+
+        '<h4>' + message.operation + '</h4>' +
+        '<p>' + message.trucknumber + '</p>' +
+        '<p>' +d+'</p>' +
+        '</div>'+
+        '</li ></a> <li>'+
+        '<hr class="dropdown-divider" >'+
+                            '</li >';
+    console.log(message);
+    var alltires = document.getElementById("alltires");
+    var newandrunning = document.getElementById("newandrunning");
+    var newonly = document.getElementById("new");
+    var runningonly = document.getElementById("running");
+    var retreadanddamaged = document.getElementById("retreadanddamaged");
+    var retreadonly = document.getElementById("retread");
+    var damagedonly = document.getElementById("damaged");
+
+    alltires.innerHTML = message.alltires;
+    newandrunning.innerHTML = message.newtires + message.runningtires;
+    retreadanddamaged.innerHTML = message.damagedtires + message.retreadtires;
+    newonly.innerHTML = message.newtires;
+    runningonly.innerHTML = message.runningtires;
+    retreadonly.innerHTML = message.retreadtires;
+    //alert(message.damagedtires);
+    damagedonly.innerHTML = message.damagedtires;
+  
+    notificationpanel.insertAdjacentHTML('afterbegin', notificationItem);
+  
+    
+
+   
+});
+function applyNotificationSound() {
+
     var options = {
         autoClose: false,
         progressBar: true,
@@ -40,33 +92,4 @@ connection.on("ReciveNewTransaction", function (message) {
 
 
     toast.success("New  Operation");
-    console.log(message);
-    var count = parseInt(document.getElementById("count").innerHTML);
-    var header = document.getElementById('head');
-    document.getElementById("count").innerHTML = count + 1;
-    header.innerHTML = count + 1;
-   // header.innerHTML = count + 1;
-            console.log(new Date(message.movmentdate));
-    var d= new Date(message.movmentdate).toLocaleString();
-    var notificationpanel = document.getElementById('notificationspanel');
-    var notificationsDetail = "/TireMovement/GetMovementDetail/" + message.Id;
-
-    var notificationItem ='<hr class="dropdown-divider">'+
-        '<a href=/TireMovement/GetMovementDetail/' + message.id +'><li class="notification-item">' +
-        '<i class="bi bi-info-circle text-primary" ></i >' +
-        ' <div>'+
-        '<h4>' + message.operation + '</h4>' +
-        '<p>' + message.trucknumber + '</p>' +
-        '<p>' +d+'</p>' +
-        '</div>'+
-        '</li ></a> <li>'+
-        '<hr class="dropdown-divider" >'+
-                            '</li >';
-
-
-    notificationpanel.insertAdjacentHTML('afterbegin', notificationItem);
-  
-    
-
-   
-});
+}

@@ -23,6 +23,10 @@ namespace TireManagment
             modelBuilder.Entity<TruckCategory>()
       .Property(c => c.SubmitDate)
       .HasDefaultValueSql("getdate()");
+
+            modelBuilder.Entity<TruckTire>()
+     .Property(t => t.LastUdateDate)
+     .HasDefaultValueSql("getdate()");
             modelBuilder.Entity<TruckCategory>()
     .Property(t => t.CategoryId)
       .HasComputedColumnSql("[Id]");
