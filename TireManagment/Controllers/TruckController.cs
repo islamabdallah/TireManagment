@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TireManagment.DbModels;
 using TireManagment.Enums;
+using TireManagment.Models;
 using TireManagment.Services;
 
 namespace TireManagment.Controllers
@@ -16,10 +17,11 @@ namespace TireManagment.Controllers
         TruckService truckService;
         TruckTireService truckTireService;
         CategoryService categoryService;
-        public TruckController(TruckService truck,CategoryService _categoryService,TruckTireService _truckTireService)
+        TireService TireService;
+        public TruckController(TireService tireService, TruckService truck,CategoryService _categoryService,TruckTireService _truckTireService)
         {
             truckService = truck;
-          
+            TireService = tireService;
             truckTireService = _truckTireService;
             categoryService = _categoryService;
 
@@ -32,8 +34,14 @@ namespace TireManagment.Controllers
             if(TempData["success"]!=null&&(string)TempData["success"]=="true")
             {
                 ViewBag.success = "true";
+                ViewBag.id = TempData["id"];
+                ViewBag.trucknumber = TempData["trucknumber"];
+               
             }
+            //if (truck.TruckNumber != null)
+            //    return View(truck);
             return View(new DbModels.Truck());
+
         }
         public IActionResult AddTruck()
         {
@@ -50,6 +58,8 @@ namespace TireManagment.Controllers
             //ViewBag.trucks = truckService.GetAll();
             //ViewBag.categories = categoryService.GetAll();
             TempData["success"] = "true";
+            TempData["id"] = truck.ID;
+            TempData["trucknumber"] = truck.TruckNumber;
             return RedirectToAction("Index"); 
         }
         public IActionResult TruckDetails()
@@ -67,8 +77,14 @@ namespace TireManagment.Controllers
             ViewBag.truckmovements = truckTireService.GetTruckMovements(truck.TruckNumber);
             return View("TruckDetails", truck);
         }
-        public IActionResult table()
+        //public IActionResult table()
+        //{
+        //    return View();
+        //}
+        public IActionResult assigntires(int id,string trucknumber)
         {
+            ViewBag.tires = TireService.GetNewandRetreadtires();//this new and retead tires
+            ViewBag.positios = truckService.GetTruckTires(trucknumber);//get all positions for this truck from trucktire controller
             return View();
         }
       public JsonResult  ValidateTruckNumber(string TruckNumber)
@@ -77,6 +93,10 @@ namespace TireManagment.Controllers
             if (!truck)
                 return Json(true);
             return Json($"Truck Number Already Exists");
+        }
+        public string AssignTiress(List<string>position,List<string>serial)
+        {
+            return "fff";
         }
     }
 }

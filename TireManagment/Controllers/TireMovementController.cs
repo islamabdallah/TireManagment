@@ -19,6 +19,8 @@ namespace TireManagment.Controllers
           var movement=trucktireservice.GetMovementDetail(id);
             movement.IsRead = true;
             trucktireservice.UpdateMovement(movement);
+          string categoryImage=trucktireservice.GetCategoryImage(movement.TruckNumber);
+            ViewBag.categoryImage = categoryImage;
             return View("MovementDetail",movement);
         }
         public IActionResult GetAll()

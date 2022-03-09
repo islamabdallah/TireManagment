@@ -96,7 +96,7 @@
                     <ul @*style="overflow-y:scroll;height:500px"*@ class="dropdown-menu dropdown-menu-end dropdown-menu-arrow notifications" id="notificationsPanel">
                         <li class="dropdown-header" >
                             You have<span id="head"> @TruckTireService.GetMovmentsCount()</span> new notifications
-                            <a href="#"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
+                            <a asp-action="GetAll" asp-controller="TireMovement"><span class="badge rounded-pill bg-primary p-2 ms-2">View all</span></a>
                         </li>
 
                         <li>

@@ -15,6 +15,7 @@
                 <h4>Truck Added Successfully</h4>
             </div>
             <div class="modal-footer">
+                <a asp-action="assigntires" asp-controller="Truck" asp-route-id="@ViewBag.id" asp-route-trucknumber="@ViewBag.trucknumber" type="button" class="btn btn-primary">Start Assign Tires</a>
                 <button id="alertclose" type="button" class="btn btn-success" data-dismiss="modal">Close</button>
             </div>
         </div>

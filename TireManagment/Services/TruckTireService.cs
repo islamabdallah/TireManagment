@@ -172,11 +172,16 @@ namespace TireManagment.Services
         }
         public TireMovement GetMovementDetail(int id)
         {
-            return context.TireMovement.Where(tm => tm.Id == id).Include(tm=>tm.MovementDetails).FirstOrDefault();
+            return context.TireMovement.Where(tm => tm.Id == id).Include(tm=>tm.MovementDetails).Include(m=>m.Tireman).FirstOrDefault();
         }
         public IEnumerable<TireMovement> GetAllMovements()
         {
             return context.TireMovement.Where(tm => tm.IsRead == false).Include(tm=>tm.Tireman).ToList();
+        }
+        public string GetCategoryImage(string trucknumber)
+        {
+            string image = context.trucks.Include(t => t.Category).Where(t => t.TruckNumber == trucknumber).Select(t => t.Category.Image).FirstOrDefault();
+            return image;
         }
         public IEnumerable<TireMovement> GetTruckMovements(string trucknumber)
 

@@ -12,6 +12,7 @@ namespace TireManagment.DbModels
         public int Id { get; set; }
         public string Position { get; set; }
         public string Description { get; set; }
+     //   public int CategoryId { get; set; }
         public TruckCategory Category { get; set; }
     }
 }
