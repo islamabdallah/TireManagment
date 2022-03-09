@@ -1,6 +1,12 @@
 ﻿@*@model IEnumerable<TireManagment.DbModels.Truck>*@
 @model TireManagment.DbModels.Truck
 @inject TireManagment.Services.TireService tireservice;
+@inject TireManagment.Services.CategoryService service;
+@inject TireManagment.Services.TireService tservice;
+@inject TireManagment.Services.TruckService truckservice;
+@inject TireManagment.Services.AccountService accountservice;
+@inject TireManagment.Services.TruckTireService trucktireservice;
+@using TireManagment.Enums;
 @using TireManagment.DbModels;
 
 @{
@@ -27,90 +33,312 @@
         </div>
     </div>
 </form>
-<div class="row">
 
-</div>
 @if (Model != null)
 {
-    <table class="table table-dark">
-        <tr>
-            <th>Truck Name</th>
-            <th>Truck Number</th>
-            <th>Truck Model</th>
-            <th>Truck Chassis</th>
-            <th>Truck Category</th>
-            <th>Truck Engine</th>
-            <th>Truck Company</th>
-        </tr>
-        <tr>
-            <td>@Model.TruckName</td>
-            <td>@Model.TruckNumber</td>
-            <td>@Model.VehichleModelNo</td>
-            <td>@Model.Chassis</td>
-            <td>@Model.Category.Category</td>
-            <td>@Model.Engine</td>
-            <td>@Model.Company</td>
 
-        </tr>
-    </table>
-    <h4>Current Tires Positions</h4>
-    <table class="table table-info">
-        <tr>
-            <th> Tire Position</th>
-            <th>Tire Serial</th>
-            <th>Tire Brand</th>
-            <th>Last UpdatDate</th>
+    <section class="section dashboard">
+        <div class="row">
 
-        </tr>
-        @foreach (TruckTireViewModel x in ViewBag.trucktires)
-        {
+            <!-- Left side columns -->
+            <div class="col-lg-8">
+                <div class="row">
+
+               
+                 
+                    <!-- Customers Card -->
+                    <div class="col-xxl-4 col-xl-12">
+
+                        <div class="card info-card customers-card">
+
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                    </li>
+
+                                    <li><a class="dropdown-item" href="#">Today</a></li>
+                                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="card-body">
+                                @*<h5 class="card-title">Retread & Damaged <span>| Tires</span></h5>*@
+                                <h5 class="card-title">Details <span></span></h5>
+
+                                <div class="d-flex align-items-center">
+                                    <table class="table">
+                                        <tr>
+                                            <th> Name</th>
+                                            <th> Number</th>
+                                            <th> Model</th>
+                                            <th> Chassis</th>
+                                            <th> Category</th>
+                                            <th> Engine</th>
+                                            <th> Company</th>
+                                        </tr>
+                                        <tr>
+                                            <td>@Model.TruckName</td>
+                                            <td>@Model.TruckNumber</td>
+                                            <td>@Model.VehichleModelNo</td>
+                                            <td>@Model.Chassis</td>
+                                            <td>@Model.Category.Category</td>
+                                            <td>@Model.Engine</td>
+                                            <td>@Model.Company</td>
+
+                                        </tr>
+                                    </table>
+                                    @*<div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
+                <i class="bi bi-people"></i>
+            </div>
+            <div class="ps-3">
+                <h6 id="retreadanddamaged"></h6>
+                <span id="retread" class="text-danger small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1">Retread</span>
+                <span id="damaged" class="text-danger small pt-1 fw-bold"></span> <span class="text-muted small pt-2 ps-1">Damaged</span>
+            </div>*@
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div><!-- End Customers Card -->
+               
+               
+                  
+                    <!-- Recent Sales -->
+                    <div class="col-12">
+                        <div class="card recent-sales overflow-auto">
+
+                            <div class="filter">
+                                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                                    <li class="dropdown-header text-start">
+                                        <h6>Filter</h6>
+                                    </li>
+
+                                    <li><a class="dropdown-item" href="#">Today</a></li>
+                                    <li><a class="dropdown-item" href="#">This Month</a></li>
+                                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                                </ul>
+                            </div>
+
+                            <div class="card-body">
+                                <h5 class="card-title">Truck Movements<span>| Last <b>5</b> Movement available on the system </span></h5>
+
+                                <table id="example" class="display nowrap  table-borderless" style="">
+                                    <thead>
+                                        <tr>
+                                            <th >Id</th>
+                                            <th >TireMan</th>
+                                            <th>Movement Type</th>
+                                            <th>Submit Date</th>
+                                            <th >Truck Number</th>
+                                            <th></th>
+                                            <th>d1</th>
+                                            <th>d2</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (TireMovement move in ViewBag.truckmovements)
+                                        {
+                                        <tr>
+                                            <td>@move.Id</td>
+                                            <td style="">@move.Tireman.Name</td>
+                                            <td style="">@move.MovementType</td>
+                                            <td style="">@move.SubmitDate</td>
+                                            <td>@move.TruckNumber</td>
+                                            <th>CurrentTireDepth  &nbsp;&nbsp;  KMWhileChange &nbsp;&nbsp; STDthreadDepth &nbsp;&nbsp; Position &nbsp;&nbsp; <span style="">TireSerial</span></th>
+                                            @foreach (MovementDetails d in move.MovementDetails)
+                                            {
+
+
+
+                                                @*<td style="width:50px">CurrentTireDepth:   @d.CurrentTireDepth &nbsp; KMWhileChange: @d.KMWhileChange &nbsp;&nbsp; STDthreadDepth: @d.STDthreadDepth &nbsp;&nbsp; Position: @d.Position &nbsp;&nbsp;TireSerial:@tireservice.GetTireSerial(@d.TireId)</td>*@
+                                        <td style="width:50px"><span style="margin:50px"> @d.CurrentTireDepth</span> &nbsp;<span style="margin: 50px"> @d.KMWhileChange</span> &nbsp;&nbsp;<span style="margin:50px"> @d.STDthreadDepth</span> <span style=""> @d.Position</span><span style="margin:50px">@tireservice.GetTireSerial(@d.TireId)</span></td>
+
+                                            }
+
+                                        </tr>
+
+
+                                        }
+
+                                    </tbody>
+                                </table>
+
+                            </div>
+
+                        </div>
+                    </div><!-- End Recent Sales -->
+
+                </div>
+            </div><!-- End Left side columns -->
+            <!-- Right side columns -->
+            <div class="col-lg-4">
+
+                <!-- Recent Activity -->
+                <div class="card">
+                    <div class="filter">
+                        <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                            <li class="dropdown-header text-start">
+                                <h6>Filter</h6>
+                            </li>
+
+                            <li><a class="dropdown-item" href="#">Today</a></li>
+                            <li><a class="dropdown-item" href="#">This Month</a></li>
+                            <li><a class="dropdown-item" href="#">This Year</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="card-body">
+                        <h5 class="card-title">Truck Tires <span>| Truck Tire In Postion</span></h5>
+
+                        <div class="activity">
+                            @{
+                                List<CategoryWithTruckCount> categosries = service.GetAllWithTruckCount().ToList();
+
+                            }
+                            @foreach (TruckTireViewModel x in ViewBag.trucktires)
+                            {
+                           
+                             
+                                <div class="activity-item d-flex">
+                                    <div class="activite-label">@x.Position</div>
+                                    <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+                                    <div class="activity-content">
+                                        @x.TireSerial<a href="#" class="fw-bold text-dark"></a>
+                                    </div>
+                                </div>
+                            
+                            }
+                          <!-- End activity item-->
+
+                            <!--<div class="activity-item d-flex">
+        <div class="activite-label"> 2 days</div>
+        <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
+        <div class="activity-content">
+        category 45
+        </div>
+    </div>-->
+                            <!-- End activity item-->
+
+                        </div>
+
+                    </div>
+                </div><!-- End Recent Activity -->
+                <!-- News & Updates Traffic -->
+                <div class="card">
+                    <div class="filter">
+                        <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
+                        <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
+                            <li class="dropdown-header text-start">
+                                <h6>Filter</h6>
+                            </li>
+
+                            <li><a class="dropdown-item" href="#">Today</a></li>
+                            <li><a class="dropdown-item" href="#">This Month</a></li>
+                            <li><a class="dropdown-item" href="#">This Year</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="card-body pb-0">
+                        <h5 class="card-title">News &amp; Updates <span>| Today</span></h5>
+                        @*class=news*@
+                        <div class="">
+
+                            <img width="220" height="400" src="~/Img/@Model.Category.Image" />
+
+                        </div><!-- End sidebar recent posts-->
+
+                    </div>
+                </div><!-- End News & Updates -->
+
+            </div><!-- End Right side columns -->
+
+        </div>
+    </section>
+    @*<table class="table table-dark">
             <tr>
-                <td>@x.Position</td>
-                <td>@x.TireSerial</td>
-                <td>@x.Tirebrand</td>
-                <td>@x.LastUpdateTime</td>
-
-            </tr>
-        }
-    </table>
-    <h4>Truck Movements</h4>
-    <table id="example" class="display nowrap" style="width:100%">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th style="">Tire Man Name</th>
-                <th style="">Movement Type</th>
-                <th style="">Movement Date</th>
+                <th>Truck Name</th>
                 <th>Truck Number</th>
-                <th style="width:0px">details</th>
-                <th>details</th>
+                <th>Truck Model</th>
+                <th>Truck Chassis</th>
+                <th>Truck Category</th>
+                <th>Truck Engine</th>
+                <th>Truck Company</th>
             </tr>
-        </thead>
-
-        @foreach (TireMovement move in ViewBag.truckmovements)
-        {
             <tr>
-                <td>@move.Id</td>
-                <td style="">@move.Tireman.Name</td>
-                <td style="">@move.MovementType</td>
-                <td style="">@move.SubmitDate</td>
-                <td>@move.TruckNumber</td>
-                @foreach (MovementDetails d in move.MovementDetails)
-                {
-
-
-
-                    <td>CurrentTireDepth:   @d.CurrentTireDepth &nbsp; KMWhileChange: @d.KMWhileChange &nbsp;&nbsp; STDthreadDepth: @d.STDthreadDepth &nbsp;&nbsp; Position: @d.Position &nbsp;&nbsp;TireSerial:@tireservice.GetTireSerial(@d.TireId)</td>
-
-                }
-
+                <td>@Model.TruckName</td>
+                <td>@Model.TruckNumber</td>
+                <td>@Model.VehichleModelNo</td>
+                <td>@Model.Chassis</td>
+                <td>@Model.Category.Category</td>
+                <td>@Model.Engine</td>
+                <td>@Model.Company</td>
 
             </tr>
+        </table>
+        <h4>Current Tires Positions</h4>
+        <table class="table table-info">
+            <tr>
+                <th> Tire Position</th>
+                <th>Tire Serial</th>
+                <th>Tire Brand</th>
+                <th>Last UpdatDate</th>
+
+            </tr>
+            @foreach (TruckTireViewModel x in ViewBag.trucktires)
+            {
+                <tr>
+                    <td>@x.Position</td>
+                    <td>@x.TireSerial</td>
+                    <td>@x.Tirebrand</td>
+                    <td>@x.LastUpdateTime</td>
+
+                </tr>
+            }
+        </table>
+        <h4>Truck Movements</h4>
+        <table id="example" class="display nowrap" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th style="">Tire Man Name</th>
+                    <th style="">Movement Type</th>
+                    <th style="">Movement Date</th>
+                    <th>Truck Number</th>
+                    <th style="width:0px">details</th>
+                    <th>details</th>
+                </tr>
+            </thead>
+
+            @foreach (TireMovement move in ViewBag.truckmovements)
+            {
+                <tr>
+                    <td>@move.Id</td>
+                    <td style="">@move.Tireman.Name</td>
+                    <td style="">@move.MovementType</td>
+                    <td style="">@move.SubmitDate</td>
+                    <td>@move.TruckNumber</td>
+                    @foreach (MovementDetails d in move.MovementDetails)
+                    {
 
 
-        }
 
-    </table>
+                        <td>CurrentTireDepth:   @d.CurrentTireDepth &nbsp; KMWhileChange: @d.KMWhileChange &nbsp;&nbsp; STDthreadDepth: @d.STDthreadDepth &nbsp;&nbsp; Position: @d.Position &nbsp;&nbsp;TireSerial:@tireservice.GetTireSerial(@d.TireId)</td>
+
+                    }
+
+                </tr>
+
+
+            }
+
+        </table>*@
 }
 
 @section Scripts {
@@ -125,24 +353,24 @@
         });
     </script>
     <script>
-                    //var table = $('#example').DataTable({
-                    //    responsive: true
-                    //});
+                            //var table = $('#example').DataTable({
+                            //    responsive: true
+                            //});
 
-                    ////table.rows().every(function () {
-                    ////    this.child('Row details for row: ' + this.index());
-                    ////});
+                            ////table.rows().every(function () {
+                            ////    this.child('Row details for row: ' + this.index());
+                            ////});
 
-                    //$('#example tbody').on('click', 'tr', function () {
-                    //    var child = table.row(this).child;
+                            //$('#example tbody').on('click', 'tr', function () {
+                            //    var child = table.row(this).child;
 
-                    //    if (child.isShown()) {
-                    //        child.hide();
-                    //    }
-                    //    else {
-                    //        child.show();
-                    //    }
-                    //});
+                            //    if (child.isShown()) {
+                            //        child.hide();
+                            //    }
+                            //    else {
+                            //        child.show();
+                            //    }
+                            //});
     </script>
     @*<script>
 
