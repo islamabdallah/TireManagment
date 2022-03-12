@@ -73,12 +73,12 @@ namespace TireManagment.Services
                         if (truckMovement.MovementType == MovmentType.Rotation)
                         {
                             //Position#1
-                            var _updatePosition1 = _trucktires.Where(tr => tr.TirePosition == _tire1.Position).FirstOrDefault();
+                            var _updatePosition1 = _trucktires.Where(tr => tr.TirePosition == _tire1.Position && tr.TruckNumber == truckMovement.TruckNumber).FirstOrDefault();
                             _updatePosition1.TireId = _tire1.TireId;
                             _updatePosition1.LastUdateDate = DateTime.Now;
 
                             //Position#2
-                            var _updatePosition2 = _trucktires.Where(tr => tr.TirePosition == _tire2.Position).FirstOrDefault();
+                            var _updatePosition2 = _trucktires.Where(tr => tr.TirePosition == _tire2.Position &&  tr.TruckNumber == truckMovement.TruckNumber).FirstOrDefault();
                             _updatePosition2.TireId = _tire2.TireId;
                             _updatePosition2.LastUdateDate = DateTime.Now;
                             Update(_updatePosition1);
@@ -87,7 +87,7 @@ namespace TireManagment.Services
                         //Replacement
                         else if (truckMovement.MovementType == MovmentType.Replacement)
                         {
-                            var _tirePosition = _trucktires.Where(tr => tr.TirePosition == truckMovement.TirePositionViewModel[0].Position).FirstOrDefault();
+                            var _tirePosition = _trucktires.Where(tr => tr.TirePosition == truckMovement.TirePositionViewModel[0].Position &&   tr.TruckNumber == truckMovement.TruckNumber).FirstOrDefault();
                             _tirePosition.TireId = truckMovement.TirePositionViewModel[0].TireId;
                             _tirePosition.LastUdateDate = DateTime.Now;
 
