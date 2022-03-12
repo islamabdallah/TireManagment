@@ -22,14 +22,14 @@
 
                     <div class="row">
                         <div class="col-md-6">
-                            <p class="alert alert-secondary" role="alert"> <b>Note : </b> Add new tire to the system  , <code>Tire Status : New</code></p>
+                            <p class="alert alert-secondary" role="alert"> <b>Note : </b> Assign Different Tire Serial For Each Truck Position <code></code></p>
                         </div>
                     </div>
 
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addmodal">
-                        <span class="badge badge-light"> <i class="bi bi-plus-circle"></i> </span>Add Tire
-                    </button>
-                    |
+                    @*<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addmodal">
+                            <span class="badge badge-light"> <i class="bi bi-plus-circle"></i> </span>Add Tire
+                        </button>
+                        |*@
                     <button type="button" class="btn btn-success">
                         <span class="badge badge-light">
                             <i class="bi bi-file-earmark-spreadsheet"></i>
@@ -45,40 +45,56 @@
 
                         </div>
                         <div class="dataTable-container">
+                            <form asp-action="AssignTiress" asp-controller="Truck" asp-route-trucknumber="@ViewBag.trucknumber">
+                                <table class="table">
 
-                          <table class="table">
-                              
-                             <thead>
-                                 <tr>
-                                 <td>Position</td>
-                                 <th>Assigned Tire</th>
-                              </tr>
-                             </thead>
-                             <tbody>
-                                 <form asp-action="AssignTiress" asp-controller="Truck">
-                                 @foreach (TruckTireViewModel position in ViewBag.positios)
-                                 {
-                                     <tr>
-                                         <td>
-                                            <input name="position" readonly value="@position.Position" />
-                                         </td>
-                                         <td>
-                                             @if(position.TireSerial == null)
-                                             {
-                                                 <select name="serial"  asp-items="@(new SelectList( ViewBag.tires, nameof(tirewithserial.tierid), nameof(tirewithserial.serial)))" class="form-control"></select>
-                                             }
-                                             else
-                                             {
-                                                      <input  readonly type="text"  value="@position.TireSerial"/>
-                                             }
-                                         </td>
-                                     </tr>
-                                 }
-                                 <input type="submit" />
-                                 </form>
-                             </tbody>
-                          </table>
-                          
+                                    <thead>
+                                        <tr>
+                                            <th>Tire Position</th>
+                                            <th>Assigned Tire Serial</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+
+                                        @foreach (TruckTireViewModel position in ViewBag.positios)
+                                        {
+                                            <tr>
+                                                @if (position.TireSerial == null)
+                                                {
+
+                                                    <td>
+                                                        <input readonly name="position" value="@position.Position"/>
+
+                                                    </td>
+                                                    <td>
+                                                        <select id="x"  class="selections"  name="tireids" asp-items="@(new SelectList(ViewBag.tires, nameof(tirewithserial.tierid), nameof(tirewithserial.serial)))" class="form-control">
+                                                            @*<option value="">Select Serial</option>*@
+                                                        </select>
+                                                    </td>
+                                                }
+                                                else
+                                                {
+
+
+                                            <td>
+                   
+                                                <p style="border:solid red 1px">@position.Position</p>
+
+                                            </td>
+                                                    <td>
+                                                        <input readonly type="text" value="@position.TireSerial" style="border:solid red 1px" />
+
+                                                    </td>
+                                                }
+                                            </tr>
+                                        }
+
+
+                                    </tbody>
+                                </table>
+                                <div id="vsummary" asp-validation-summary="All" class="text-danger"></div>
+                                <input type="submit" class="btn btn-dark" value="Finish Assign Serials" />
+                            </form>
                         </div>
 
 
@@ -91,3 +107,74 @@
         </div>
     </div>
 </section>
+@section Scripts
+{
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script>
+    var prevselected;
+
+    $(document).ready(function () {
+
+        var selects = document.getElementsByClassName("selections");
+      //  alert(selects.length)
+        for (var i = 0; i < selects.length; i++) {
+            $(selects[i]).data("prev", selects[i].value);
+            selects[i].addEventListener("change", function (event) {
+                $(this).removeClass("selections");
+                $(".selections option[value=" + $(this).data("prev") + "]").removeAttr('disabled');
+                $(".selections option[value=" + $(this).val() + "]").attr('disabled', 'disabled');
+               // alert($(this).data("prev"));
+                $(this).data("prev", $(this).val());
+                $(this).addClass("selections");
+            });
+        }
+        //var sel=$("#x");
+        //sel.data("prev", sel.val());
+        //sel.change(function (data) {
+        //    var jqThis = $(this);
+        //    alert(jqThis.data("prev"));
+        //    jqThis.data("prev", jqThis.val());
+        //});
+    });
+
+    function remove() {
+ //       alert(e.target.value);
+      //  $('selections').addClass("selections");
+        //var x = $(this);
+        //x.data("prev", x.val());
+        //alert(x.data("prev"));
+     ////   var valselected = e.target.value;
+       
+     ////   //if (prevselected == valselected) {
+         
+     ////   //    alert('v');
+     ////   //}
+     ////   alert(prevselected);
+     ////   alert(valselected);
+     ////   $(".selections option[value=" + prevselected + "]").removeAttr('disabled');
+     ////   //لو موجوده متضيفهاشي ولو مش موجود ضيفها
+     ////    prevselected = valselected;
+       
+     ////  $(x).removeClass("selections");
+     ////   //x.ClassList.remove('selections');
+     ////   var selections = document.getElementsByClassName('selections');
+     //////   $(".selections option[value=" + valselected + "]").remove();
+     ////   $(".selections option[value=" + valselected + "]").attr('disabled','disabled');
+     ////   $(x).addClass("selections");
+
+        //for (var i = 0; i < selections.length; i++) {
+        //    if (selections[i].value != valselected) {
+        //        alert('k');
+        //        console.log(selections[i])
+        //        $('selections[i]').removeOption(valselected);
+    
+            
+        //        $("selections[i] option[value='" + valselected + "']").remove();
+                
+        //    }
+        //}
+
+    }
+</script>
+}
+  

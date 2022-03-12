@@ -14,12 +14,14 @@ namespace TireManagment.Services
     {
         public DbContext context;
         public IHubContext<notifyHub> hubContext;
+        public TireService TireService;
 
-        public TruckTireService(DbContext _context, IHubContext<notifyHub> _hubContext)
+        public TruckTireService(TireService _tireService, DbContext _context, IHubContext<notifyHub> _hubContext)
         {
             hubContext = _hubContext;
             context = _context;
-            
+            TireService = _tireService;
+
         }
         public bool AddNewMovement(TruckMovementViewModel truckMovement)
         {
@@ -30,7 +32,7 @@ namespace TireManagment.Services
                     if (truckMovement != null && truckMovement.TirePositionViewModel.Count == 2)
                     {
                         //Step#1 : [Table : Movement] : Add
-                        
+
                         TireMovement tireMovment = new()
                         {
                             TruckNumber = truckMovement.TruckNumber,
@@ -108,7 +110,7 @@ namespace TireManagment.Services
                         var Retreadtires = context.tires.Where(t => t.TireStatus == TireStatus.Retread).Count();
                         var alltires = Runningtires + Damagedtires + Retreadtires;
                         hubContext.Clients.All.SendAsync("ReciveNewTransaction", new { alltires = alltires, newtires = Newtires, runningtires = Runningtires, damagedtires = Damagedtires, retreadtires = Retreadtires, id = tireMovment.Id, operation = tireMovment.MovementType, trucknumber = truckMovement.TruckNumber, movmentdate = tireMovment.SubmitDate });
-                     
+
                         return true;
                     }
                     return false;
@@ -128,7 +130,7 @@ namespace TireManagment.Services
                 context.Attach(entity);
             }
             dbEntityEntry.State = EntityState.Modified;
-            
+
         }
         public void UpdateMovement(TireMovement entity)
         {
@@ -158,7 +160,7 @@ namespace TireManagment.Services
         }
         public IEnumerable<TireMovement> GetMovments()
         {
-           var res= context.TireMovement.Where(m=>m.IsRead==false).OrderByDescending(m=>m.SubmitDate).Take(5).ToList();
+            var res = context.TireMovement.Where(m => m.IsRead == false).OrderByDescending(m => m.SubmitDate).Take(5).ToList();
             return res;
         }
         public IEnumerable<TireMovement> GetTopMovments()
@@ -172,11 +174,11 @@ namespace TireManagment.Services
         }
         public TireMovement GetMovementDetail(int id)
         {
-            return context.TireMovement.Where(tm => tm.Id == id).Include(tm=>tm.MovementDetails).Include(m=>m.Tireman).FirstOrDefault();
+            return context.TireMovement.Where(tm => tm.Id == id).Include(tm => tm.MovementDetails).Include(m => m.Tireman).FirstOrDefault();
         }
         public IEnumerable<TireMovement> GetAllMovements()
         {
-            return context.TireMovement.Where(tm => tm.IsRead == false).Include(tm=>tm.Tireman).ToList();
+            return context.TireMovement.Where(tm => tm.IsRead == false).Include(tm => tm.Tireman).ToList();
         }
         public string GetCategoryImage(string trucknumber)
         {
@@ -186,7 +188,64 @@ namespace TireManagment.Services
         public IEnumerable<TireMovement> GetTruckMovements(string trucknumber)
 
         {
-         return context.TireMovement.Include(tm=>tm.Tireman).Include(tm => tm.MovementDetails).Where(tm => tm.TruckNumber == trucknumber).ToList();
+            return context.TireMovement.Include(tm => tm.Tireman).Include(tm => tm.MovementDetails).Where(tm => tm.TruckNumber == trucknumber).ToList();
         }
+        public void updatetrucktire(List<string> positions, List<int> tireids, string trucknumber)
+        {
+            //1-update trucktire table with new serials;
+            //2-pick records from trucktable  belong to this truck number;
+            //3-
+            // var truckposition = truckService.GetTruckTire();
+            //  List<int> originaltires=new List<int>(tireids);
+            // List<string> originalpositions =new List<string>(positions);
+            List<int> nullpositions = new List<int>();
+            for (int i = 0; i < tireids.Count; i++)
+            {
+                if (tireids[i] == -1)
+                {
+                    nullpositions.Add(i);
+
+                }
+            }
+            for (int i = nullpositions.Count; i > 0; i--)
+            {
+
+                tireids.RemoveAt(nullpositions[i - 1]);
+                positions.RemoveAt(nullpositions[i - 1]);
+
+            }
+            var trucks = GetTruckTire(trucknumber);
+            //  truckTireService.updatetrucktire(position, serial, trucknumber);
+            for (int i = 0; i < tireids.Count; i++)
+            {
+                var truckposition = trucks.Where(t => t.TirePosition == positions[i]).FirstOrDefault();
+                truckposition.TireId = tireids[i];
+                TireService.updatetorunning(tireids[i]);
+                //  Update(truckposition);
+            }
+            context.SaveChanges();
+
+        }
+        public IEnumerable<TruckTire> GetTruckTire(string TruckNumber)
+        {
+
+            var res = context.TruckTire.Where(tr => tr.TruckNumber == TruckNumber).ToList();
+
+            return res;
+        }
+        public int GetNumbersOfTruckWithMissingTires()
+        {
+            var TrucksWithFreePositions = context.TruckTire.ToList().Where(tr => tr.TireId == null).GroupBy(tr => tr.TruckNumber);
+            var g= TrucksWithFreePositions.Count();
+            return g;
+        }
+        public IEnumerable<IGrouping<string,TruckTire>> GetTrucksWithFreePositions()
+        {
+            var TrucksWithFreePositions = context.TruckTire.ToList().Where(tr => tr.TireId == null).GroupBy(tr => tr.TruckNumber);
+          
+           
+            return TrucksWithFreePositions;
+        }
+
     }
 }

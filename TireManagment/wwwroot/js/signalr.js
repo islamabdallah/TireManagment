@@ -43,7 +43,8 @@ connection.on("ReciveNewTransaction", function ( message) {
         '</div>'+
         '</li ></a> <li>'+
         '<hr class="dropdown-divider" >'+
-                            '</li >';
+        '</li >';
+    notificationpanel.insertAdjacentHTML('afterbegin', notificationItem);
     console.log(message);
     var alltires = document.getElementById("alltires");
     var newandrunning = document.getElementById("newandrunning");
@@ -62,7 +63,7 @@ connection.on("ReciveNewTransaction", function ( message) {
     //alert(message.damagedtires);
     damagedonly.innerHTML = message.damagedtires;
   
-    notificationpanel.insertAdjacentHTML('afterbegin', notificationItem);
+  
   
     
 

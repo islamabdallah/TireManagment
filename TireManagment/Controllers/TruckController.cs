@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -81,10 +82,14 @@ namespace TireManagment.Controllers
         //{
         //    return View();
         //}
-        public IActionResult assigntires(int id,string trucknumber)
+        public IActionResult assigntires(string trucknumber)
         {
-            ViewBag.tires = TireService.GetNewandRetreadtires();//this new and retead tires
+            var tires= TireService.GetNewandRetreadtires().ToList();
+            var fi= new tirewithserial(){ serial = "Select Serial", tierid = -1 };
+            tires.Insert(0, fi);
+            ViewBag.tires = tires; //this new and retead tires
             ViewBag.positios = truckService.GetTruckTires(trucknumber);//get all positions for this truck from trucktire controller
+            ViewBag.trucknumber = trucknumber;
             return View();
         }
       public JsonResult  ValidateTruckNumber(string TruckNumber)
@@ -94,9 +99,21 @@ namespace TireManagment.Controllers
                 return Json(true);
             return Json($"Truck Number Already Exists");
         }
-        public string AssignTiress(List<string>position,List<string>serial)
+        public string AssignTiress(List<string> position, List<int> tireids, string trucknumber)
         {
-            return "fff";
+            
+
+            truckTireService.updatetrucktire(position, tireids, trucknumber);
+            
+       
+            return "done";
+        }
+        public IActionResult freepositionstrucks()
+        {
+            
+            var freepositionstrucks=truckTireService.GetTrucksWithFreePositions();
+            ViewBag.freepositionstrucks = freepositionstrucks;
+            return View();
         }
     }
 }

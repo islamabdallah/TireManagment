@@ -72,9 +72,15 @@ namespace TireManagment.Services
                 context.Attach(entity);
             }
             dbEntityEntry.State = EntityState.Modified;
-            Commit();
+            //Commit();
         }
+        public void updatetorunning(int tireid)
+        {
+          var tire=  context.tires.Where(t => t.TireId == tireid).FirstOrDefault();
+            tire.TireStatus = TireStatus.Running;
+            Update(tire);
 
+        }
         public bool checkserialExists(string serial)
         {
             return context.tires.Any(t => t.Serial == serial);

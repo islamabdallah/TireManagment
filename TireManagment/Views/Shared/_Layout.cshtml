@@ -68,15 +68,15 @@
 @*        <button type="button" class="btn btn-primary">
   Trucks with missing Tires <span class="badge bg-warning-light">4</span>
 </button>*@
-
-<button type="button" class="btn btn-primary position-relative">
+<a asp-action="freepositionstrucks" asp-controller="Truck">
+<button  type="button" class="btn btn-primary position-relative">
   Trucks with missing Tires
   <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-    0
-    <span class="visually-hidden"> Trucks with missing Tires</span>
+    @TruckTireService.GetNumbersOfTruckWithMissingTires()
+  <span  class="visually-hidden"> Trucks with missing Tires</span>
   </span>
 </button>
-
+    </a>
         <nav class="header-nav ms-auto">
             <ul class="d-flex align-items-center">
 

@@ -35,9 +35,10 @@ namespace TireManagment.Api
             if (_truck != null)
             {
                 var _result = TruckService.GetTruckTires(_truck.TruckNumber);
+              var newtires=TireService.GetNewandRetreadtires();
                 if (_result != null)
                 {
-                    return Ok(new { Flag = true, Message = "Done", Data = _result });
+                    return Ok(new { Flag = true, Message = "Done", Data = _result ,NewTires=newtires});
                 }
                 return BadRequest(new { Flag = false, Message = "Error", Data = 0 });
             }

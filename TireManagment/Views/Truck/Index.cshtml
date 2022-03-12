@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "Index";
 }
+@*asp-route-id="@ViewBag.id"*@
 <div class="modal " id="AlertModal" role="dialog">
     <div class="modal-dialog modal-dialog-centered ">
         <div class="modal-content" style="background-color:white">
@@ -15,7 +16,7 @@
                 <h4>Truck Added Successfully</h4>
             </div>
             <div class="modal-footer">
-                <a asp-action="assigntires" asp-controller="Truck" asp-route-id="@ViewBag.id" asp-route-trucknumber="@ViewBag.trucknumber" type="button" class="btn btn-primary">Start Assign Tires</a>
+                <a asp-action="assigntires" asp-controller="Truck" asp-route-trucknumber="@ViewBag.trucknumber" type="button" class="btn btn-primary">Start Assign Tires</a>
                 <button id="alertclose" type="button" class="btn btn-success" data-dismiss="modal">Close</button>
             </div>
         </div>
@@ -454,20 +455,20 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Trucks</h5>
-            
-                                          <div class="row">
-                            <div class="col-md-6">
-                                <p class="alert alert-secondary" role="alert"> <b>Note : </b> List of administrators on the system   , <code> theses users access the admin console only </code></p>
-                            </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p class="alert alert-secondary" role="alert"> <b>Note : </b> List of administrators on the system   , <code> theses users access the admin console only </code></p>
                         </div>
+                    </div>
 
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addmodal">
-                       
+
                         <span class="badge badge-light"> <i class="bi bi-plus-circle"></i> </span>Add Truck
                     </button>
                     |
                     <button type="button" class="btn btn-success">
-                                <span class="badge badge-light"><i class="bi bi-file-earmark-spreadsheet"></i></span>Export to Excel 
+                        <span class="badge badge-light"><i class="bi bi-file-earmark-spreadsheet"></i></span>Export to Excel
                     </button>
 
                     <br />

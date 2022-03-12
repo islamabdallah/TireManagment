@@ -90,6 +90,7 @@ namespace TireManagment.Services
 
             return res;
         }
+     
         public void Commit()
         {
             context.SaveChanges();
@@ -113,62 +114,16 @@ namespace TireManagment.Services
         {
             return context.trucks.Include(t=>t.Category).Where(t => t.ID == id).FirstOrDefault();
         }
-        //public IActionResult Excel()
-        //{
-        //    var trucks=GetAll();
-        //    using (var workbook = new XLWorkbook())
-        //    {
-        //        Truck t;
-        //        var worksheet = workbook.Worksheets.Add("Trucks");
-        //        var currentRow = 1;
-        //        worksheet.Cell(currentRow, 1).Value = "Id";
-        //        worksheet.Cell(currentRow, 2).Value = "TruckNumber";
-        //        worksheet.Cell(currentRow, 2).Value ="TruckName" ;
-        //        worksheet.Cell(currentRow, 2).Value = "Type";
-        //        worksheet.Cell(currentRow, 2).Value = "Unit";
-        //        worksheet.Cell(currentRow, 2).Value = "VehichleModelNo";
-        //        worksheet.Cell(currentRow, 2).Value = "Active";
-        //        worksheet.Cell(currentRow, 2).Value = "AxleCount";
-        //        worksheet.Cell(currentRow, 2).Value = "Category";
-        //        worksheet.Cell(currentRow, 2).Value = "Company";
-        //        worksheet.Cell(currentRow, 2).Value = "Registeration";
-              
-        //        worksheet.Cell(currentRow, 2).Value = "Size";
-        //        worksheet.Cell(currentRow, 2).Value = "Status";
-        //        worksheet.Cell(currentRow, 2).Value = "Engine";
-        //        worksheet.Cell(currentRow, 2).Value = "Chassis";
-        //        foreach (var truck in trucks)
-        //        {
-        //            currentRow++;
-        //            worksheet.Cell(currentRow, 1).Value = truck.TruckId;
-        //            worksheet.Cell(currentRow, 2).Value = truck.TruckNumber;
-        //            worksheet.Cell(currentRow, 3).Value = truck.TruckName;
-        //            worksheet.Cell(currentRow, 4).Value = truck.Type;
-        //            worksheet.Cell(currentRow, 5).Value = truck.Unit;
-        //            worksheet.Cell(currentRow, 6).Value = truck.VehichleModelNo;
-        //            worksheet.Cell(currentRow, 7).Value = truck.Active;
-        //            worksheet.Cell(currentRow, 8).Value = truck.AxleCount;
-        //            worksheet.Cell(currentRow, 9).Value = truck.Category;
-        //            worksheet.Cell(currentRow, 10).Value = truck.TruckCompany;
-        //            worksheet.Cell(currentRow, 11).Value = truck.Registeration;
-                 
-        //            worksheet.Cell(currentRow, 12).Value = truck.Size;
-        //            worksheet.Cell(currentRow, 13).Value = truck.Status;
-        //            worksheet.Cell(currentRow, 14).Value = truck.Engine;
-        //            worksheet.Cell(currentRow, 15).Value = truck.Chassis;
-        //        }
-
-        //        using (var stream = new MemoryStream())
-        //        {
-        //            workbook.SaveAs(stream);
-        //            var content = stream.ToArray();
-                   
-        //            return File(content,
-        //                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-        //                "trucks.xlsx");
-        //        }
-        //    }
-        //}
+        public List<Truck> gettrucks(string[]trucks)
+        {
+           var x= context.trucks.Where(t => trucks.Contains(t.TruckNumber)).ToList();
+            return x;
+        }
+        public Truck GeTruck(string trucknumber)
+        {
+            return context.trucks.Where(t => t.TruckNumber == trucknumber).FirstOrDefault();
+        }
+       
     }
 }
 

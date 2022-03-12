@@ -86,8 +86,8 @@ namespace TireManagment.Controllers
             if (user != null)
             {
                 var result = await signInManger.PasswordSignInAsync(user.UserName, loginViewModel.password, loginViewModel.RememberMe, true);
-                
-                if (result.Succeeded && User.IsInRole(Role.Admin))
+
+                if (result.Succeeded &&await userManger.IsInRoleAsync(user, Role.Admin)) 
                 {
 
 
