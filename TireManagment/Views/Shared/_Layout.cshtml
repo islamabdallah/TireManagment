@@ -106,29 +106,32 @@
 
                         @foreach (TireMovement movement in TruckTireService.GetMovments())
                         {
-
-
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
                             <a asp-controller="TireMovement" asp-action="GetMovementDetail" asp-route-id="@movement.Id">
                             <li class="notification-item">
 
-                                <i class="bi bi-info-circle text-primary"></i>
+                                  @if(movement.MovementType=="Rotation")
+                                        {
+                                             <i class="bi bi-check-circle red-text pr-3"></i>
+                                        }
+                                        else
+                                        {
+                                              <i class="bi bi-x-circle"></i>
+                                        }
+                                      
                                 <div>
-                                    <h4>@movement.MovementType</h4>
-                                    <p>@movement.TruckNumber</p>
-                                    <p>@movement.SubmitDate</p>
+                                    <h4 style="color:black">@movement.MovementType</h4>
+                                    <p>Truck# : <b>@movement.TruckNumber</b></p>
+                                    <p>TireMan : <b>@movement.Tireman.Name</b></p>
+                                    <p>Date :<b>@movement.SubmitDate</b></p>
                                 </div>
                             </li>
                             </a>
-
-
                             <li>
                                 <hr class="dropdown-divider">
                             </li>
-
-
                         }
                         </div>
                         @*<li class="notification-item">
