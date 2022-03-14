@@ -70,6 +70,7 @@ namespace TireManagment.Services
             //  return context.users.Where(u=>u.ro)
 
         }
+       
         public int GetTiremens()
         {
             return userManger.GetUsersInRoleAsync(Role.TireMan).Result.Count();

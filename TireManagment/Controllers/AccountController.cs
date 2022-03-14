@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using ClosedXML.Excel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using TireManagment.DbModels;
@@ -36,6 +38,84 @@ namespace TireManagment.Controllers
         {
             ViewBag.admins = accountService.GetAdmins();
             return View();
+        }
+        public IActionResult AdminExcel()
+        {
+            var admins = accountService.GetAdmins();
+            using (var workbook = new XLWorkbook())
+            {
+
+                var worksheet = workbook.Worksheets.Add("SystemAdminstrators");
+                var currentRow = 1;
+                worksheet.Cell(currentRow, 1).Value = "Id";
+                worksheet.Cell(currentRow, 2).Value = "Name";
+
+                worksheet.Cell(currentRow, 3).Value = "Email";
+                worksheet.Cell(currentRow, 4).Value = "UserName";
+                worksheet.Cell(currentRow, 5).Value = "PhoneNumber";
+             
+
+                foreach (var admin in admins)
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = admin.Id;
+                    worksheet.Cell(currentRow, 2).Value = admin.Name;
+                    worksheet.Cell(currentRow, 3).Value = admin.Email;
+                    worksheet.Cell(currentRow, 4).Value = admin.UserName;
+                    worksheet.Cell(currentRow, 5).Value = admin.PhoneNumber;
+                   
+
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+
+                    return File(content,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "Admins.xlsx");
+                }
+            }
+        }
+        public IActionResult TireMenExcel()
+        {
+            var tiremen = accountService.GetTireMen();
+            using (var workbook = new XLWorkbook())
+            {
+
+                var worksheet = workbook.Worksheets.Add("SystemAdminstrators");
+                var currentRow = 1;
+                worksheet.Cell(currentRow, 1).Value = "Id";
+                worksheet.Cell(currentRow, 2).Value = "Name";
+
+                worksheet.Cell(currentRow, 3).Value = "Email";
+                worksheet.Cell(currentRow, 4).Value = "UserName";
+                worksheet.Cell(currentRow, 5).Value = "PhoneNumber";
+
+
+                foreach (var tireman in tiremen)
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = tireman.Id;
+                    worksheet.Cell(currentRow, 2).Value = tireman.Name;
+                    worksheet.Cell(currentRow, 3).Value = tireman.Email;
+                    worksheet.Cell(currentRow, 4).Value = tireman.UserName;
+                    worksheet.Cell(currentRow, 5).Value = tireman.PhoneNumber;
+
+
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+
+                    return File(content,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "TireMen.xlsx");
+                }
+            }
         }
         //[Authorize(Roles = Role.Admin)]
         public IActionResult Register()

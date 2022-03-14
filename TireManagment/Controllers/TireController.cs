@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using ClosedXML.Excel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using TireManagment.DbModels;
@@ -65,6 +67,45 @@ namespace TireManagment.Controllers
             ViewBag.TireHistory = tireService.GetTireHistory(tireid);
             var tire = tireService.GetTireDetails(tireid);
             return View("TireDetails", tire);
+        }
+        public IActionResult Excel()
+        {
+            var tires = tireService.GetAll();
+            using (var workbook = new XLWorkbook())
+            {
+                
+                var worksheet = workbook.Worksheets.Add("Tires");
+                var currentRow = 1;
+                worksheet.Cell(currentRow, 1).Value = "Id";
+                worksheet.Cell(currentRow, 2).Value = "Serial";
+             
+                worksheet.Cell(currentRow, 3).Value = "SubmitDate";
+                worksheet.Cell(currentRow, 4).Value = "Status";
+                worksheet.Cell(currentRow, 5).Value = "Brand";
+                worksheet.Cell(currentRow, 6).Value = "Size";
+
+                foreach (var tire in tires)
+                {
+                    currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = tire.ID;
+                    worksheet.Cell(currentRow, 2).Value = tire.Serial;
+                    worksheet.Cell(currentRow, 3).Value = tire.SubmitDate;
+                    worksheet.Cell(currentRow, 4).Value = tire.TireStatus;
+                    worksheet.Cell(currentRow, 5).Value = tire.Brand.Name;
+                    worksheet.Cell(currentRow, 6).Value = tire.Size;
+                  
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+
+                    return File(content,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "Tires.xlsx");
+                }
+            }
         }
     }
 }
