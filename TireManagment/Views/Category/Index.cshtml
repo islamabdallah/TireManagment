@@ -24,8 +24,8 @@
                     <h4 class="modal-title" id="staticBackdropLabel">  Add Administrator</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <img id="img" src="" width="450" height="400" />
+                <div class="modal-body" style="vertical-align:central;text-align:center">
+                    <img id="img" src="" width="300" height="400" />
                 </div>
                 <div class="modal-footer">
 
@@ -85,8 +85,6 @@
                                         <td>@category.RareTires</td>
                                         <td>@category.SpareTires</td>
                                         <td onclick="showimage('@category.Image', '@category.Category')"><a data-bs-toggle="modal" data-bs-target="#addmodal"> <i class="bi bi-images"></i></a></td>
-                                        @*             <td>@category.Active</td>
-                                            <td>@category.SubmitDate</td>*@
                                     </tr>
                                 }
 
@@ -105,80 +103,6 @@
 
 </section>
 
-
-@*<main id="main" class="main">
-    <h1>Index</h1>
-
-    <p>
-        <a asp-action="Create">Create New</a>
-    </p>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.CategoryId)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.category)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TireCount)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.SpareTires)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.RareTires)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FrontTire)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Active)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.date)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-    @foreach (var item in Model) {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CategoryId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.category)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.TireCount)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SpareTires)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.RareTires)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FrontTire)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Active)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.date)
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.id">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.id">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.id">Delete</a>
-                </td>
-            </tr>
-    }
-        </tbody>
-    </table>
-        </main>*@
 @section Scripts{
     <script>
         function showimage(url, category) {

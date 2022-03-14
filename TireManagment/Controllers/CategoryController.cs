@@ -15,7 +15,7 @@ namespace TireManagment.Controllers
     public class CategoryController : Controller
     {
         CategoryService categoryService;
-            public CategoryController(CategoryService _categoryService)
+        public CategoryController(CategoryService _categoryService)
         {
             categoryService = _categoryService;
         }
@@ -27,44 +27,41 @@ namespace TireManagment.Controllers
         public IActionResult Excel()
         {
             var categories = categoryService.GetAll();
-            using (var workbook = new XLWorkbook())
+            using var workbook = new XLWorkbook();
+
+            var worksheet = workbook.Worksheets.Add("Categories");
+            var currentRow = 1;
+            worksheet.Cell(currentRow, 1).Value = "Id";
+            worksheet.Cell(currentRow, 2).Value = "Active";
+            worksheet.Cell(currentRow, 3).Value = "Category";
+            worksheet.Cell(currentRow, 4).Value = "Description";
+            worksheet.Cell(currentRow, 5).Value = "TireCount";
+            worksheet.Cell(currentRow, 6).Value = "FrontTires";
+            worksheet.Cell(currentRow, 7).Value = "SpareTires";
+            worksheet.Cell(currentRow, 8).Value = "RareTires";
+
+            foreach (var category in categories)
             {
-
-                var worksheet = workbook.Worksheets.Add("Categories");
-                var currentRow = 1;
-                worksheet.Cell(currentRow, 1).Value = "Id";
-                worksheet.Cell(currentRow, 2).Value = "Active";
-
-                worksheet.Cell(currentRow, 3).Value = "Description";
-                worksheet.Cell(currentRow, 4).Value = "TireCount";
-                worksheet.Cell(currentRow, 5).Value = "FrontTires";
-                worksheet.Cell(currentRow, 6).Value = "SpareTires";
-                worksheet.Cell(currentRow, 7).Value = "RareTires";
-
-                foreach (var category in categories)
-                {
-                    currentRow++;
-                    worksheet.Cell(currentRow, 1).Value = category.Id;
-                    worksheet.Cell(currentRow, 2).Value = category.Active;
-                    worksheet.Cell(currentRow, 3).Value = category.Description;
-                    worksheet.Cell(currentRow, 4).Value = category.TireCount;
-                    worksheet.Cell(currentRow, 5).Value = category.FrontTires;
-                    worksheet.Cell(currentRow, 6).Value = category.SpareTires;
-                    worksheet.Cell(currentRow, 7).Value = category.RareTires;
-              
-
-                }
-
-                using (var stream = new MemoryStream())
-                {
-                    workbook.SaveAs(stream);
-                    var content = stream.ToArray();
-
-                    return File(content,
-                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                        "Categories.xlsx");
-                }
+                currentRow++;
+                worksheet.Cell(currentRow, 1).Value = category.Id;
+                worksheet.Cell(currentRow, 2).Value = category.Active;
+                worksheet.Cell(currentRow, 3).Value = category.Category;
+                worksheet.Cell(currentRow, 4).Value = category.Description;
+                worksheet.Cell(currentRow, 5).Value = category.TireCount;
+                worksheet.Cell(currentRow, 6).Value = category.FrontTires;
+                worksheet.Cell(currentRow, 7).Value = category.SpareTires;
+                worksheet.Cell(currentRow, 8).Value = category.RareTires;
             }
+
+            using var stream = new MemoryStream();
+            workbook.SaveAs(stream);
+            var content = stream.ToArray();
+            stream.Dispose();
+
+            return File(content,
+                "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                "TruckCategories.xlsx");
+        
         }
     }
 }
