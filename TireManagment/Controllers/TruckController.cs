@@ -33,9 +33,9 @@ namespace TireManagment.Controllers
 
         }
         [HttpGet]
-        public IActionResult Index()
+        public async  Task<IActionResult> Index()
         {
-            ViewBag.trucks = truckService.GetAll();
+            ViewBag.trucks =await truckService.GetAll();
             ViewBag.categories = categoryService.GetAll();
             if(TempData["success"]!=null&&(string)TempData["success"]=="true")
             {
@@ -121,12 +121,11 @@ namespace TireManagment.Controllers
             ViewBag.freepositionstrucks = freepositionstrucks;
             return View();
         }
-        public IActionResult Excel()
+        public async Task<IActionResult> Excel()
         {
-            var trucks =truckService.GetAll();
+            var trucks =await truckService.GetAll();
             using (var workbook = new XLWorkbook())
             {
-                Truck t;
                 var worksheet = workbook.Worksheets.Add("Trucks");
                 var currentRow = 1;
                 worksheet.Cell(currentRow, 1).Value = "Id";

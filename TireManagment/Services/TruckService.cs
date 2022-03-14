@@ -21,9 +21,9 @@ namespace TireManagment.Services
         }
 
    
-        public IQueryable<TruckViewModel> GetAll()
+        public async Task<IEnumerable<TruckViewModel>> GetAll()
         {
-            var trucks = context.trucks.Include(truck => truck.Category).Select(c=>new TruckViewModel() { TruckId=c.ID, AxleCount=c.AxleCount,TruckName=c.TruckName,TruckNumber=c.TruckNumber, Category=c.Category.Category, Chassis=c.Chassis, Engine=c.Engine, Manufacturer=c.Manufacturer, Registeration=c.Registeration, Size=c.Size, Unit=c.Unit, TruckCompany=c.Company, VehichleModelNo=c.VehichleModelNo, Type=c.Type, TruckYear=c.Year, Status=c.Status});
+            var trucks = context.trucks.Include(truck => truck.Category).Select(c=>new TruckViewModel() { TruckId=c.ID, AxleCount=c.AxleCount,TruckName=c.TruckName,TruckNumber=c.TruckNumber, Category=c.Category.Category, Chassis=c.Chassis, Engine=c.Engine, Manufacturer=c.Manufacturer, Registeration=c.Registeration, Size=c.Size, Unit=c.Unit, TruckCompany=c.Company, VehichleModelNo=c.VehichleModelNo, Type=c.Type, TruckYear=c.Year, Status=c.Status}).ToList();
             return trucks;
         }
         public int GetTruckCount()
@@ -83,10 +83,10 @@ namespace TireManagment.Services
             Commit();
         }
        
-        public IQueryable  GetTruckTires(string TruckNumber)
+        public IEnumerable<TruckTireViewModel>  GetTruckTires(string TruckNumber)
         {
          
-            var res= context.TruckTire.Where(tr=>tr.TruckNumber==TruckNumber).Include(t => t.tire).Select(t => new TruckTireViewModel() { Id = t.Id, LastUpdateTime = t.LastUdateDate, Position = t.TirePosition, TireSerial = t.tire.Serial,Tirebrand=t.tire.Brand.Name, TruckNumber = t.TruckNumber,TireStatus=t.tire.TireStatus });
+            var res= context.TruckTire.Where(tr=>tr.TruckNumber==TruckNumber).Include(t => t.tire).Select(t => new TruckTireViewModel() { Id = t.Id, LastUpdateTime = t.LastUdateDate, Position = t.TirePosition, TireSerial = t.tire.Serial,Tirebrand=t.tire.Brand.Name, TruckNumber = t.TruckNumber,TireStatus=t.tire.TireStatus }).ToList();
 
             return res;
         }
@@ -108,7 +108,7 @@ namespace TireManagment.Services
         }
         public IEnumerable<trucwithknumber> GetAllTruckNumbers()
         {
-            return context.trucks.Select(t => new trucwithknumber { Id = t.ID, TruckNumber = t.TruckNumber });
+            return context.trucks.Select(t => new trucwithknumber { Id = t.ID, TruckNumber = t.TruckNumber }).ToList();
         }
         public Truck GetTruckDetails(int id)
         {

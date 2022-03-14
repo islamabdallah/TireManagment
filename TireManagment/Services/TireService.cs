@@ -17,15 +17,15 @@ namespace TireManagment.Services
             context = _context;
         }
 
-        public IQueryable<Tire> GetAll()
+        public IEnumerable<Tire> GetAll()
         {
-            var tires = context.tires.Include(t => t.Brand);
+            var tires = context.tires.Include(t => t.Brand).ToList();
             return tires;
         }
 
-        public IQueryable<Tire> GetNewTires()
+        public IEnumerable<Tire> GetNewTires()
         {
-            var tires = context.tires.Include(t => t.Brand).Where(r => r.TireStatus == TireStatus.New || r.TireStatus == TireStatus.Retread);
+            var tires = context.tires.Include(t => t.Brand).Where(r => r.TireStatus == TireStatus.New || r.TireStatus == TireStatus.Retread).ToList();
             return tires;
         }
 
@@ -98,7 +98,7 @@ namespace TireManagment.Services
 
         public IEnumerable<tirewithserial> gettireserials()
         {
-            return context.tires.Select(t => new tirewithserial() { serial = t.Serial, tierid = t.ID });
+            return context.tires.Select(t => new tirewithserial() { serial = t.Serial, tierid = t.ID }).ToList();
         }
 
         public Tire GetTireDetails(int id)
