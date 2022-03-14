@@ -30,7 +30,7 @@ namespace TireManagment.Api
         }
 
         [HttpPost("TiresByTruck")]
-        public IActionResult GetTruckTires(Models.TruckViewModel _truck)
+        public  IActionResult GetTruckTires(Models.TruckViewModel _truck)
         {
             if (_truck != null)
             {

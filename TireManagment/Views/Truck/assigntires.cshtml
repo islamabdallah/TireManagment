@@ -67,8 +67,8 @@
 
                                                     </td>
                                                     <td>
-                                                        <select id="x"  class="selections"  name="tireids" asp-items="@(new SelectList(ViewBag.tires, nameof(tirewithserial.tierid), nameof(tirewithserial.serial)))" class="form-control">
-                                                            @*<option value="">Select Serial</option>*@
+                                                        <select id="x"  class="selections"  name="tireids" asp-items="@(new SelectList(ViewBag.tires, nameof(tirewithserial.tierid), nameof(tirewithserial.serial)))" class="form-control" required>
+                                                            <option value="">Select Serial</option>
                                                         </select>
                                                     </td>
                                                 }
@@ -122,7 +122,9 @@
             selects[i].addEventListener("change", function (event) {
                 $(this).removeClass("selections");
                 $(".selections option[value=" + $(this).data("prev") + "]").removeAttr('disabled');
+                $(".selections option[value=" + $(this).data("prev") + "]").css('background','');
                 $(".selections option[value=" + $(this).val() + "]").attr('disabled', 'disabled');
+                $(".selections option[value=" + $(this).val() + "]").css('background', 'red');//new
                // alert($(this).data("prev"));
                 $(this).data("prev", $(this).val());
                 $(this).addClass("selections");

@@ -3,20 +3,21 @@
 *@
 @using TireManagment.DbModels;
 @inject TireManagment.Services.TruckService truckservice;
+@using System.Linq;
     
-    @foreach (var group in ViewBag.freepositionstrucks)
+    @*@foreach (var group in ViewBag.freepositionstrucks)
     {
        Truck truck=truckservice.GeTruck(group.Key);
         <span>TruckNumber : @group.Key</span>
       
         <table class="table table-dark">
-            @*<tr>
+            <tr>
 
                 <th>@truck.TruckNumber</th>
                 <th>@truck.VehichleModelNo</th>
                 <th>@truck.AxleCount</th>
                 <td><a class="btn btn-success">Assign Tires</a></td>
-            </tr>*@
+            </tr>
             <tr>
                 <td>Free Positions</td>
                 @foreach (var x in group)
@@ -28,5 +29,31 @@
                 <td><a class="btn btn-success" asp-action="assigntires" asp-controller="Truck" asp-route-trucknumber="@truck.TruckNumber">Assign Tires</a></td>
             </tr>
             </table>
+    }*@
+<table class="table">
+    <tr>
+        <th>Truck Number</th>
+        <th>Free Positions</th>
+        <th>Tire Assigning</th>
+    </tr>
+    @foreach (System.Linq.IGrouping<string,TruckTire> group in ViewBag.freepositionstrucks)
+    {
+     
+<tr>
+    <td>@group.Key</td>
+    <td>
+        @foreach (var x in group)
+        {
+          
+            <span>@x.TirePosition &nbsp;&nbsp;</span>
+
+
+        }
+    </td>
+        <td><a class="btn btn-success" asp-action="assigntires" asp-controller="Truck" asp-route-trucknumber="@group.Key">Assign Tires</a></td>
+    </tr>
     }
+
+    
+        </table>
 
