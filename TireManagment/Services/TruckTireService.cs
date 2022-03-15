@@ -310,5 +310,11 @@ namespace TireManagment.Services
             return TrucksWithFreePositions;
         }
 
+        public TruckTire GetTruckByTireId(int tireId)
+        {
+            var _truckTire = context.TruckTire.Where(tr => tr.TireId == tireId).FirstOrDefault();
+            return _truckTire;
+        }
+
     }
 }
