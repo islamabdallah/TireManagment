@@ -176,5 +176,67 @@ namespace TireManagment.Controllers
                 }
             }
         }
+        public IActionResult MovementsExcel()
+        {
+            ViewBag.trucks=truckService.GetAllTruckNumbers();
+            return View();
+        }
+        public IActionResult FindMovements(DateTime startdate,DateTime enddate,int trucknumber)
+        {
+            
+            var movements = truckService.GetTruckMovemnts(startdate, enddate, trucknumber.ToString());
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Trucks");
+                var currentRow = 1;
+                
+                worksheet.Cell(currentRow, 1).Value = "Id";
+                worksheet.Cell(currentRow, 2).Value = "TruckNumber";
+                worksheet.Cell(currentRow, 3).Value = "Tireman";
+                worksheet.Cell(currentRow, 4).Value = "MovementType";
+                worksheet.Cell(currentRow, 5).Value = "SubmitDate";
+                worksheet.Cell(currentRow, 6).Value = "IsRead";
+                worksheet.Cell(currentRow, 7).Value = "Position";
+
+                worksheet.Cell(currentRow, 8).Value = "Serial";
+                worksheet.Cell(currentRow, 9).Value = "KMWhileChange";
+                worksheet.Cell(currentRow, 10).Value = "CurrentTireDepth";
+                worksheet.Cell(currentRow, 11).Value = "STDthreadDepth";
+                foreach (var move in movements)
+                {
+                    foreach (var detail in move.MovementDetails)
+                    {
+                      currentRow++;
+                    worksheet.Cell(currentRow, 1).Value = move.Id;
+                    worksheet.Cell(currentRow, 2).Value = move.TruckNumber;
+                    worksheet.Cell(currentRow, 3).Value =move.Tireman;
+                    worksheet.Cell(currentRow, 4).Value = move.MovementType;
+                    worksheet.Cell(currentRow, 5).Value = move.SubmitDate;
+                    worksheet.Cell(currentRow, 6).Value = move.IsRead;
+                        worksheet.Cell(currentRow, 7).Value = detail.Position;
+                        worksheet.Cell(currentRow, 8).Value = detail.TireId;
+                        worksheet.Cell(currentRow, 9).Value = detail.KMWhileChange;
+                        worksheet.Cell(currentRow, 10).Value = detail.CurrentTireDepth;
+                        worksheet.Cell(currentRow, 11).Value = detail.STDthreadDepth;
+
+                       
+
+
+                    }
+                
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+
+                    return File(content,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "truckmovements.xlsx");
+                }
+            }
+        }
+
     }
 }

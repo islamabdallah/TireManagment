@@ -14,7 +14,7 @@ namespace TireManagment.Services
     public class TruckService
     {
         public DbContext context;
-
+        
         public TruckService(DbContext _context)
         {
             context = _context;
@@ -32,7 +32,12 @@ namespace TireManagment.Services
             return trucks;
         }
 
+        public IEnumerable<TireMovement> GetTruckMovemnts(DateTime sdate,DateTime edate,string number)
+        {
 
+         var movements=context.TireMovement.Where(m => m.TruckNumber == number && m.SubmitDate>=sdate && m.SubmitDate <= edate).Include(m=>m.MovementDetails).Include(m=>m.Tireman).ToList();
+            return movements;
+        }
         public Truck GetById(int entityId)
         {
             return context.trucks.Find(entityId);

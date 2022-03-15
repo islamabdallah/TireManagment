@@ -49,11 +49,15 @@
                                                      @*   <label class="text-justify " style="margin-top:8px;font-size:16px;font-family:'Times New Roman', Times, serif">Choose Truck</label>&nbsp;*@
                                                         @if (Model != null)
                                                         {
-                                                            <select name="truckid" style="width:100px" asp-items="@(new SelectList(ViewBag.trucknumbers, nameof(trucwithknumber.Id), nameof(trucwithknumber.TruckNumber), Model.ID))" class="col-4 form-control"></select>
+                                                            <select name="truckid" style="width:100px" asp-items="@(new SelectList(ViewBag.trucknumbers, nameof(trucwithknumber.Id), nameof(trucwithknumber.TruckNumber), Model.ID))" class="col-4 form-control" required>
+                                                                <option value="">Truck Number</option>
+                                                            </select>
                                                         }
                                                         else
                                                         {
-                                                            <select name="truckid" style="width:100px" asp-items="@(new SelectList(ViewBag.trucknumbers, nameof(trucwithknumber.Id), nameof(trucwithknumber.TruckNumber)))" class="form-control"></select>
+                                                    <select name="truckid" style="width:100px" asp-items="@(new SelectList(ViewBag.trucknumbers, nameof(trucwithknumber.Id), nameof(trucwithknumber.TruckNumber)))" class="form-control" required>
+                                                        <option value="">Truck Number</option>
+                                                    </select>
                                                         }
                                                         <div class="input-group-append">
                                                             <button class="btn btn-success" type="submit">Get Details</button>

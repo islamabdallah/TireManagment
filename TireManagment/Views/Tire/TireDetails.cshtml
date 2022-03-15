@@ -10,11 +10,15 @@
         <label class="text-justify " style="margin-top:8px;font-size:16px;font-family:'Times New Roman', Times, serif">Choose Tire</label>&nbsp;
         @if (Model != null)
         {
-            <select name="tireid" style="width:100px" asp-items="@(new SelectList(ViewBag.tireserials, nameof(tirewithserial.tierid), nameof(tirewithserial.serial), Model.ID))" class="col-4 form-control"></select>
+            <select name="tireid" style="width:100px" asp-items="@(new SelectList(ViewBag.tireserials, nameof(tirewithserial.tierid), nameof(tirewithserial.serial), Model.ID))" class="col-4 form-control" required>
+                <option value="">Tire Serial</option>
+            </select>
         }
         else
         {
-            <select name="tireid" style="width:100px" asp-items="@(new SelectList(ViewBag.tireserials, nameof(tirewithserial.tierid), nameof(tirewithserial.serial)))" class="form-control"></select>
+    <select name="tireid" style="width:100px" asp-items="@(new SelectList(ViewBag.tireserials, nameof(tirewithserial.tierid), nameof(tirewithserial.serial)))" class="form-control" required>
+        <option value="">Tire Serial</option>
+    </select>
         }
         <div class="input-group-append">
             <button class="btn btn-info" type="submit">Get Details</button>

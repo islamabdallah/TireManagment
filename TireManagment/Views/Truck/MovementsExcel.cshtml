@@ -1,0 +1,96 @@
+﻿@*@model IEnumerable<TireManagment.DbModels.Truck>*@
+
+@inject TireManagment.Services.TireService tireservice;
+@inject TireManagment.Services.CategoryService service;
+@inject TireManagment.Services.TireService tservice;
+@inject TireManagment.Services.TruckService truckservice;
+@inject TireManagment.Services.AccountService accountservice;
+@inject TireManagment.Services.TruckTireService trucktireservice;
+@using TireManagment.Enums;
+@using TireManagment.DbModels;
+
+@{ ViewData["Title"] = "Index";}
+
+@section Styles{
+    <link href="~/css/datatable.css" rel="stylesheet" />
+    <link href="~/css/datatable1.css" rel="stylesheet" />
+}
+
+<div class="pagetitle">
+    <h3>Movement</h3>
+    <nav>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a asp-action="Index" asp-controller="Home">Home</a></li>
+            <li class="breadcrumb-item">Movement</li>
+            <li class="breadcrumb-item active">Truck Movement</li>
+        </ol>
+    </nav>
+</div><!-- End Page Title -->
+
+<section class="section dashboard">
+    <div class="row">
+
+        <!-- Left side columns -->
+        <div class="col-lg-12">
+            <div class="row">
+
+                <!-- Customers Card -->
+                <div class="col-xxl-12 col-xl-12">
+
+                    <div class="card info-card customers-card">
+                        <div class="card-body">
+                            @*<h5 class="card-title">Retread & Damaged <span>| Tires</span></h5>*@
+                            <h5 class="card-title"><i class="bi bi-check2-circle"></i> Select Truck </h5>
+
+                            <div class="d-flex align-items-center">
+
+                                <form class="form-horizontal" asp-action="FindMovements" asp-controller="Truck" method="get" style="width:100%;">
+                                  <div class="input-group mb-3">
+                                      <div class="row">
+                                          <div class="col col-3">
+                                            <label>Truck Number</label>
+                                         
+
+                                                  <select name="trucknumber" style="width:160px" asp-items="@(new SelectList(ViewBag.trucks, nameof(trucwithknumber.TruckNumber), nameof(trucwithknumber.TruckNumber)))" class="form-control" required>
+                                                      <option value="">Truck Number</option>
+                                                  </select>
+                                              
+                                          </div>
+                                          <div class="col col-3">
+                                              <label>Start Date</label>
+                                              <input required type="datetime-local" style="width:220px" name="startdate" />
+                                          </div>
+                                          <div class="col col-3">
+                                              <label>End Date</label>
+                                              <input required type="datetime-local" style="width:220px"  name="enddate"/>
+                                          </div>
+
+                                          <div class="col col-3 mt-3">
+
+                                              <button class="btn btn-success" style="font-size:15px" type="submit">Export Movements to Excel</button>
+
+                                          </div>
+                                      </div>
+                                      </div>
+                                    <div>
+                                        @*   <label class="text-justify " style="margin-top:8px;font-size:16px;font-family:'Times New Roman', Times, serif">Choose Truck</label>&nbsp;*@
+                                   
+                                     
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div><!-- End Customers Card -->
+                <!-- Customers Card -->
+            
+            
+            </div>
+        </div><!-- End Left side columns -->
+ 
+    </div>
+</section>
+
+
