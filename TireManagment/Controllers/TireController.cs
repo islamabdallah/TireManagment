@@ -54,10 +54,19 @@ namespace TireManagment.Controllers
                 return Json(true);
             return Json($"Serial Number Already Exists");
         }
-        public IActionResult Tiresserials()
+        [HttpGet]
+        public IActionResult TireDetials()
         {
+            var tire = tireService.GetFirstTire();
+            if (tire != null)
+            {
+                ViewBag.tireserials = tireService.gettireserials();
+                ViewBag.TruckNumber = tireService.GetTruckNumber((int)tire.TireId);
+                ViewBag.TireHistory = tireService.GetTireHistory((int)tire.TireId);
 
-            ViewBag.tireserials = tireService.gettireserials();
+
+                return View("TireDetails", tire);
+            }
             return View("TireDetails");
         }
         public IActionResult TireDetials(int tireid)
@@ -107,5 +116,62 @@ namespace TireManagment.Controllers
                 }
             }
         }
+        public IActionResult FindMovements(DateTime startdate, DateTime enddate, int tireid)
+        {
+
+            var movements = tireService.GetTireMovemnts(startdate, enddate,tireid );
+            using (var workbook = new XLWorkbook())
+            {
+                var worksheet = workbook.Worksheets.Add("Trucks");
+                var currentRow = 1;
+
+                worksheet.Cell(currentRow, 1).Value = "Id";
+                worksheet.Cell(currentRow, 2).Value = "MovementDate";
+        
+                worksheet.Cell(currentRow, 3).Value = "MovementType";
+                worksheet.Cell(currentRow, 4).Value = "TireMan";
+                worksheet.Cell(currentRow, 5).Value = "Position";
+                worksheet.Cell(currentRow, 6).Value = "CurrentTireDeoth";
+
+              
+                worksheet.Cell(currentRow, 7).Value = "KMWhileChange";
+          
+                worksheet.Cell(currentRow, 8).Value = "STDthreadDepth";
+                foreach (var move in movements)
+                {
+                   
+                        currentRow++;
+                        worksheet.Cell(currentRow, 1).Value = move.Id;
+                    worksheet.Cell(currentRow, 2).Value = move.TireMovement.SubmitDate;
+
+                    worksheet.Cell(currentRow, 3).Value = move.TireMovement.MovementType;
+                    worksheet.Cell(currentRow, 4).Value = move.TireMovement.Tireman.Name;
+                    worksheet.Cell(currentRow, 5).Value = move.Position;
+                    
+                        worksheet.Cell(currentRow, 7).Value = move.KMWhileChange;
+                        worksheet.Cell(currentRow, 8).Value = move.STDthreadDepth;
+                        worksheet.Cell(currentRow, 6).Value = move.CurrentTireDepth;
+                     
+                      
+                     
+
+
+
+
+
+                }
+
+                using (var stream = new MemoryStream())
+                {
+                    workbook.SaveAs(stream);
+                    var content = stream.ToArray();
+
+                    return File(content,
+                        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                        "truckmovements.xlsx");
+                }
+            }
+        }
+
     }
 }

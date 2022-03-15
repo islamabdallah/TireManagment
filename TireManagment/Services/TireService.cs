@@ -16,7 +16,22 @@ namespace TireManagment.Services
         {
             context = _context;
         }
+        public string GetTireCategoryImage(int tireid)
+        {
+           string trucknumber= context.TruckTire.Where(tr => tr.TireId == tireid).Select(tr => tr.TruckNumber).FirstOrDefault();
+          string image=context.trucks.Where(tr => tr.TruckNumber == trucknumber).Include(tr => tr.Category).Select(tr => tr.Category.Image).FirstOrDefault();
+            return image;
+        }
+        public Tire GetFirstTire()
+        {
+            return context.tires.Include(t=>t.Brand).FirstOrDefault();
+        }
+        public IEnumerable<MovementDetails> GetTireMovemnts(DateTime sdate, DateTime edate, int tireid)
+        {
 
+            var movements = context.MovementDetails.Include(md=>md.TireMovement).Where(md => md.TireId == tireid && md.TireMovement.SubmitDate >= sdate && md.TireMovement.SubmitDate <= edate).Include(md => md.TireMovement.Tireman).ToList();
+            return movements;
+        }
         public IEnumerable<Tire> GetAll()
         {
             var tires = context.tires.Include(t => t.Brand).ToList();
@@ -119,7 +134,7 @@ namespace TireManagment.Services
 
         public IEnumerable<MovementDetails> GetTireHistory(int tireid)
         {
-            return context.MovementDetails.Include(m=>m.TireMovement).Include(t=>t.TireMovement.Tireman).Where(m => m.TireId == tireid);
+            return context.MovementDetails.OrderByDescending(m=>m.TireMovement.SubmitDate).Include(m=>m.TireMovement).Include(t=>t.TireMovement.Tireman).Where(m => m.TireId == tireid).ToList();
         }
         public IEnumerable<Tire> Tires()
         {

@@ -4,6 +4,7 @@
 }
 
 @model TireManagment.DbModels.Tire;
+@inject TireManagment.Services.TireService tireservice;
 @using TireManagment.DbModels;
 <form class="form-horizontal" asp-action="TireDetials" asp-controller="Tire" method="get">
     <div class="input-group mb-3">
@@ -119,7 +120,7 @@
                                 <table id="example" class="display nowrap  table-borderless" style="">
                                     <thead>
                                         <tr>
-                                          
+                                        <th>Id</th>
                                             <th>Movement Type</th>
                                             <th>Movement Date</th>
                                             <th>Truck Number</th>
@@ -132,11 +133,12 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-
-                                        @foreach (MovementDetails movement in ViewBag.TireHistory)
+                                        @{ var history =(IEnumerable<MovementDetails>)ViewBag.TireHistory;}
+                                        @foreach (MovementDetails movement in history)
                                         {
 
                                         <tr>
+                                            <td>@movement.Id</td>
                                             <td>@movement.TireMovement.MovementType</td>
                                             <td>@movement.TireMovement.SubmitDate</td>
                                             <td>@movement.TireMovement.TruckNumber</td>
@@ -181,30 +183,9 @@
                     <div class="card-body">
                         <h5 class="card-title">Truck Tires <span>| Truck Tire In Postion</span></h5>
 
-                        <div class="activity">
-                          
-                            @*@foreach (TruckTireViewModel x in ViewBag.trucktires)
-                            {
-
-
-                                <div class="activity-item d-flex">
-                                    <div class="activite-label">@x.Position</div>
-                                    <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
-                                    <div class="activity-content">
-                                        @x.TireSerial<a href="#" class="fw-bold text-dark"></a>
-                                    </div>
-                                </div>
-
-                            }*@
-                            <!-- End activity item-->
-                            <!--<div class="activity-item d-flex">
-                                <div class="activite-label"> 2 days</div>
-                                <i class='bi bi-circle-fill activity-badge text-muted align-self-start'></i>
-                                <div class="activity-content">
-                                category 45
-                                </div>
-                            </div>-->
-                            <!-- End activity item-->
+                        <div class="activity justify-content-center">
+                          @{var image = tireservice.GetTireCategoryImage(Model.ID); }
+                          <img  src="~/Img/@image" width="200"/>
 
                         </div>
 
@@ -226,10 +207,35 @@
                     </div>
 
                     <div class="card-body pb-0">
-                        <h5 class="card-title">News &amp; Updates <span>| Today</span></h5>
-
+                        @*<h5 class="card-title">News &amp; Updates <span>| Today</span></h5>*@
+                        <h5 class="card-title">Export Tire Movements to Excel Sheet</h5>
                         <div class="news">
+                            <form class="form-horizontal" asp-action="FindMovements" asp-controller="Tire" method="get" style="width:100%;">
+                                <div class="input-group mb-3">
+                                    <div class="row">
+                                       
+                                            
+                                     
+                                            <label style="font-weight:bold">Start Date</label>
+                                            <input required type="datetime-local" style="width:300px" name="startdate" />
+                                        <br /><br />
+                                      
+                                            <label style="font-weight:bold">End Date</label>
+                                            <input  required type="datetime-local" style="width:300px" name="enddate" />
+                                        <input  type="hidden" name="tireid" value="@Model.TireId" />
+                                       <br />
+                                        <br />
+                                            <button class="btn btn-success" style="font-size:15px" type="submit">Export to Excel</button>
 
+                                       
+                                    </div>
+                                </div>
+                                <div>
+                                    @*   <label class="text-justify " style="margin-top:8px;font-size:16px;font-family:'Times New Roman', Times, serif">Choose Truck</label>&nbsp;*@
+
+
+                                </div>
+                            </form>
 
 
                         </div><!-- End sidebar recent posts-->
@@ -303,7 +309,9 @@
     <script>
         $(document).ready(function () {
             $('#example').DataTable({
-                responsive: true
+               
+                order: [[3, "desc"]],
+                responsive: true,
             });
         });
     </script>

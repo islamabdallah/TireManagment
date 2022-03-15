@@ -18,9 +18,9 @@ namespace TireManagment.Services
         }
   
 
-        public IQueryable<TruckCategory> GetAll()
+        public IEnumerable<TruckCategory> GetAll()
         {
-            var categories = context.categories;
+            var categories = context.categories.ToList();
             return categories;
         }
         public IQueryable<CategoryWithTruckCount> GetAllWithTruckCount()

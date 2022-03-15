@@ -48,26 +48,27 @@
                                         <tr>
                                             <td>@Model.Id</td>
 
-                                                               @if(Model.MovementType=="Rotation"){
+                                            @if (Model.MovementType == "Rotation")
+                                            {
 
-                                                                        <td>
-                                                                            <div class="alert alert-success" role="alert">
-                                                                                      @Model.MovementType
-                                                                                </div>
-                                         
-                                                                            </td>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                          <td>
-                                                                            <div class="alert alert-danger" role="alert">
-                                                                                       @Model.MovementType
-                                                                                </div>
-                                         
-                                                                            </td>
-                                                                    }
+                                                <td>
+                                                    <div class="alert alert-success" role="alert">
+                                                        @Model.MovementType
+                                                    </div>
+
+                                                </td>
+                                            }
+                                            else
+                                            {
+                                                <td>
+                                                    <div class="alert alert-danger" role="alert">
+                                                        @Model.MovementType
+                                                    </div>
+
+                                                </td>
+                                            }
                                             <td>@Model.TruckNumber</td>
-                                              <td>@Model.Tireman.Name</td>
+                                            <td>@Model.Tireman.Name</td>
                                             <td>@Model.SubmitDate</td>
                                         </tr>
                                     </table>
@@ -94,8 +95,8 @@
                                             <th>STDThreadDepth</th>
                                             <th>KMWhileChange</th>
                                         </tr>
-                                      @foreach(MovementDetails md in Model.MovementDetails)
-                                          {
+                                        @foreach (MovementDetails md in Model.MovementDetails)
+                                        {
                                             <tr>
                                                 <td>@md.Id</td>
                                                 <td>@tireservice.GetTireSerial(@md.TireId)</td>
@@ -104,7 +105,7 @@
                                                 <td>@md.STDthreadDepth</td>
                                                 <td>@md.KMWhileChange</td>
                                             </tr>
-                                          }
+                                        }
                                     </table>
 
 

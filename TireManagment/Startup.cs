@@ -99,7 +99,7 @@ namespace TireManagment
                 endpoints.MapHub<notifyHub>("/questionHub");
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{name=alaa}/{controller=Home}/{action=Index}/{id?}");
             });
         }
         public async Task CreateRoles()

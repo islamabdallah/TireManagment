@@ -236,7 +236,7 @@ namespace TireManagment.Services
         public IEnumerable<TireMovement> GetTruckMovements(string trucknumber)
 
         {
-            return context.TireMovement.Include(tm => tm.Tireman).Include(tm => tm.MovementDetails).Where(tm => tm.TruckNumber == trucknumber).ToList();
+            return context.TireMovement.Include(tm => tm.Tireman).Include(tm => tm.MovementDetails).Where(tm => tm.TruckNumber == trucknumber).OrderByDescending(m=>m.SubmitDate).ToList();
         }
         public void updatetrucktire(List<string> positions, List<int> tireids, string trucknumber,string userid)
         {

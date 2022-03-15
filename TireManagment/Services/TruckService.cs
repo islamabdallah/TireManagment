@@ -31,7 +31,10 @@ namespace TireManagment.Services
             var trucks = context.trucks.Count();
             return trucks;
         }
-
+        public Truck GetFirstTruck()
+        {
+            return  context.trucks.Include(t=>t.Category).FirstOrDefault();
+        }
         public IEnumerable<TireMovement> GetTruckMovemnts(DateTime sdate,DateTime edate,string number)
         {
 

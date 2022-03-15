@@ -70,8 +70,14 @@ namespace TireManagment.Controllers
         }
         public IActionResult TruckDetails()
         {
-            
+            var truck = truckService.GetFirstTruck();
             ViewBag.trucknumbers = truckService.GetAllTruckNumbers();
+            if (truck != null)
+            {
+                ViewBag.trucktires = truckService.GetTruckTires(truck.TruckNumber);//gets the current positions of tire
+                ViewBag.truckmovements = truckTireService.GetTruckMovements(truck.TruckNumber);
+                return View(truck);
+            }
             return View();
         }
         public IActionResult GetTruckData(int truckid)
@@ -176,6 +182,10 @@ namespace TireManagment.Controllers
                 }
             }
         }
+        //public IActionResult carusal()
+        //{
+        //    return View();
+        //}
         public IActionResult MovementsExcel()
         {
             ViewBag.trucks=truckService.GetAllTruckNumbers();
