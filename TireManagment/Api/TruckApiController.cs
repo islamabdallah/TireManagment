@@ -23,11 +23,12 @@ namespace TireManagment.Api
         }
 
         [HttpGet("TruckList")]
-        public IActionResult Trucks()
+        public async Task<IActionResult> Trucks()
         {
-            var _trucks = TruckService.GetAll();
+            var _trucks =await TruckService.GetAll();
             if (_trucks != null)
-                return Ok(new { Flag = true, Message = "Done", Data = _trucks });
+                //return Ok(new { Flag = true, Message = "Done", Data = _trucks });
+                return Ok(_trucks);
             else
                 return BadRequest(new { Flag = false, Message = "Error", Data = 0 });
         }
