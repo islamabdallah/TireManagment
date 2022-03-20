@@ -266,7 +266,10 @@
             <!-- News & Updates Traffic -->
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">With controls</h5>
+                    @{
+                        var categoryname = "";
+                    }
+              
 
                     <!-- Slides with controls -->
                     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
@@ -274,20 +277,22 @@
                             @{ var count = 0;}
                             @foreach (TruckCategory category in category.GetAll())
                             {
-
+                                categoryname = category.Category;
 
                                 @if (count == 0)
                                 {
-                                    <div class="carousel-item active">
-                                        <img src="~/Img/@category.Image" class="d-block w-100" alt="...">
-                                    </div>
+                            <div class="carousel-item active">
+                                <h5 class="card-title">@categoryname</h5>
+                                <img src="~/Img/@category.Image" class="d-block w-100" alt="...">
+                            </div>
                                     count++;
                                 }
                                 else
                                 {
-                                    <div class="carousel-item">
-                                        <img src="~/Img/@category.Image" class="d-block w-100" alt="...">
-                                    </div>
+                        <div class="carousel-item">
+                            <h5 class="card-title">@categoryname</h5>
+                            <img src="~/Img/@category.Image" class="d-block w-100" alt="...">
+                        </div>
 
                                 }
                             }
