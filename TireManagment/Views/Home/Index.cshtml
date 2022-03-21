@@ -43,7 +43,7 @@
 
                             <div class="d-flex align-items-center">
                                 <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
-                                    <i class="bi bi-cart"></i>
+                                <i class="bi bi-fan"></i>
                                 </div>
                                 <div class="ps-3">
                                     <h6 id="alltires">@alltires</h6>
@@ -277,7 +277,7 @@
                             @{ var count = 0;}
                             @foreach (TruckCategory category in category.GetAll())
                             {
-                                categoryname = category.Category;
+                                categoryname = "Truck Category :  " + " " +category.Category;
 
                                 @if (count == 0)
                                 {
