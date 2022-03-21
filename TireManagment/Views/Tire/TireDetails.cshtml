@@ -92,19 +92,7 @@
 
                                         <br />
 
-                                        <div class="activity-item d-flex">
-                                            <i class="bi bi-signpost"></i> &nbsp;
-                                            <div class="activite-label">  <b> Brand : </b> </div>&nbsp;
-
-                                            <div class="activity-content">
-                                                @Model.Brand.Name<a href="#" class="fw-bold text-dark"></a>
-                                            </div>
-                                        </div>
-                                    </div>
-
-
-                                    <div class="col-lg-4">
-                                        <div class="activity-item d-flex">
+                                                            <div class="activity-item d-flex">
                                             <i class="bi bi-signpost"></i> &nbsp;
                                             <div class="activite-label">  <b> Tire Size : </b> </div>&nbsp;
 
@@ -112,6 +100,42 @@
                                                 @Model.Size<a href="#" class="fw-bold text-dark"></a>
                                             </div>
                                         </div>
+
+      
+                                    </div>
+
+
+                                    <div class="col-lg-6">
+                                 <div class="activity-item d-flex">
+                                            <i class="bi bi-signpost"></i> &nbsp;
+                                            <div class="activite-label">  <b> Tire Status : </b> </div>&nbsp;
+
+                                            <div class="activity-content">
+                                               @if(@Model.TireStatus =="Retread" ){
+                                                    <h5> <span class="badge bg-warning">@Model.TireStatus</span></h5>
+                                                }
+                                                else if(@Model.TireStatus =="Damaged")
+                                                {
+                                                    <h5> <span class="badge bg-danger">@Model.TireStatus</span></h5>
+                                                }
+                                                else
+                                                {
+                                                    <h5> <span class="badge bg-success">@Model.TireStatus</span></h5>
+                                                }
+
+                                                <a href="#" class="fw-bold text-dark"></a>
+                                            </div>
+                                        </div>
+                                        <br />
+                                                                          <div class="activity-item d-flex">
+                                            <i class="bi bi-signpost"></i> &nbsp;
+                                            <div class="activite-label">  <b> Brand : </b> </div>&nbsp;
+
+                                            <div class="activity-content">
+                                                @Model.Brand.Name<a href="#" class="fw-bold text-dark"></a>
+                                            </div>
+                                        </div>
+
                                         <br />
 
                                         <div class="activity-item d-flex">
@@ -122,6 +146,9 @@
                                                 @Model.SubmitDate<a href="#" class="fw-bold text-dark"></a>
                                             </div>
                                         </div>
+
+                           
+
                                     </div>
                                 </div>
                             </div>
@@ -184,6 +211,53 @@
         {
          var tirestate = trucktireservice.GetTruckByTireId(Model.ID);
     <div class="col-lg-4">
+
+
+
+                <div class="card">
+            <div class="card-body pb-0">
+                @*<h5 class="card-title">News &amp; Updates <span>| Today</span></h5>*@
+                <h5 class="card-title">Export Tire Movements  <span>| Excel</span></h5>
+                <div class="news">
+                    <form class="form-horizontal" asp-action="FindMovements" asp-controller="Tire" method="get" style="width:100%;">
+
+
+                                                <div class="input-group mb-3">
+
+                               <div class="row">
+                                   <div class="row">
+                                   <div class="col-lg-4">Date From</div>
+                                      <div class="col-lg-8">
+                                          <input required type="datetime-local" style="width:100%" name="startdate" />    
+                                      </div>
+                                   </div>
+                               
+                                   <br />
+                                                   <br />
+                                    <div class="row">
+                                   <div class="col-lg-4">Date To</div>
+                                      <div class="col-lg-8">      <input required type="datetime-local" style="width:100%" name="enddate" /></div>
+                                   </div>
+                                         <br />
+                                                   <br />
+                                         <div class="row">
+                             
+                                      <div class="col-lg-12">   <button class="btn btn-success" style="font-size:15px; width:100%;" type="submit"><i class="bi bi-file-earmark-spreadsheet"></i>   Export to Excel</button></div>
+                                   </div>
+                                   <input type="hidden" name="tireid" value="@Model.TireId" />
+                        </div>
+                          </div>
+
+                    </form>
+
+
+                </div><!-- End sidebar recent posts-->
+
+            </div>
+        </div>
+
+
+
         <!-- Recent Activity -->
         <div class="card">
 
@@ -227,83 +301,20 @@
         </div><!-- End Recent Activity -->
         <!-- News & Updates Traffic -->
         <!-- News & Updates Traffic -->
+
         <div class="card">
-            <div class="filter">
-                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                        <h6>Filter</h6>
-                    </li>
 
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                </ul>
-            </div>
+     <div class="card-body pb-0">
+           <h5 class="card-title">Tire Distribution  <span>| Image</span></h5>
 
-            <div class="card-body pb-0">
-                @*<h5 class="card-title">News &amp; Updates <span>| Today</span></h5>*@
-                <h5 class="card-title">Export Tire Movements to Excel Sheet</h5>
-                <div class="news">
-                    <form class="form-horizontal" asp-action="FindMovements" asp-controller="Tire" method="get" style="width:100%;">
-                        <div class="input-group mb-3">
-                            <div class="row">
-
-
-
-                                <label style="font-weight:bold">Start Date</label>
-                                <input required type="datetime-local" style="width:300px" name="startdate" />
-                                <br /><br />
-
-                                <label style="font-weight:bold">End Date</label>
-                                <input required type="datetime-local" style="width:300px" name="enddate" />
-                                <input type="hidden" name="tireid" value="@Model.TireId" />
-                                <br />
-                                <br />
-                                <button class="btn btn-success" style="font-size:15px" type="submit">Export to Excel</button>
-
-
-                            </div>
-                        </div>
-                        <div>
-                            @*   <label class="text-justify " style="margin-top:8px;font-size:16px;font-family:'Times New Roman', Times, serif">Choose Truck</label>&nbsp;*@
-
-
-                        </div>
-                    </form>
-
-
-                </div><!-- End sidebar recent posts-->
-
-            </div>
-        </div>
-        <div class="card">
-            <div class="filter">
-                <a class="icon" href="#" data-bs-toggle="dropdown"><i class="bi bi-three-dots"></i></a>
-                <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                    <li class="dropdown-header text-start">
-                        <h6>Filter</h6>
-                    </li>
-
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
-                </ul>
-            </div>
-
-            <div class="card-body">
-                <h5 class="card-title">Truck Tires <span>| Truck Tire In Postion</span></h5>
-
-                <div class="activity justify-content-center">
+                 <div class="activity" style="vertical-align:central;text-align:center">
                     @{var image = tireservice.GetTireCategoryImage(Model.ID); }
-                    <img src="~/Img/@image" width="200" />
+                    <img src="~/Img/@image" style="width:80%; height:80%; align-content:center; vertical-align:central" />
 
                 </div>
 
             </div>
         </div><!-- End Recent Activity -->
-
-
     </div><!-- End Right side columns -->
         }
             
