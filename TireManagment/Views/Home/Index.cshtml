@@ -220,46 +220,20 @@
                         @{
                             List<CategoryWithTruckCount> categosries = service.GetAllWithTruckCount().ToList();
                         }
-
-                        <div class="activity-item d-flex">
-                            <div class="activite-label">@categosries[0].count</div>
-                            <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
+                         @foreach (CategoryWithTruckCount category in categosries)
+                         {
+                             var random = new Random();
+                             var colors = new List<string>() { "text-success", "text-danger", "text-primary", "text-info", "text-warning" };
+                             var index = random.Next(colors.Count);
+                             <div class="activity-item d-flex">
+                            <div class="activite-label">@category.count</div>
+                            <i class='bi bi-circle-fill activity-badge @colors[index] align-self-start'></i>
                             <div class="activity-content">
-                                @categosries[0].category <a href="#" class="fw-bold text-dark"></a>
+                                @category.category <a href="#" class="fw-bold text-dark"></a>
                             </div>
                         </div><!-- End activity item-->
+                         }
 
-                        <div class="activity-item d-flex">
-                            <div class="activite-label">@categosries[1].count</div>
-                            <i class='bi bi-circle-fill activity-badge text-danger align-self-start'></i>
-                            <div class="activity-content">
-                                @categosries[1].category
-                            </div>
-                        </div><!-- End activity item-->
-
-                        <div class="activity-item d-flex">
-                            <div class="activite-label">   @categosries[2].count</div>
-                            <i class='bi bi-circle-fill activity-badge text-primary align-self-start'></i>
-                            <div class="activity-content">
-                                @categosries[2].category
-                            </div>
-                        </div><!-- End activity item-->
-
-                        <div class="activity-item d-flex">
-                            <div class="activite-label">   @categosries[3].count</div>
-                            <i class='bi bi-circle-fill activity-badge text-info align-self-start'></i>
-                            <div class="activity-content">
-                                @categosries[3].category <a href="#" class="fw-bold text-dark"></a>
-                            </div>
-                        </div><!-- End activity item-->
-
-                        <div class="activity-item d-flex">
-                            <div class="activite-label">   @categosries[4].count</div>
-                            <i class='bi bi-circle-fill activity-badge text-warning align-self-start'></i>
-                            <div class="activity-content">
-                                @categosries[4].category
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div><!-- End Recent Activity -->

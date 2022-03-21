@@ -69,7 +69,7 @@ namespace TireManagment.Controllers
             }
             return View("TireDetails");
         }
-        public IActionResult TireDetials(int tireid)
+        public IActionResult GetDetials(int tireid)
         {
             ViewBag.tireserials = tireService.gettireserials();
             ViewBag.TruckNumber = tireService.GetTruckNumber(tireid);
