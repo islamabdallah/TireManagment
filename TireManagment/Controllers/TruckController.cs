@@ -224,7 +224,7 @@ namespace TireManagment.Controllers
                     worksheet.Cell(currentRow, 5).Value = move.SubmitDate;
                     worksheet.Cell(currentRow, 6).Value = move.IsRead;
                         worksheet.Cell(currentRow, 7).Value = detail.Position;
-                        worksheet.Cell(currentRow, 8).Value = detail.TireId;
+                        worksheet.Cell(currentRow, 8).Value = detail.tire.Serial;
                         worksheet.Cell(currentRow, 9).Value = detail.KMWhileChange;
                         worksheet.Cell(currentRow, 10).Value = detail.CurrentTireDepth;
                         worksheet.Cell(currentRow, 11).Value = detail.STDthreadDepth;

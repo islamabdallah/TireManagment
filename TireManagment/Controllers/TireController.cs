@@ -130,13 +130,14 @@ namespace TireManagment.Controllers
         
                 worksheet.Cell(currentRow, 3).Value = "MovementType";
                 worksheet.Cell(currentRow, 4).Value = "TireMan";
-                worksheet.Cell(currentRow, 5).Value = "Position";
-                worksheet.Cell(currentRow, 6).Value = "CurrentTireDeoth";
+                worksheet.Cell(currentRow, 5).Value = "Serial";
+                worksheet.Cell(currentRow, 6).Value = "Position";
+                worksheet.Cell(currentRow, 7).Value = "CurrentTireDeoth";
 
               
-                worksheet.Cell(currentRow, 7).Value = "KMWhileChange";
+                worksheet.Cell(currentRow, 8).Value = "KMWhileChange";
           
-                worksheet.Cell(currentRow, 8).Value = "STDthreadDepth";
+                worksheet.Cell(currentRow, 9).Value = "STDthreadDepth";
                 foreach (var move in movements)
                 {
                    
@@ -146,8 +147,8 @@ namespace TireManagment.Controllers
 
                     worksheet.Cell(currentRow, 3).Value = move.TireMovement.MovementType;
                     worksheet.Cell(currentRow, 4).Value = move.TireMovement.Tireman.Name;
-                    worksheet.Cell(currentRow, 5).Value = move.Position;
-                    
+                    worksheet.Cell(currentRow, 5).Value = move.tire.Serial;
+                    worksheet.Cell(currentRow, 6).Value = move.Position;
                         worksheet.Cell(currentRow, 7).Value = move.KMWhileChange;
                         worksheet.Cell(currentRow, 8).Value = move.STDthreadDepth;
                         worksheet.Cell(currentRow, 6).Value = move.CurrentTireDepth;
