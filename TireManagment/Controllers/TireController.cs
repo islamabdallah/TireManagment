@@ -133,7 +133,7 @@ namespace TireManagment.Controllers
                 worksheet.Cell(currentRow, 5).Value = "Serial";
                 worksheet.Cell(currentRow, 6).Value = "Position";
                 worksheet.Cell(currentRow, 7).Value = "CurrentTireDeoth";
-
+                
               
                 worksheet.Cell(currentRow, 8).Value = "KMWhileChange";
           
@@ -169,7 +169,7 @@ namespace TireManagment.Controllers
 
                     return File(content,
                         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-                        "truckmovements.xlsx");
+                        "tiremovements.xlsx");
                 }
             }
         }

@@ -29,7 +29,7 @@ namespace TireManagment.Services
         public IEnumerable<MovementDetails> GetTireMovemnts(DateTime sdate, DateTime edate, int tireid)
         {
 
-            var movements = context.MovementDetails.Include(md=>md.TireMovement).Where(md => md.TireId == tireid && md.TireMovement.SubmitDate >= sdate && md.TireMovement.SubmitDate <= edate).Include(md => md.TireMovement.Tireman).ToList();
+            var movements = context.MovementDetails.Include(m=>m.tire).Include(md=>md.TireMovement).ThenInclude(m=>m.Tireman).Where(md => md.TireId == tireid && md.TireMovement.SubmitDate >= sdate && md.TireMovement.SubmitDate <= edate).Include(md => md.TireMovement.Tireman).OrderByDescending(m=>m.TireMovement.SubmitDate).ToList();
             return movements;
         }
         public IEnumerable<Tire> GetAll()

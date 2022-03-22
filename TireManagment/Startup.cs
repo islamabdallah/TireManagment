@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -92,15 +93,22 @@ namespace TireManagment
           
 
             app.UseAuthentication();
-
+          
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHub<notifyHub>("/questionHub");
                 endpoints.MapControllerRoute(
+                 name: "default",
+
+                 pattern: ("{name=alaa}/{controller=Home}/{action=Index}/{id?}"));
+                endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{name=alaa}/{controller=Home}/{action=Index}/{id?}");
+                   
+                    pattern: ("{controller=Home}/{action=Index}/{id?}"));
+               
             });
+           
         }
         public async Task CreateRoles()
         {

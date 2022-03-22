@@ -38,7 +38,7 @@ namespace TireManagment.Services
         public IEnumerable<TireMovement> GetTruckMovemnts(DateTime sdate,DateTime edate,string number)
         {
 
-         var movements=context.TireMovement.Where(m => m.TruckNumber == number && m.SubmitDate>=sdate && m.SubmitDate <= edate).Include(m=>m.MovementDetails).Include(m=>m.Tireman).ToList();
+         var movements=context.TireMovement.Where(m => m.TruckNumber == number && m.SubmitDate>=sdate && m.SubmitDate <= edate).Include(m=>m.MovementDetails).ThenInclude(m=>m.tire).Include(m=>m.Tireman).OrderByDescending(m=>m.SubmitDate).ToList();
             return movements;
         }
         public Truck GetById(int entityId)
