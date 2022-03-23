@@ -97,19 +97,19 @@ namespace TireManagment
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<notifyHub>("/questionHub");
+                endpoints.MapHub<notifyHub>("questionHub");
                 endpoints.MapControllerRoute(
                  name: "default",
 
                  pattern: ("{name=alaa}/{controller=Home}/{action=Index}/{id?}"));
-                endpoints.MapControllerRoute(
-                    name: "default",
-                   
-                    pattern: ("{controller=Home}/{action=Index}/{id?}"));
-               
-            });
-           
-        }
+                    endpoints.MapControllerRoute(
+                        name: "default",
+
+                        pattern: ("{controller=Home}/{action=Index}/{id?}"));
+
+                });
+
+            }
         public async Task CreateRoles()
         {
 

@@ -63,7 +63,13 @@ connection.on("ReciveNewTransaction", function ( message) {
     //alert(message.damagedtires);
     damagedonly.innerHTML = message.damagedtires;
   
-  
+  ////table insertion/
+    var table = document.getElementById("movetable");
+    var row = table.insertRow(1);
+    row.style.backgroundColor = "#FFFF00";
+    //this adds row in 0 index i.e. first place
+   
+    row.innerHTML = "<th scope='row'>" + message.id + "</th><td>" + message.tireman + "</td><td>" + d + "</td><td>" + message.trucknumber + "</td><td><span class='badge bg-success'>"+message.operation+"</span></td>";
   
     
 
