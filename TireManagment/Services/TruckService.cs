@@ -20,7 +20,10 @@ namespace TireManagment.Services
             context = _context;
         }
 
-   
+        public string GetImage(string trucknumber)
+        {
+            return context.trucks.Where(t => t.TruckNumber == trucknumber).Include(t => t.Category).Select(t => t.Category.Image).FirstOrDefault();
+        }
         public async Task<IEnumerable<TruckViewModel>> GetAll()
         {
             var trucks = context.trucks.Include(truck => truck.Category).Select(c=>new TruckViewModel() { TruckId=c.ID, AxleCount=c.AxleCount,TruckName=c.TruckName,TruckNumber=c.TruckNumber, Category=c.Category.Category, Chassis=c.Chassis, Engine=c.Engine, Manufacturer=c.Manufacturer, Registeration=c.Registeration, Size=c.Size, Unit=c.Unit, TruckCompany=c.Company, VehichleModelNo=c.VehichleModelNo, Type=c.Type, TruckYear=c.Year, Status=c.Status}).ToList();
