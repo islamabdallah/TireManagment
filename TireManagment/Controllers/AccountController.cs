@@ -171,16 +171,10 @@ namespace TireManagment.Controllers
 
                 if (result.Succeeded &&await userManger.IsInRoleAsync(user, Role.Admin)) 
                 {
-
-
-               
                     return RedirectToAction("Index", "Home");
                 }
             }
             ModelState.AddModelError(string.Empty, "Email or Password Not Correct");
-
-
-
             return View(loginViewModel);
 
         }
