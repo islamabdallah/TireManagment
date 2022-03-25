@@ -264,6 +264,7 @@
             <div class="card-body">
                 <h5 class="card-title"> Tire Info (Active Position & Truck) <span>| Tire </span></h5>
                 <div class="activity">
+                    @if (@tirestate != null){
 
                     <div class="activity-item d-flex">
                         <div class="activite-label">
@@ -294,7 +295,7 @@
                             @tirestate.LastUdateDate <a href="#" class="fw-bold text-dark"></a>
                         </div>
                     </div>
-
+            }
 
                 </div>
             </div>
