@@ -122,7 +122,8 @@
                                         }
                                       
                                 <div>
-                                    <h4 style="color:black">@movement.MovementType</h4>
+                                         @if(movement.MovementType=="Rotation"){  <h4 style="color:black">@movement.MovementType</h4>} else{  <h4 style="color:red">@movement.MovementType</h4>}
+                                  
                                     <p>Truck# : <b>@movement.TruckNumber</b></p>
                                     <p>TireMan : <b>@movement.Tireman</b></p>
                                     <p>Date :<b>@movement.SubmitDate</b></p>
