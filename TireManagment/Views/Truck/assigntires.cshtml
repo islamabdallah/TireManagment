@@ -1,6 +1,11 @@
 ﻿@using TireManagment.Models;
 @using TireManagment.DbModels;
 @model TireManagment.Models.PositionsWithSerial;
+@inject TireManagment.Services.TruckService TruckService; 
+  @{  
+      
+      var truckcategoryimage = TruckService.GetImage(ViewBag.trucknumber);
+}
 <div class="pagetitle">
     <h3>MasterData</h3>
     <nav>
@@ -30,77 +35,84 @@
                             <span class="badge badge-light"> <i class="bi bi-plus-circle"></i> </span>Add Tire
                         </button>
                         |*@
-                    <button type="button" class="btn btn-success">
+                    @*<button type="button" class="btn btn-success">
                         <span class="badge badge-light">
                             <i class="bi bi-file-earmark-spreadsheet"></i>
                         </span>Export to Excel
-                    </button>
+                    </button>*@
 
-                    <br />
-                    <br />
+                    @*<br />
+                    <br />*@
                     <!-- Table with stripped rows -->
-                    <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
-                        <div class="dataTable-top">
+                    <div class="row">
+                        <div class="col col-7">
+                        <div class="dataTable-wrapper dataTable-loading no-footer sortable searchable fixed-columns">
+                            <div class="dataTable-top">
 
 
-                        </div>
-                        <div class="dataTable-container">
-                            <form asp-action="AssignTiress" asp-controller="Truck" asp-route-trucknumber="@ViewBag.trucknumber">
-                                <table class="table">
+                            </div>
+                            <div class="dataTable-container">
+                                <form asp-action="AssignTiress" asp-controller="Truck" asp-route-trucknumber="@ViewBag.trucknumber">
+                                    <table class="table">
 
-                                    <thead>
-                                        <tr>
-                                            <th>Tire Position</th>
-                                            <th>Assigned Tire Serial</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-
-                                        @foreach (TruckTireViewModel position in ViewBag.positios)
-                                        {
+                                        <thead>
                                             <tr>
-                                                @if (position.TireSerial == null)
-                                                {
-
-                                                    <td>
-                                                        <input readonly name="position" value="@position.TirePosition"/>
-
-                                                    </td>
-                                                    <td>
-                                                        <select id="x"  class="selections"  name="tireids" asp-items="@(new SelectList(ViewBag.tires, nameof(tirewithserial.tierid), nameof(tirewithserial.serial)))" class="form-control" required>
-                                                            <option value="">Select Serial</option>
-                                                        </select>
-                                                    </td>
-                                                }
-                                                else
-                                                {
-
-
-                                            <td>
-                   
-                                                <p style="border:solid red 1px">@position.TirePosition</p>
-
-                                            </td>
-                                                    <td>
-                                                        <input readonly type="text" value="@position.TireSerial" style="border:solid red 1px" />
-
-                                                    </td>
-                                                }
+                                                <th>Tire Position</th>
+                                                <th>Assigned Tire Serial</th>
                                             </tr>
-                                        }
+                                        </thead>
+                                        <tbody>
+
+                                            @foreach (TruckTireViewModel position in ViewBag.positios)
+                                            {
+                                                <tr>
+                                                    @if (position.TireSerial == null)
+                                                    {
+
+                                                        <td>
+                                                            <input readonly name="position" value="@position.TirePosition" />
+
+                                                        </td>
+                                                        <td>
+                                                            <select id="x" class="selections" name="tireids" asp-items="@(new SelectList(ViewBag.tires, nameof(tirewithserial.tierid), nameof(tirewithserial.serial)))" class="form-control" required>
+                                                                <option value="">Select Serial</option>
+                                                            </select>
+                                                        </td>
+                                                    }
+                                                    else
+                                                    {
 
 
-                                    </tbody>
-                                </table>
-                                <div id="vsummary" asp-validation-summary="All" class="text-danger"></div>
-                                <input type="submit" class="btn btn-dark" value="Finish Assign Serials" />
-                            </form>
+                                                        <td>
+
+                                                            <p style="border:solid red 1px">@position.TirePosition</p>
+
+                                                        </td>
+                                                        <td>
+                                                            <input readonly type="text" value="@position.TireSerial" style="border:solid red 1px" />
+
+                                                        </td>
+                                                    }
+                                                </tr>
+                                            }
+
+
+                                        </tbody>
+                                    </table>
+                                    <div id="vsummary" asp-validation-summary="All" class="text-danger"></div>
+                                    <input type="submit" class="btn btn-dark" value="Finish Assign Serials" />
+                                </form>
+                            </div>
+
+
+                        </div>
+                    </div>
+                        <div class="col col-5 justify-content-center">
+                            <img src="~/Img/@truckcategoryimage"  width="300" height="320"/>
                         </div>
 
-
-                    </div>
                     <!-- End Table with stripped rows -->
-
+</div>
                 </div>
             </div>
 

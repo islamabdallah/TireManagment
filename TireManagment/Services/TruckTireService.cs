@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,11 @@ namespace TireManagment.Services
         public DbContext context;
         public IHubContext<notifyHub> hubContext;
         public TireService TireService;
-        
+        AccountService AccountService;
 
-        public TruckTireService(TireService _tireService, DbContext _context, IHubContext<notifyHub> _hubContext)
+        public TruckTireService(AccountService _account, TireService _tireService, DbContext _context, IHubContext<notifyHub> _hubContext)
         {
+            AccountService = _account;
             hubContext = _hubContext;
             context = _context;
             TireService = _tireService;
@@ -49,7 +51,7 @@ namespace TireManagment.Services
                     {
                         var _tireMovement = new MovementDetails()
                         {
-                            TireId = item.TireId,
+                            TireId = (int)item.TireId,
 
                             Position = item.Position,
                             TireMovement = tireMovment
@@ -98,7 +100,7 @@ namespace TireManagment.Services
                                 {
                                     var _tireMovement = new MovementDetails()
                                     {
-                                        TireId = item.TireId,
+                                        TireId = (int)item.TireId,
                                         CurrentTireDepth = item.CurrentTireDepth,
                                         STDthreadDepth = item.STDThreadDepth,
                                         KMWhileChange = item.KMWhileChange,
@@ -150,16 +152,16 @@ namespace TireManagment.Services
                                     context.tires.Update(_oldTire);
                                 }
 
-                                context.SaveChanges();
-                                transaction.Commit();
+                        var user = AccountService.GetUserById(tireMovment.TireManId);
                                 var Newtires = context.tires.Where(t => t.TireStatus == TireStatus.New).Count();
                                 var Runningtires = context.tires.Where(t => t.TireStatus == TireStatus.Running).Count();
                                 var Damagedtires = context.tires.Where(t => t.TireStatus == TireStatus.Damaged).Count();
                                 var Retreadtires = context.tires.Where(t => t.TireStatus == TireStatus.Retread).Count();
-                                var alltires = Runningtires + Damagedtires + Retreadtires;
-                                hubContext.Clients.All.SendAsync("ReciveNewTransaction", new { alltires = alltires, newtires = Newtires, runningtires = Runningtires, damagedtires = Damagedtires, retreadtires = Retreadtires, id = tireMovment.Id, operation = tireMovment.MovementType, trucknumber = truckMovement.TruckNumber, movmentdate = tireMovment.SubmitDate });
-                            
-                            return true;
+                                var alltires =Newtires+Runningtires + Damagedtires + Retreadtires;
+                                hubContext.Clients.All.SendAsync("ReciveNewTransaction", new { alltires = alltires, newtires = Newtires, runningtires = Runningtires, damagedtires = Damagedtires, retreadtires = Retreadtires, id = tireMovment.Id, operation = tireMovment.MovementType, trucknumber = truckMovement.TruckNumber, movmentdate = tireMovment.SubmitDate,tireman=user.Name });
+                                context.SaveChanges();
+                               transaction.Commit();
+                        return true;
                         } 
                     return false;
                 }
