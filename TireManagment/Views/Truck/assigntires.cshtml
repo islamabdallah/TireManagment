@@ -52,6 +52,12 @@
 
                             </div>
                             <div class="dataTable-container">
+                                @if (ViewBag.positios == null || ViewBag.positios.Count == 0) {
+                                
+                                <h2>Truck Tire Distribution Not Available</h2>
+                                }
+                                else
+                                {
                                 <form asp-action="AssignTiress" asp-controller="Truck" asp-route-trucknumber="@ViewBag.trucknumber">
                                     <table class="table">
 
@@ -102,13 +108,18 @@
                                     <div id="vsummary" asp-validation-summary="All" class="text-danger"></div>
                                     <input type="submit" class="btn btn-dark" value="Finish Assign Serials" />
                                 </form>
+                                }
                             </div>
 
 
                         </div>
                     </div>
+
                         <div class="col col-5 justify-content-center">
+                            @if (truckcategoryimage != null)
+                            {
                             <img src="~/Img/@truckcategoryimage"  width="300" height="320"/>
+                            }
                         </div>
 
                     <!-- End Table with stripped rows -->
@@ -142,51 +153,11 @@
                 $(this).addClass("selections");
             });
         }
-        //var sel=$("#x");
-        //sel.data("prev", sel.val());
-        //sel.change(function (data) {
-        //    var jqThis = $(this);
-        //    alert(jqThis.data("prev"));
-        //    jqThis.data("prev", jqThis.val());
-        //});
+ 
     });
 
     function remove() {
- //       alert(e.target.value);
-      //  $('selections').addClass("selections");
-        //var x = $(this);
-        //x.data("prev", x.val());
-        //alert(x.data("prev"));
-     ////   var valselected = e.target.value;
-       
-     ////   //if (prevselected == valselected) {
-         
-     ////   //    alert('v');
-     ////   //}
-     ////   alert(prevselected);
-     ////   alert(valselected);
-     ////   $(".selections option[value=" + prevselected + "]").removeAttr('disabled');
-     ////   //لو موجوده متضيفهاشي ولو مش موجود ضيفها
-     ////    prevselected = valselected;
-       
-     ////  $(x).removeClass("selections");
-     ////   //x.ClassList.remove('selections');
-     ////   var selections = document.getElementsByClassName('selections');
-     //////   $(".selections option[value=" + valselected + "]").remove();
-     ////   $(".selections option[value=" + valselected + "]").attr('disabled','disabled');
-     ////   $(x).addClass("selections");
 
-        //for (var i = 0; i < selections.length; i++) {
-        //    if (selections[i].value != valselected) {
-        //        alert('k');
-        //        console.log(selections[i])
-        //        $('selections[i]').removeOption(valselected);
-    
-            
-        //        $("selections[i] option[value='" + valselected + "']").remove();
-                
-        //    }
-        //}
 
     }
 </script>

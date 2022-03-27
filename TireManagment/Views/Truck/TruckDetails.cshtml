@@ -286,27 +286,28 @@
                     <form class="form-horizontal" asp-action="FindMovements" asp-controller="Truck" method="get" style="width:100%;">
                         <div class="input-group mb-3">
 
-                               <div class="row">
-                                   <div class="row">
-                                   <div class="col-lg-4">Date From</div>
-                                      <div class="col-lg-8"><input required type="datetime-local" style="width:100%" name="startdate" /></div>
-                                   </div>
-                               
-                                   <br />
-                                                   <br />
-                                    <div class="row">
-                                   <div class="col-lg-4">Date To</div>
-                                      <div class="col-lg-8">      <input required type="datetime-local" style="width:100%" name="enddate" /></div>
-                                   </div>
-                                         <br />
-                                                   <br />
-                                         <div class="row">
-                             
-                                      <div class="col-lg-12">   <button class="btn btn-success" style="font-size:15px; width:100%;" type="submit"><i class="bi bi-file-earmark-spreadsheet"></i>   Export to Excel</button></div>
-                                   </div>
-                                       <input type="hidden" name="trucknumber" value="@Model.TruckNumber" />
+                            <div class="row">
+                                <div class="row">
+                                    <div class="col-lg-4">Date From</div>
+                                    <div class="col-lg-8"><input required type="datetime-local" style="width:100%" name="startdate" /></div>
+                                </div>
+
+                                <br />
+                                <br />
+                                <div class="row">
+                                    <div class="col-lg-4">Date To</div>
+                                    <div class="col-lg-8"> 
+                                    <input required type="datetime-local" style="width:100%" name="enddate" /></div>
+                                </div>
+                                <br />
+                                <br />
+                                <div class="row">
+
+                                    <div class="col-lg-12">   <button class="btn btn-success" style="font-size:15px; width:100%;" type="submit"><i class="bi bi-file-earmark-spreadsheet"></i>   Export to Excel</button></div>
+                                </div>
+                                <input type="hidden" name="trucknumber" value="@Model.TruckNumber" />
+                            </div>
                         </div>
-                          </div>
                     </form>
                 </div><!-- End sidebar recent posts-->
 
@@ -325,7 +326,7 @@
                         {
                             List<CategoryWithTruckCount>
                                 categosries = service.GetAllWithTruckCount().ToList();
-                            @foreach(TruckTireViewModel x in ViewBag.trucktires)
+                            @foreach (TruckTireViewModel x in ViewBag.trucktires)
                             {
                                 <div class="activity-item d-flex">
                                     <div class="activite-label">
@@ -333,7 +334,13 @@
                                     </div>
                                     <i class='bi bi-circle-fill activity-badge text-success align-self-start'></i>
                                     <div class="activity-content">
-                                        @x.TireSerial , <span><b>Brand : </b></span>@x.Tirebrand <a href="#" class="fw-bold text-dark"></a>
+                                        @if(x.TireSerial!=null)
+                                        {
+                                            @x.TireSerial  <span><b>,Brand : </b></span>@x.Tirebrand <a href="#" class="fw-bold text-dark"></a>
+                                        }
+                        else { 
+                                            <b>Tire Not Found</b>
+                                        }
                                     </div>
                                 </div>
                             }

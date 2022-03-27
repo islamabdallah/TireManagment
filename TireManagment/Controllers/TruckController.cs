@@ -80,13 +80,17 @@ namespace TireManagment.Controllers
             }
             return View();
         }
-        public IActionResult GetTruckData(int truckid)
+        public IActionResult GetTruckData(int? truckid)
         {
          
             ViewBag.trucknumbers = truckService.GetAllTruckNumbers();
-            var truck = truckService.GetTruckDetails(truckid);
-            ViewBag.trucktires = truckService.GetTruckTires(truck.TruckNumber);//gets the current positions of tire
-            ViewBag.truckmovements = truckTireService.GetTruckMovements(truck.TruckNumber);
+            var truck = truckService.GetTruckDetails((int)truckid);
+            if (truck != null)
+            {
+                ViewBag.trucktires = truckService.GetTruckTires(truck.TruckNumber);//gets the current positions of tire
+           var  truckmovements = truckTireService.GetTruckMovements(truck.TruckNumber);
+                ViewBag.truckmovements = truckmovements.Where(tm => tm.MovementType != MovmentType.Initial);
+            }
             return View("TruckDetails", truck);
         }
         //public IActionResult table()
@@ -191,10 +195,10 @@ namespace TireManagment.Controllers
             ViewBag.trucks=truckService.GetAllTruckNumbers();
             return View();
         }
-        public IActionResult FindMovements(DateTime startdate,DateTime enddate,int trucknumber)
+        public IActionResult FindMovements(DateTime startdate,DateTime enddate,string trucknumber)
         {
             
-            var movements = truckService.GetTruckMovemnts(startdate, enddate, trucknumber.ToString());
+            var movements = truckService.GetTruckMovemnts(startdate, enddate, trucknumber);
             using (var workbook = new XLWorkbook())
             {
                 var worksheet = workbook.Worksheets.Add("Trucks");
