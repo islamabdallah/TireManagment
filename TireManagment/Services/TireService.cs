@@ -26,12 +26,27 @@ namespace TireManagment.Services
         {
             return context.tires.Include(t=>t.Brand).FirstOrDefault();
         }
-        public IEnumerable<MovementDetails> GetTireMovemnts(DateTime sdate, DateTime edate, int tireid)
-        {
+        public IEnumerable<MovementDetails> GetTireMovemnts(DateTime sdate, DateTime edate, int tireid,bool all)
 
-            var movements = context.MovementDetails.Include(m=>m.tire).Include(md=>md.TireMovement).ThenInclude(m=>m.Tireman).Where(md => md.TireId == tireid && md.TireMovement.SubmitDate >= sdate && md.TireMovement.SubmitDate <= edate).Include(md => md.TireMovement.Tireman).OrderByDescending(m=>m.TireMovement.SubmitDate).ToList();
+        {
+            List<MovementDetails> movements=null;
+            if (all)
+            {
+                movements = context.MovementDetails.Include(m => m.tire).Include(md => md.TireMovement).ThenInclude(m => m.Tireman).Where(md => md.TireMovement.SubmitDate >= sdate && md.TireMovement.SubmitDate <= edate).Include(md => md.TireMovement.Tireman).OrderByDescending(m => m.TireMovement.SubmitDate).ToList();
+            }
+            else
+            {
+
+                movements = context.MovementDetails.Include(m => m.tire).Include(md => md.TireMovement).ThenInclude(m => m.Tireman).Where(md => md.TireId == tireid && md.TireMovement.SubmitDate >= sdate && md.TireMovement.SubmitDate <= edate).Include(md => md.TireMovement.Tireman).OrderByDescending(m => m.TireMovement.SubmitDate).ToList();
+            }
             return movements;
         }
+        //public IEnumerable<MovementDetails> GetallTireMovemnts(DateTime sdate, DateTime edate)
+        //{
+
+        //    var movements = context.MovementDetails.Include(m => m.tire).Include(md => md.TireMovement).ThenInclude(m => m.Tireman).Where(md =>md.TireMovement.SubmitDate >= sdate && md.TireMovement.SubmitDate <= edate).Include(md => md.TireMovement.Tireman).OrderByDescending(m => m.TireMovement.SubmitDate).ToList();
+        //    return movements;
+        //}
         public IEnumerable<Tire> GetAll()
         {
             var tires = context.tires.Include(t => t.Brand).ToList();
