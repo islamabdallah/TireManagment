@@ -149,7 +149,7 @@ namespace TireManagment.Services
 
         public IEnumerable<MovementDetails> GetTireHistory(int tireid)
         {
-            return context.MovementDetails.OrderByDescending(m=>m.TireMovement.SubmitDate).Include(m=>m.TireMovement).Include(t=>t.TireMovement.Tireman).Where(m => m.TireId == tireid).ToList();
+            return context.MovementDetails.OrderByDescending(m=>m.TireMovement.SubmitDate).Include(m=>m.TireMovement).Include(t=>t.TireMovement.Tireman).Where(m => m.TireId == tireid).Take(10).ToList();
         }
         public IEnumerable<Tire> Tires()
         {
