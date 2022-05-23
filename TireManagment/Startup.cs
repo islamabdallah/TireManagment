@@ -97,7 +97,7 @@ namespace TireManagment
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapHub<notifyHub>("questionHub");
+                endpoints.MapHub<notifyHub>("/questionHub");
                 endpoints.MapControllerRoute(
                  name: "default",
 

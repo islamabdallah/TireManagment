@@ -9,5 +9,7 @@ namespace TireManagment.Models
     {
         public int tierid { get; set; }
         public string serial { get; set; }
+        public string size { get; set; }
+        public string brand { get; set; }
     }
 }

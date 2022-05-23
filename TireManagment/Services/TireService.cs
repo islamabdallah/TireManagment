@@ -90,7 +90,7 @@ namespace TireManagment.Services
         }
         public IEnumerable<tirewithserial> GetNewandRetreadtires()
         {
-          var tires=  context.tires.Where(t => t.TireStatus == TireStatus.New || t.TireStatus == TireStatus.Retread).Select(t => new tirewithserial() { serial = t.Serial, tierid = (int)t.TireId }).ToList();
+          var tires=  context.tires.Where(t => t.TireStatus == TireStatus.New || t.TireStatus == TireStatus.Retread).Select(t => new tirewithserial() { serial = t.Serial, tierid = (int)t.TireId, size = t.Size , brand = t.Brand.Name }).ToList();
             return tires;
         }
         public void Update(Tire entity)

@@ -15,5 +15,6 @@ namespace TireManagment.Models
         public string TirePosition { get; set; }
         public string TruckNumber { get; set; }
         public string TireStatus { get; set; }
+        public string TireSize { get; set; }
     }
 }

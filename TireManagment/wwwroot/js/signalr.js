@@ -1,6 +1,6 @@
 ﻿
 
-var connection = new signalR.HubConnectionBuilder().withUrl("/qustionHub").build();
+var connection = new signalR.HubConnectionBuilder().withUrl("/Tire/qustionHub").build();
 
 connection.start().then(() => { alert("connected")
 }

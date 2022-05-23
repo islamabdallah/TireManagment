@@ -97,7 +97,7 @@ namespace TireManagment.Services
         public IEnumerable<TruckTireViewModel>  GetTruckTires(string TruckNumber)
         {
          
-            var res= context.TruckTire.Where(tr=>tr.TruckNumber==TruckNumber).Include(t => t.tire).Select(t => new TruckTireViewModel() { Id = t.Id, LastUpdateTime = t.LastUdateDate, TirePosition = t.TirePosition,TireId= (int)t.TireId, TireSerial = t.tire.Serial,Tirebrand=t.tire.Brand.Name, TruckNumber = t.TruckNumber,TireStatus=t.tire.TireStatus }).ToList();
+            var res= context.TruckTire.Where(tr=>tr.TruckNumber==TruckNumber).Include(t => t.tire).Select(t => new TruckTireViewModel() { Id = t.Id, LastUpdateTime = t.LastUdateDate, TirePosition = t.TirePosition,TireId= (int)t.TireId, TireSerial = t.tire.Serial,Tirebrand=t.tire.Brand.Name, TruckNumber = t.TruckNumber,TireStatus=t.tire.TireStatus , TireSize =t.tire.Size  }).ToList();
 
             return res;
         }
