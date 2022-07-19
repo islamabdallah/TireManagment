@@ -12,6 +12,5 @@ namespace TireManagment.Models
         public int CurrentTireDepth { get; set; }
         public int STDThreadDepth { get; set; }
         public string KMWhileChange { get; set; }
-
     }
 }

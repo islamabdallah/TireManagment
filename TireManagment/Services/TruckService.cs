@@ -97,7 +97,21 @@ namespace TireManagment.Services
         public IEnumerable<TruckTireViewModel>  GetTruckTires(string TruckNumber)
         {
          
-            var res= context.TruckTire.Where(tr=>tr.TruckNumber==TruckNumber).Include(t => t.tire).Select(t => new TruckTireViewModel() { Id = t.Id, LastUpdateTime = t.LastUdateDate, TirePosition = t.TirePosition,TireId= (int)t.TireId, TireSerial = t.tire.Serial,Tirebrand=t.tire.Brand.Name, TruckNumber = t.TruckNumber,TireStatus=t.tire.TireStatus , TireSize =t.tire.Size  }).ToList();
+            var res= context.TruckTire.Where(tr=>tr.TruckNumber==TruckNumber).Include(t => t.tire).Select(t => new TruckTireViewModel() {
+                Id = t.Id, LastUpdateTime = t.LastUdateDate, 
+                TirePosition = t.TirePosition,
+                TireId= (int)t.TireId, 
+                TireSerial = t.tire.Serial,Tirebrand=t.tire.Brand.Name, 
+                TruckNumber = t.TruckNumber,
+                Distance = context.MovementDetails.Where(x => x.TireId == t.TireId).Sum(x => Convert.ToInt32(x.KMWhileChange)).ToString(),
+                TireStatus =t.tire.TireStatus , TireSize =t.tire.Size  }).ToList();
+
+            //Return all distance for each tire 
+            //foreach (var item in res)
+            //{
+            //    item.Distance = context.MovementDetails.Where(x => x.TireId == item.TireId).Sum(x => Convert.ToInt32(x.KMWhileChange)).ToString();
+            //}
+
 
             return res;
         }

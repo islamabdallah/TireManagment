@@ -75,7 +75,7 @@ namespace TireManagment.Controllers
             if (truck != null)
             {
                 ViewBag.trucktires = truckService.GetTruckTires(truck.TruckNumber);//gets the current positions of tire
-                ViewBag.truckmovements = truckTireService.GetTruckMovements(truck.TruckNumber);
+                ViewBag.truckmovements = truckTireService.GetTruckMovements(truck.TruckNumber).OrderByDescending(r=>r.Id);
                 return View(truck);
             }
             return View();

@@ -11,5 +11,6 @@ namespace TireManagment.Models
         public string serial { get; set; }
         public string size { get; set; }
         public string brand { get; set; }
+        public string distance { get; set; }
     }
 }

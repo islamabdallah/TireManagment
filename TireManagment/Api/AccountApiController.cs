@@ -47,9 +47,9 @@ namespace TireManagment.Api
                 if (_result.Succeeded)
                 {
                     var _account = UserManger.GetUserAsync(User).Result;
-                    return Ok(new { Flag = true, Message = "Done", Data = _account });
+                    return Ok(new { Flag = true, Message = "Done", Data = _account }); //status 200
                 }
-                return BadRequest(new { Flag = false, Message = "Error , Password Not Correct", Data = 0 }); 
+                return BadRequest(new { Flag = false, Message = "Error , Password Not Correct", Data = 0 }); //400
             }
             return BadRequest(new { Flag = false, Message = "Error , Email Not Exist", Data = 0 });
         }
